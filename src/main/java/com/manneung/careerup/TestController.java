@@ -10,7 +10,7 @@ public class TestController {
 
     @GetMapping("/test")
     public String test(){
-        return "Careerup Project API Test";
+        return "branch merge test";
     }
 
 }
