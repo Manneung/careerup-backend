@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @Configuration
 @EnableJpaAuditing
 public class JpaAuditingConfig {
-    //todo CareerupApplication에 @EnableJpaAuditing을 넣어야 하는지 이렇게 하는 게 좋은지 생각해보기
+    //CareerupApplication에 @EnableJpaAuditing 넣는 대신
+    //JpaAuditingConfig 생성
 
 }
