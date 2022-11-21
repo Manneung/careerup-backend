@@ -1,12 +1,11 @@
-# todo port ?? 8080?
+# todo port 번호 8080 사용?
 #server:
 #  port:
 
 
 
 spring:
-  #?? H2 DB? ??
-  #todo ??? RDS? ??
+  #todo RDS 서버 구축하면 변경
   h2:
     console:
       enabled: true
