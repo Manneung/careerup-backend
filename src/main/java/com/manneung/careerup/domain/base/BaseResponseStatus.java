@@ -9,10 +9,11 @@ public enum BaseResponseStatus {
 
 
     /**
-     * 1000: 요청 성공
+     * 1000: 기본 요청 성공, 실패
      */
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
 
+    FAIL(false, 1001, "요청에 실패했습니다."),
 
 
     /**
