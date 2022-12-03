@@ -12,3 +12,9 @@ spring:
     url: jdbc:mysql://careerupdb.cmlmlcyv4jdw.ap-northeast-2.rds.amazonaws.com:3306/careerup_schema
     username: admin
     password: 12341234
+
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
