@@ -20,12 +20,26 @@ public class User extends BaseEntity {
     @Column(name = "user_idx")
     private int userIdx;
 
+
+    //기본 로그인 정보
     @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String picture;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    @Column
+    private Boolean emailVerified;
+
+
+    //추가 정보
     @Column(nullable = false)
     private String nickname;
 
@@ -46,4 +60,32 @@ public class User extends BaseEntity {
 
     @Column(name = "interest_field3")
     private String interestField3;
+
+
+
+    @Builder
+    public User(boolean emailVerified, String name, String email, String picture, Role role) {
+        this.emailVerified = emailVerified;
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+        this.role = role;
+    }
+
+    public User toEntity() {
+        return User.builder()
+                .emailVerified(emailVerified)
+                .name(name)
+                .email(email)
+                .picture(picture)
+                .build();
+    }
+
+
+    public User update(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
+        return this;
+    }
+
 }

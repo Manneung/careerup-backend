@@ -2,54 +2,61 @@ package com.manneung.careerup.domain.user.controller;
 
 
 import com.manneung.careerup.domain.base.BaseResponse;
-import com.manneung.careerup.domain.user.model.GoogleLoginReq;
+import com.manneung.careerup.domain.user.model.dto.GoogleLoginReq;
 
-import com.manneung.careerup.domain.user.model.LoginUserRes;
+import com.manneung.careerup.domain.user.model.dto.LoginUserRes;
+import com.manneung.careerup.domain.user.model.dto.NaverLoginReq;
 import com.manneung.careerup.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+import java.io.IOException;
+
+import static com.manneung.careerup.domain.base.BaseResponseStatus.USER_FAILED_TO_LOG_IN_ERROR;
 
 
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-
+    //소셜로그인 api -> 실행여부는 아직 모름..!
     @PostMapping("/google-login")
-    public BaseResponse<LoginUserRes> googleLogin(@RequestBody GoogleLoginReq googleLoginReq){
+    public BaseResponse<LoginUserRes> googleLogin(@Valid @RequestBody GoogleLoginReq googleLoginReq){
+        //googleLoginReq: 구글 idToken
+
+        //loginUserRes: 접근토큰과 리프레시토큰 리턴
         LoginUserRes loginUserRes = userService.authGoogleUser(googleLoginReq);
 
+        if(loginUserRes == null){ //유효하지 않은 토큰
+            return new BaseResponse<>(USER_FAILED_TO_LOG_IN_ERROR);
+        }
 
-        return new BaseResponse<>(loginUserRes);
+
+        return new BaseResponse<>(loginUserRes); //토큰 정보 리턴
     }
 
-//    @ApiOperation(value = "구글 로그인", notes = "구글 로그인을 합니다.")
-//    @PostMapping("/googleLogin")
-//    public ResponseEntity<ResponseDto<LoginResponse>> googleLogin(@Valid @RequestBody GoogleLoginRequest googleLoginRequest){
-//        return ResponseEntity.ok(ResponseDto.create(EUserResponseMessage.GOOGLELOGIN_SUCCESS.getMessage(), this.userService.authGoogleUser(googleLoginRequest)));
-//    }
-//
-//    @ApiOperation(value = "네이버 로그인", notes = "네이버 로그인을 합니다.")
-//    @PostMapping("/naverLogin")
-//    public ResponseEntity<ResponseDto<LoginResponse>> naverLogin(@Valid @RequestBody NaverLoginRequest naverLoginRequest) throws IOException {
-//        return ResponseEntity.ok(ResponseDto.create(EUserResponseMessage.NAVERLOGIN_SUCCES.getMessage(), this.userService.authNaverUser(naverLoginRequest)));
-//    }
-//
-//    @PostMapping("/testLogin")
-//    public ResponseEntity<ResponseDto<LoginResponse>> testLogin(@RequestBody LoginRequest loginRequest) {
-//        LoginResponse loginResponse = this.userService.loginUser(loginRequest);
-//        return ResponseEntity.ok(ResponseDto.create(EUserResponseMessage.LOGIN_SUCCESS.getMessage(), loginResponse));
-//    }
+    @PostMapping("/naverLogin")
+    public BaseResponse<LoginUserRes> naverLogin(@Valid @RequestBody NaverLoginReq naverLoginReq) throws IOException {
+        //naverLoginReq: 네이버 access token 담겨있음
+
+        //loginUserRes: 접근토큰과 리프레시토큰 리턴
+        LoginUserRes loginUserRes = userService.authNaverUser(naverLoginReq);
+
+        if(loginUserRes == null){ //유효하지 않은 토큰
+            return new BaseResponse<>(USER_FAILED_TO_LOG_IN_ERROR);
+        }
+
+        return new BaseResponse<>(loginUserRes); //토큰 정보 리턴
+    }
+
+
+
+
+
 
 }

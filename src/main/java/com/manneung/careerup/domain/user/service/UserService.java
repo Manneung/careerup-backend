@@ -1,13 +1,18 @@
 package com.manneung.careerup.domain.user.service;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.manneung.careerup.domain.user.model.*;
+import com.manneung.careerup.domain.user.model.dto.GoogleLoginReq;
+import com.manneung.careerup.domain.user.model.dto.LoginUserRes;
+import com.manneung.careerup.domain.user.model.dto.NaverLoginReq;
 import com.manneung.careerup.domain.user.repository.UserRepository;
+import com.manneung.careerup.global.jwt.TokenInfoRes;
 import com.manneung.careerup.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,9 +29,17 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
-import static com.manneung.careerup.domain.user.Role.ROLE_USER;
+import static com.manneung.careerup.domain.user.model.Role.ROLE_USER;
 
 @PropertySource(value = "application.yml")
 @Slf4j
@@ -42,71 +55,94 @@ public class UserService {
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     public String googleClientId;
 
-    public User saveOrUpdate(User user) {
-        User myuser = userRepository.findByEmail(user.getEmail())
+
+    //DB에 유저의 기본적인 이름과 프로필 이미지, 이메일 저장
+    @Transactional
+    public String saveOrUpdate(User user) { //user DB에 저장 또는 업데이트
+        User myUser = userRepository.findByEmail(user.getEmail())
                 .map(entity -> entity.update(user.getName(), user.getPicture()))
                 .orElse(user.toEntity());
 
-        return userRepository.save(myuser);
+        userRepository.save(myUser);
+
+        String userEmail = myUser.getEmail();
+
+
+        return userEmail;
     }
 
+    //DB에 유저의 추가정보(전공, 관심분야 등 저장)
+
+
+
+
+
+    //소셜로그인 비즈니스 로직(구글)
     public LoginUserRes authGoogleUser(GoogleLoginReq googleLoginReq){
-        String tokenId = googleLoginReq.getToken(); // test받는 식으로 받던가 tokenId받는 식으로 받던가임
+        String tokenId = googleLoginReq.getToken(); //req에서 tokeId 할당
         log.info(tokenId);
+
         JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         HttpTransport transport = new NetHttpTransport();
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-                .setAudience(Collections.singletonList(googleClientId))
-                .build();
+                                                                  .setAudience(Collections.singletonList(googleClientId))
+                                                                  .build();
 
         //String idTokenString = req.getParameter("googleIdtoken"); //프론트엔드로부터 넘겨받은 id token
 
         try {
-            GoogleIdToken idToken = verifier.verify(tokenId); //  verifies the JWT signature, the aud claim, the iss claim, and the exp claim.
+            GoogleIdToken googleIdToken = verifier.verify(tokenId); //tokenId 유효성 검사
+            System.out.println("googleIdToken: " + googleIdToken);
 
-            System.out.println("idToken"+idToken);
 
-            if (idToken != null) {
-                GoogleIdToken.Payload payload = idToken.getPayload();
+            if (googleIdToken != null) { //googleIdToken이 유효성 검사 통과
+                GoogleIdToken.Payload payload = googleIdToken.getPayload(); //payload값 할당
 
-                // Print user identifier
+                //payload에서 값 하나씩 꺼내기
                 String email = payload.getEmail();
                 String name = (String) payload.get("name");
                 String picture = (String) payload.get("picture");
                 Boolean emailVerified=payload.getEmailVerified();
-
-                Map userMap = new HashMap<String, String>();
-                userMap.put("email", email);
-                userMap.put("name", name);
-                userMap.put("pictureUrl", picture);
-                userMap.put("emailVerified", emailVerified);
-
 
                 log.info(email);
                 log.info(name);
                 log.info(picture);
 
 
-                User user=new User(emailVerified, name,email,picture, ROLE_USER);
-                System.out.println("setting");
+                //해시로 키, 밸류 정의
+                Map userMap = new HashMap<String, String>();
+                userMap.put("email", email);
+                userMap.put("name", name);
+                userMap.put("picture", picture);
+                userMap.put("emailVerified", emailVerified);
 
-                saveOrUpdate(user);
-                /**
-                 * Spring Security by jungwoo
-                 */
+
+                //저장할 정보 User 객체로 만들고, 저장 후 유저의 이메일로 리턴받음
+                User toSaveUser = new User(emailVerified, name,email,picture, ROLE_USER);
+                String userEmail = saveOrUpdate(toSaveUser);
+
+
+
                 List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
                 authorities.add(new SimpleGrantedAuthority(String.valueOf(ROLE_USER)));
+
+
+                //userDetails에 현재 사용자가 가지고 있는 권한(ROLE_USER), 해당 유저 정보, 키로 활용할 이메일
                 OAuth2User userDetails = new DefaultOAuth2User(authorities, userMap, "email");
+
                 OAuth2AuthenticationToken auth = new OAuth2AuthenticationToken(userDetails, authorities, "email");
                 auth.setDetails(userDetails);
+
                 SecurityContextHolder.getContext().setAuthentication(auth);
-                TokenInfoResponse tokenInfoResponse = tokenProvider.createToken(auth);
 
-                return LoginUserRes.from(tokenInfoResponse);
+                //인증 정보를 기반으로 응답 토급 발급
+                TokenInfoRes tokenInfoRes = tokenProvider.createToken(auth);
 
-            } else {
+                return LoginUserRes.from(tokenInfoRes, userEmail);
+
+            } else {  //googleIdToken이 유효성 검사 통과 못함
                 String result = "Invalid ID token.";
-                googleLoginReq.setToken(result);
+                googleLoginReq.setToken(result); //req의 토큰값을 다른 걸로 바꿔버림
                 return null;
             }
         }
@@ -116,5 +152,114 @@ public class UserService {
         }
     }
 
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //소셜로그인 비즈니스 로직(네이버)
+    public LoginUserRes authNaverUser(NaverLoginReq naverLoginReq) throws IOException {
+        String token = naverLoginReq.getToken();
+        String header = "Bearer " + token; // Bearer 다음에 공백 추가
+
+
+        String apiURL = "https://openapi.naver.com/v1/nid/me";
+
+
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("Authorization", header);
+        String responseBody = get(apiURL,requestHeaders);
+
+        ObjectMapper mapper=new ObjectMapper();
+        System.out.println(responseBody);
+        // String json="{\"resultcode\": \"00\", \"message\": \"success\", \"response\": {\"email\": \"openapi@naver.com\", \"name\": \"OpenAPI\", \"profile_image\": \"https://ssl.pstatic.net/static/pwe/address/nodata_33x33.gif\"}}";
+        Map<String, String> map= mapper.readValue(responseBody,Map.class);
+
+        Map map2= mapper.readValue(responseBody,Map.class);
+
+        Map userMap= (Map) map2.get("response");
+
+
+        //유저 이메일, 이름, 프로필이미지
+        String email=userMap.get("email").toString();
+        log.info(email);
+        String name=userMap.get("name").toString();
+        log.info(name);
+        String pictureUrl=userMap.get("profile_image").toString();
+        log.info(pictureUrl);
+
+        Boolean emailVerified=true;
+
+        User user = new User(emailVerified, name,email,pictureUrl, ROLE_USER);
+
+        String userEmail = saveOrUpdate(user);
+        /**
+         * Spring Security by jungwoo
+         */
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority(String.valueOf(ROLE_USER)));
+        OAuth2User userDetails = new DefaultOAuth2User(authorities, userMap, "email");
+        OAuth2AuthenticationToken auth = new OAuth2AuthenticationToken(userDetails, authorities, "email");
+        auth.setDetails(userDetails);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        TokenInfoRes tokenInfoResponse = tokenProvider.createToken(auth);
+
+        //토큰 정보와 저장한 이메일을 같이 리턴
+        return LoginUserRes.from(tokenInfoResponse, userEmail);
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //네이버 로그인에 필요한 추가 함수
+    private static String get(String apiUrl, Map<String, String> requestHeaders){
+        HttpURLConnection con = connect(apiUrl);
+        try {
+            con.setRequestMethod("GET");
+            for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
+                con.setRequestProperty(header.getKey(), header.getValue());
+            }
+
+
+            int responseCode = con.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
+                return readBody(con.getInputStream());
+            } else { // 에러 발생
+                return readBody(con.getErrorStream());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("API 요청과 응답 실패", e);
+        } finally {
+            con.disconnect();
+        }
+    }
+
+    private static HttpURLConnection connect(String apiUrl){
+        try {
+            URL url = new URL(apiUrl);
+            return (HttpURLConnection)url.openConnection();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("API URL이 잘못되었습니다. : " + apiUrl, e);
+        } catch (IOException e) {
+            throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
+        }
+    }
+
+    private static String readBody(InputStream body){
+        InputStreamReader streamReader = new InputStreamReader(body);
+
+
+        try (BufferedReader lineReader = new BufferedReader(streamReader)) {
+            StringBuilder responseBody = new StringBuilder();
+
+
+            String line;
+            while ((line = lineReader.readLine()) != null) {
+                responseBody.append(line);
+            }
+
+
+            return responseBody.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
+        }
+    }
 
 }
