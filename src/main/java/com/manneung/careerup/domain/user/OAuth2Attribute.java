@@ -1,9 +1,11 @@
 package com.manneung.careerup.domain.user;
 
+import com.manneung.careerup.domain.base.BaseEntity;
 import com.manneung.careerup.domain.base.BaseResponse;
 import com.manneung.careerup.domain.user.model.User;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +26,7 @@ public class OAuth2Attribute {
         switch (provider) {
             case "google": return ofGoogle(attributeKey, attributes);
             case "naver": return ofNaver("id", attributes);
-            default: return new BaseResponse<>(USER_NOT_EXIST_PROVIDER_ERROR);
+            default: return ResponseEntity.ok(USER_NOT_EXIST_PROVIDER_ERROR);
         }
     }
 
