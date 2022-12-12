@@ -25,7 +25,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String picture;
 
     @Column(nullable = false)
@@ -40,26 +40,26 @@ public class User extends BaseEntity {
 
 
     //추가 정보
-    @Column(nullable = false)
-    private String nickname;
-
-    @Column(nullable = false)
-    private String univ;
-
-    @Column(nullable = false)
-    private String major1;
-
-    @Column
-    private String major2;
-
-    @Column(nullable = false, name = "interest_field1")
-    private String interestField1;
-
-    @Column(name = "interest_field2")
-    private String interestField2;
-
-    @Column(name = "interest_field3")
-    private String interestField3;
+//    @Column
+//    private String nickname;
+//
+//    @Column
+//    private String univ;
+//
+//    @Column
+//    private String major1;
+//
+//    @Column
+//    private String major2;
+//
+//    @Column(nullable = false, name = "interest_field1")
+//    private String interestField1;
+//
+//    @Column(name = "interest_field2")
+//    private String interestField2;
+//
+//    @Column(name = "interest_field3")
+//    private String interestField3;
 
 
 

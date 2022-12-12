@@ -9,9 +9,11 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.manneung.careerup.domain.user.model.*;
 import com.manneung.careerup.domain.user.model.dto.GoogleLoginReq;
+import com.manneung.careerup.domain.user.model.dto.LoginUserReq;
 import com.manneung.careerup.domain.user.model.dto.LoginUserRes;
 import com.manneung.careerup.domain.user.model.dto.NaverLoginReq;
 import com.manneung.careerup.domain.user.repository.UserRepository;
+import com.manneung.careerup.global.jwt.EToken;
 import com.manneung.careerup.global.jwt.TokenInfoRes;
 import com.manneung.careerup.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,9 @@ import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +42,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.manneung.careerup.domain.user.model.Role.ROLE_USER;
 
@@ -75,6 +80,25 @@ public class UserService {
 
 
 
+    public LoginUserRes loginUser(LoginUserReq loginUserReq) {
+        //System.out.println("로그인테스트1");
+        //User user = this.validateEmail(loginRequest.getEmail());
+        System.out.println("로그인테스트2");
+        TokenInfoRes tokenInfoRes = this.validateLogin(loginUserReq);
+        return LoginUserRes.from(tokenInfoRes, loginUserReq.getEmail());
+    }
+
+    public TokenInfoRes validateLogin(LoginUserReq loginRequest) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
+        Authentication authentication = this.authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        TokenInfoRes tokenInfoRes = this.tokenProvider.createToken(authentication);
+        this.redisTemplate.opsForValue()
+                .set(EToken.eRefreshToken.getMessage() + authentication.getName(),
+                        tokenInfoRes.getRefreshToken(), tokenInfoRes.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+        return tokenInfoRes;
+    }
 
 
     //소셜로그인 비즈니스 로직(구글)
