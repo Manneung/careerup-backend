@@ -1,15 +1,12 @@
 package com.manneung.careerup.global.jwt;
 
 
-import com.manneung.careerup.domain.base.BaseResponse;
 import com.manneung.careerup.domain.user.model.CustomUserDetails;
-import com.manneung.careerup.domain.user.model.TokenInfoResponse;
 import com.manneung.careerup.domain.user.model.User;
 import com.manneung.careerup.domain.user.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -19,15 +16,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
-
-import static com.manneung.careerup.domain.base.BaseResponseStatus.USER_NOT_EXIST_EMAIL_ERROR;
 
 @Slf4j
 @Component
@@ -66,7 +60,7 @@ public class TokenProvider implements InitializingBean {
      * 검증된 이메일에 대해 토큰을 생성하는 메서드
      * AccessToken의 Claim으로는 email과 nickname을 넣습니다.
      */
-    public TokenInfoResponse createToken(Authentication authentication) {
+    public TokenInfoRes createToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -87,7 +81,7 @@ public class TokenProvider implements InitializingBean {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        return TokenInfoResponse.from("Bearer", accessToken, refreshToken, refreshTokenValidityTime);
+        return TokenInfoRes.from("Bearer", accessToken, refreshToken, refreshTokenValidityTime);
 
     }
 

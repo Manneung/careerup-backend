@@ -20,30 +20,72 @@ public class User extends BaseEntity {
     @Column(name = "user_idx")
     private int userIdx;
 
+
+    //기본 로그인 정보
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String picture;
 
     @Column(nullable = false)
-    private String nickname;
+    private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String univ;
-
-    @Column(nullable = false)
-    private String major1;
+    private Role role;
 
     @Column
-    private String major2;
+    private Boolean emailVerified;
 
-    @Column(nullable = false, name = "interest_field1")
-    private String interestField1;
 
-    @Column(name = "interest_field2")
-    private String interestField2;
+    //추가 정보
+//    @Column
+//    private String nickname;
+//
+//    @Column
+//    private String univ;
+//
+//    @Column
+//    private String major1;
+//
+//    @Column
+//    private String major2;
+//
+//    @Column(nullable = false, name = "interest_field1")
+//    private String interestField1;
+//
+//    @Column(name = "interest_field2")
+//    private String interestField2;
+//
+//    @Column(name = "interest_field3")
+//    private String interestField3;
 
-    @Column(name = "interest_field3")
-    private String interestField3;
+
+
+    @Builder
+    public User(boolean emailVerified, String name, String email, String picture, Role role) {
+        this.emailVerified = emailVerified;
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+        this.role = role;
+    }
+
+    public User toEntity() {
+        return User.builder()
+                .emailVerified(emailVerified)
+                .name(name)
+                .email(email)
+                .picture(picture)
+                .build();
+    }
+
+
+    public User update(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
+        return this;
+    }
+
 }

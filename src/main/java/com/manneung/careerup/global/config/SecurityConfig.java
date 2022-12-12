@@ -1,32 +1,74 @@
 package com.manneung.careerup.global.config;
 
+import com.manneung.careerup.global.jwt.JwtAccessDeniedHandler;
+import com.manneung.careerup.global.jwt.JwtAuthenticationEntryPoint;
+import com.manneung.careerup.global.jwt.JwtSecurityConfig;
+import com.manneung.careerup.global.jwt.TokenProvider;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity  //SpringSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+
+    private final TokenProvider tokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/resource/**", "/css/**", "/js/**", "/img/**", "/lib/**");
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //http.csrf().disable(); //CSRF 비활성화(로그인 화면 뜨는 거 해제)
-
-        //h2 콘솔 연결 허가
         http
+                .csrf().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
+                .headers().frameOptions().sameOrigin()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/v3/api-docs").permitAll()
+
+                .antMatchers("/image/**").permitAll()
+                .antMatchers("/test/**").permitAll()
+
+                //일단 jwt 인증 풀어둠
+                .antMatchers("/map/**").permitAll()
+                .antMatchers("/item/**").permitAll()
+                .antMatchers("/user/**").permitAll()
+
+                .anyRequest().authenticated() //위의 api가 아닌 경로는 모두 jwt 토큰 인증을 해야 함
                 .and()
-
-                .headers()
-                .frameOptions()
-                .disable()
-                .and()
-
-                .csrf()
-                .ignoringAntMatchers("/h2-console/**")
-                .disable();
-
+                .apply(new JwtSecurityConfig(tokenProvider));
     }
 }

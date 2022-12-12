@@ -1,13 +1,17 @@
 package com.manneung.careerup.domain.user;
 
+import com.manneung.careerup.domain.base.BaseEntity;
+import com.manneung.careerup.domain.base.BaseResponse;
 import com.manneung.careerup.domain.user.model.User;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.manneung.careerup.domain.user.Role.ROLE_USER;
+import static com.manneung.careerup.domain.base.BaseResponseStatus.USER_NOT_EXIST_PROVIDER_ERROR;
+import static com.manneung.careerup.domain.user.model.Role.ROLE_USER;
 
 @Getter
 @Builder
@@ -18,15 +22,11 @@ public class OAuth2Attribute {
     private String name;
     private String picture;
 
-    public static OAuth2Attribute of(String provider, String attributeKey,
-                                     Map<String, Object> attributes) {
+    public static Object of(String provider, String attributeKey, Map<String, Object> attributes) {
         switch (provider) {
-            case "google":
-                return ofGoogle(attributeKey, attributes);
-            case "naver":
-                return ofNaver("id", attributes);
-            default:
-                throw new RuntimeException();
+            case "google": return ofGoogle(attributeKey, attributes);
+            case "naver": return ofNaver("id", attributes);
+            default: return ResponseEntity.ok(USER_NOT_EXIST_PROVIDER_ERROR);
         }
     }
 

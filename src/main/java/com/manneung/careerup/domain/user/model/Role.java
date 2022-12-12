@@ -1,4 +1,4 @@
-package com.manneung.careerup.domain.user;
+package com.manneung.careerup.domain.user.model;
 
 
 import lombok.Getter;

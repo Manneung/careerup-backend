@@ -2,9 +2,11 @@ package com.manneung.careerup.domain.map.model;
 
 
 import com.manneung.careerup.domain.base.BaseEntity;
+import com.manneung.careerup.domain.item.model.Item;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -19,7 +21,15 @@ public class Map extends BaseEntity {
     @Column(name = "map_idx")
     private int mapIdx;
 
+    @Column(name = "user_idx")
+    private int userIdx;
+
+    @Column()
+    private String title;
+
     @Column(nullable = false)
     private String job;
+
+
 
 }
