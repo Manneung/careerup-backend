@@ -25,11 +25,14 @@ public class Map extends BaseEntity {
     private int userIdx;
 
     @Column()
+    private String nickname;
+
+    @Column()
     private String title;
 
     @Column(nullable = false)
     private String job;
 
-
+    //private String status;
 
 }

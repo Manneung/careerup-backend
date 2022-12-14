@@ -1,6 +1,7 @@
 package com.manneung.careerup.domain.item.model;
 
 
+import com.manneung.careerup.domain.base.BaseEntity;
 import com.manneung.careerup.domain.item.constant.Category;
 import com.manneung.careerup.domain.user.model.Role;
 import com.manneung.careerup.domain.user.model.User;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-public class Item {
+public class Item extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,29 +26,35 @@ public class Item {
     @Column(name = "map_idx")
     private int mapIdx; //해당 활동을 추가했던 map인덱스
 
-    @Enumerated(EnumType.STRING)
-    private Category category; //활동 카테고리
+    private String title;
 
-    private String period;
+    //@Enumerated(EnumType.STRING)
+    private String category; //활동 카테고리
 
-    private String photo; //활동 사진
-
-    private int count; //순서 컬럼
+    private int sequence; //순서 컬럼
 
 
-/*
+
+
+
+
     @Builder
-    public Item(int mapIdx, Category category, ){
+    public Item(int mapIdx, String title, String category, int sequence){
         this.mapIdx = mapIdx;
-        this.
+        this.title = title;
+        this.category = category;
+        this.sequence = sequence;
+        //this.status = status;
     }
 
     public Item toEntity() {
         return Item.builder()
                 .mapIdx(mapIdx)
-                .
-
+                .title(title)
+                .category(category)
+                .sequence(sequence)
+                //.status("A")
                 .build();
-    }*/
+    }
 
 }
