@@ -49,10 +49,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
+
                 .headers().frameOptions().sameOrigin()
                 .and()
+
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+
                 .authorizeRequests()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
