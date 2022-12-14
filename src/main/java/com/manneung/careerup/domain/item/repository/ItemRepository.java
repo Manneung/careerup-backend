@@ -14,7 +14,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 
     //mapidx가 일치한 행을 찾고 count를 기준으로 오름차순으로 정렬한 item리스트를 반환
-    List<Item> findAllByMapIdxOrderByCountAsc(int mapIdx);
+    List<Item> findAllByMapIdxOrderBySequenceAsc(int mapIdx);
 
 
 }
