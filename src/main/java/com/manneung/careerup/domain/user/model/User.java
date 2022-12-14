@@ -31,11 +31,14 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String nickname;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
-    @Column
+
+    @Column(name = "email_verified")
     private Boolean emailVerified;
 
 
@@ -60,6 +63,8 @@ public class User extends BaseEntity {
 //
 //    @Column(name = "interest_field3")
 //    private String interestField3;
+//
+//    private String status;
 
 
 
