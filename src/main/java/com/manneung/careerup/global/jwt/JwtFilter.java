@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
+
 @Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
@@ -35,13 +37,13 @@ public class JwtFilter extends OncePerRequestFilter {
                 log.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
             }}
         catch (SecurityException | MalformedJwtException e) {
-            request.setAttribute("exception", JWTExceptionList.WRONG_TYPE_TOKEN.getErrorCode());
+            request.setAttribute("exception", JWT_WRONG_TYPE_TOKEN.getCode());
         } catch (ExpiredJwtException e) {
-            request.setAttribute("exception", JWTExceptionList.EXPIRED_TOKEN.getErrorCode());
+            request.setAttribute("exception", JWT_EXPIRED_TOKEN.getCode());
         } catch (UnsupportedJwtException e) {
-            request.setAttribute("exception", JWTExceptionList.UNSUPPORTED_TOKEN.getErrorCode());
+            request.setAttribute("exception", JWT_UNSUPPORTED_TOKEN.getCode());
         } catch (IllegalArgumentException e) {
-            request.setAttribute("exception", JWTExceptionList.WRONG_TOKEN.getErrorCode());
+            request.setAttribute("exception", JWT_ACCESS_DENIED.getCode());
         } catch (Exception e) {
             log.error("================================================");
             log.error("JwtFilter - doFilterInternal() 오류발생");
@@ -51,7 +53,7 @@ public class JwtFilter extends OncePerRequestFilter {
             e.printStackTrace();
             log.error("}");
             log.error("================================================");
-            request.setAttribute("exception", JWTExceptionList.UNKNOWN_ERROR.getErrorCode());
+            request.setAttribute("exception", JWT_UNKNOWN_ERROR.getCode());
         }
 
         filterChain.doFilter(request, response);
