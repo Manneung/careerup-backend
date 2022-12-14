@@ -2,6 +2,7 @@ package com.manneung.careerup.test;
 
 
 import com.manneung.careerup.domain.base.BaseResponse;
+import com.manneung.careerup.global.jwt.TokenInfoRes;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

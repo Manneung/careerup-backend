@@ -71,7 +71,7 @@ public class UserController {
     public ResponseEntity<BaseResponse<LoginUserRes>> testLogin(@RequestBody LoginUserReq loginUserReq) {
         LoginUserRes loginUserRes = userService.loginUser(loginUserReq);
 
-        return null;
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, loginUserRes));
 
         //return ResponseEntity.ok(ResponseDto.create(EUserResponseMessage.LOGIN_SUCCESS.getMessage(), loginResponse));
     }
