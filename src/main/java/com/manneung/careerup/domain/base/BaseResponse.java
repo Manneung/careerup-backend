@@ -18,7 +18,7 @@ import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
 public class BaseResponse<T> {
     //API base응답
 
-    private int code;
+    private String code;
     private  String message;
     private T result;
 
