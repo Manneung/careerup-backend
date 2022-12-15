@@ -1,11 +1,15 @@
 package com.manneung.careerup.domain.map.service;
 
 
-import com.manneung.careerup.domain.item.model.Item;
-import com.manneung.careerup.domain.item.model.PostItemReq;
-import com.manneung.careerup.domain.item.repository.ItemRepository;
+import com.manneung.careerup.domain.connection.mapitem.Mapitem;
+import com.manneung.careerup.domain.connection.mapitem.MapitemRepository;
+import com.manneung.careerup.domain.connection.usermap.Usermap;
+import com.manneung.careerup.domain.connection.usermap.UsermapRepository;
+import com.manneung.careerup.domain.item.model.dto.GetItemRes;
+import com.manneung.careerup.domain.item.model.dto.PostItemReq;
 import com.manneung.careerup.domain.item.service.ItemService;
 import com.manneung.careerup.domain.map.model.Map;
+import com.manneung.careerup.domain.map.model.dto.GetMapDetailRes;
 import com.manneung.careerup.domain.map.model.dto.GetMapRes;
 import com.manneung.careerup.domain.map.model.dto.PostMapReq;
 import com.manneung.careerup.domain.map.model.dto.PostMapRes;
@@ -26,25 +30,37 @@ public class MapService { //map, item
     private final MapRepository mapRepository;
     private final ItemService itemService;
 
+    private final UsermapRepository usermapRepository;
 
+    private final MapitemRepository mapitemRepository;
+
+
+    //수정
     public PostMapRes createMap(PostMapReq postMapReq) { //닉네임, 타이틀, 직업군, 아이템리스트
         PostMapRes postMapRes = new PostMapRes();
         Map newMap = new Map(); //DB에 저장할 객체
 
 
-        //커리어맵 정보 저장
+        //해당 유저 존재여부 찾기
         User findUser = userRepository.findUserByNickname(postMapReq.getNickname());
 
         if(findUser != null){
+
+            //새로운 맵의 정보 저장
             newMap.setUserIdx(userRepository.findUserByNickname(postMapReq.getNickname()).getUserIdx());
             newMap.setNickname(postMapReq.getNickname());
             newMap.setTitle(postMapReq.getTitle());
             newMap.setJob(postMapReq.getJob());
             mapRepository.save(newMap);
 
+            //유저 맵 커넥션 저장
+            Usermap usermap = new Usermap(findUser.getUserIdx(), newMap.getMapIdx());
+            usermapRepository.save(usermap);
+
+
             //아이템 정보 저장
             List<PostItemReq> items = postMapReq.getItemList();
-            boolean itemSaved = itemService.saveItems(newMap.getMapIdx(), items);
+            boolean itemSaved = itemService.createItems(newMap.getMapIdx(), items);
 
             if(itemSaved){
                 postMapRes.setMapIdx(newMap.getMapIdx());
@@ -57,6 +73,7 @@ public class MapService { //map, item
     }
 
 
+    //수정
     public List<GetMapRes> searchMapsByNickname(String nickname){
         List<GetMapRes> findMaps = new ArrayList<>();
         Integer userIdx;
@@ -69,12 +86,14 @@ public class MapService { //map, item
         }
 
         //해당하는 커리어맵 리스트
-        List<Map> maps = mapRepository.findAllByUserIdx(userIdx);
+        List<Usermap> usermapList = usermapRepository.findAllByUserIdx(userIdx);
 
-        for(Map m : maps){
-            GetMapRes getMapRes = new GetMapRes(m.getMapIdx(), m.getTitle());
+        for(Usermap connection : usermapList){
+            Map map = mapRepository.findByMapIdx(connection.getMapIdx());
+            GetMapRes getMapRes = new GetMapRes(map.getMapIdx(), map.getTitle(), map.getNickname());
             findMaps.add(getMapRes);
         }
+
 
         //커리어맵 리스트가 존재하는지에 따라 분리
         if(!findMaps.isEmpty()){
@@ -85,8 +104,36 @@ public class MapService { //map, item
     }
 
 
+
+
+
     //맵 제목으로 맵 디테일 정보 찾기
-//    public GetMapDetailRes searchMapDetail(String title){
-//
-//    }
+    public GetMapDetailRes searchMapDetail(int mapIdx){
+        GetMapDetailRes getMapDetailRes = new GetMapDetailRes(); //mapidx, 닉네임, 아이템리스트
+
+        if(mapRepository.findByMapIdx(mapIdx) != null){
+            Map findMap = mapRepository.findByMapIdx(mapIdx);
+
+
+            //int userIdx  = findMap.getUserIdx();
+            String nickname = findMap.getNickname();
+            List<GetItemRes> getItemResList = itemService.searchItemListSimple(mapIdx);
+
+
+            getMapDetailRes.setMapIdx(findMap.getMapIdx());
+            getMapDetailRes.setNickname(nickname);
+            getMapDetailRes.setItemList(getItemResList);
+
+
+            return getMapDetailRes;
+
+        } else{
+            return null;
+        }
+    }
+
+
+
+
+
 }

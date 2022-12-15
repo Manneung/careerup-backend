@@ -1,4 +1,4 @@
-package com.manneung.careerup.domain.map.model.dto;
+package com.manneung.careerup.domain.item.model.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -7,13 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+
+
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
-public class GetMapRes {
-
+@Getter
+public class GetItemDetailRes {
     private int mapIdx;
     private String title;
-    private String nickname;
+    private String category;
+
 }

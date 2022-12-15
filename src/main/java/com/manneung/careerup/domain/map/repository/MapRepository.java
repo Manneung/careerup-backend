@@ -11,4 +11,6 @@ import java.util.List;
 public interface MapRepository extends JpaRepository<Map, Integer> {
 
     List<Map> findAllByUserIdx(Integer userIdx);
+
+    Map findByMapIdx(int mapIdx);
 }

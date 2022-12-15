@@ -51,6 +51,13 @@ public enum BaseResponseStatus {
     MAP_FAILED_TO_CREATE_ERROR( "3005", "커리어맵 작성에 실패했습니다."),
 
 
+    /**
+     * 4000 : Item 오류
+     */
+    ITEM_NOT_FOUND_IDX_ERROR("4001", "존재하지 않는 활동입니다."),
+
+
+
 
 
     /**

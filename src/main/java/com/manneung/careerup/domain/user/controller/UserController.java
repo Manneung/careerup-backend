@@ -10,6 +10,7 @@ import com.manneung.careerup.domain.user.model.dto.NaverLoginReq;
 import com.manneung.careerup.domain.user.service.UserService;
 import com.manneung.careerup.test.TestReq;
 import com.manneung.careerup.test.TestRes;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class UserController {
 
     private final UserService userService;
 
-    //소셜로그인 api -> 실행여부는 아직 모름..!
+    @ApiOperation(value = "구글 로그인", notes = "구글 로그인")
     @PostMapping("/google-login")
     public ResponseEntity<BaseResponse<LoginUserRes>> googleLogin(@Valid @RequestBody GoogleLoginReq googleLoginReq){
         //googleLoginReq: 구글 idToken
@@ -46,7 +47,9 @@ public class UserController {
         //토큰 정보 리턴
     }
 
-    @PostMapping("/naverLogin")
+
+    @ApiOperation(value = "네이버 로그인", notes = "네이버 로그인")
+    @PostMapping("/naver-login")
     public ResponseEntity<BaseResponse<LoginUserRes>> naverLogin(@Valid @RequestBody NaverLoginReq naverLoginReq)
                                                                                                     throws IOException {
         //naverLoginReq: 네이버 access token 담겨있음
@@ -61,13 +64,9 @@ public class UserController {
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, loginUserRes)); //토큰 정보 리턴
     }
 
-    @PostMapping("/test-post")
-    public ResponseEntity<BaseResponse<TestRes>> testPost(@RequestBody TestReq testReq){
-        TestRes testRes = new TestRes(testReq.getMessage());
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, testRes));
-    }
 
-    @PostMapping("/testLogin")
+    @ApiOperation(value = "테스트 로그인", notes = "테스트 로그인(아이디, 비밀번호 필요)")
+    @PostMapping("/test-login")
     public ResponseEntity<BaseResponse<LoginUserRes>> testLogin(@RequestBody LoginUserReq loginUserReq) {
         LoginUserRes loginUserRes = userService.loginUser(loginUserReq);
 

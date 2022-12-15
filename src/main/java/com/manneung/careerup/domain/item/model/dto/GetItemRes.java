@@ -1,4 +1,4 @@
-package com.manneung.careerup.domain.map.model.dto;
+package com.manneung.careerup.domain.item.model.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
-public class GetMapRes {
-
-    private int mapIdx;
+@Getter
+public class GetItemRes { //커리어맵에서 제목만 간단하게 보여줌
     private String title;
-    private String nickname;
+    private int sequence;
 }
