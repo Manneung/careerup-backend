@@ -15,6 +15,7 @@ import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 //@JsonPropertyOrder({"isSuccess", "code", "message", "result"})
+@JsonPropertyOrder({"code", "message", "result"})
 public class BaseResponse<T> {
     //API base응답
 

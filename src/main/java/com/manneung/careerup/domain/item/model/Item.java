@@ -2,16 +2,14 @@ package com.manneung.careerup.domain.item.model;
 
 
 import com.manneung.careerup.domain.base.BaseEntity;
-import com.manneung.careerup.domain.item.constant.Category;
-import com.manneung.careerup.domain.user.model.Role;
-import com.manneung.careerup.domain.user.model.User;
+
 import lombok.*;
 
 import javax.persistence.*;
 
 
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -24,7 +22,7 @@ public class Item extends BaseEntity {
 
 
     @Column(name = "map_idx")
-    private int mapIdx; //해당 활동을 추가했던 map인덱스
+    private int mapIdx;
 
     private String title;
 
