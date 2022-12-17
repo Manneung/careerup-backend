@@ -3,9 +3,10 @@ package com.manneung.careerup.domain.user.model;
 
 import com.manneung.careerup.domain.base.BaseEntity;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-
+import java.util.Collection;
 
 
 @NoArgsConstructor
@@ -75,6 +76,10 @@ public class User extends BaseEntity {
         this.email = email;
         this.picture = picture;
         this.role = role;
+    }
+
+    public User(String subject, String s, Collection<? extends GrantedAuthority> authorities) {
+        super();
     }
 
     public User toEntity() {

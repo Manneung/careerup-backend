@@ -9,6 +9,8 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class TokenProvider implements InitializingBean {
 
-
+    private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
     private static final String AUTHORITIES_KEY = "auth";
 
     @Value("${jwt.secret}")
@@ -53,6 +55,7 @@ public class TokenProvider implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() {
+        //빈이 생성되고 주입을 받은 후에 시크릿값을 Base64로 디코드해서 key변수에 할당하기 위함
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -63,6 +66,7 @@ public class TokenProvider implements InitializingBean {
      * AccessToken의 Claim으로는 email과 nickname을 넣습니다.
      */
     public TokenInfoRes createToken(Authentication authentication) {
+        //Authentication객체의 권한 정보를 이용해서 토큰을 생성하는 메소드
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -93,13 +97,28 @@ public class TokenProvider implements InitializingBean {
      */
     public Authentication getAuthentication(String token) {
 
-        Claims claims = parseClaims(token);
+        Claims claims = parseClaims(token); //토큰을 이용해서 claim생성
+//        Claims claims = Jwts //토큰을 이용해서 claim생성
+//                .parserBuilder()
+//                .setSigningKey(key)
+//                .build()
+//                .parseClaimsJws(token)
+//                .getBody();
+
+
+        //클레임에서 권한 정보를 빼낸 후 이를 이용해서 유저 객체를 만들어서 최종적으로 Authentication객체를 리턴
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
+
+        //권한 정보들을 이용해서 유저 객체 생성
         //User user = new User(claims.getSubject(), "", authorities);
-        User user = this.userRepository.findByEmail(claims.getSubject()).orElseThrow();
+        User user = this.userRepository.findByEmail(claims.getSubject()).orElseThrow(); // ->이메일, 비밀번호 버전
+
+
+        //유저 객체와 토큰, 권한 정보를 이용해서 Authentication객체를 리턴
+
         //orElseThrow(new BaseResponse<>(USER_NOT_EXIST_EMAIL_ERROR))
         return new UsernamePasswordAuthenticationToken(new CustomUserDetails(user), token, authorities);
     }
@@ -114,17 +133,19 @@ public class TokenProvider implements InitializingBean {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
-            throw e;
+            //throw e;
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.");
-            throw e;
+            //throw e;
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
-            throw e;
+            //throw e;
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.");
-            throw e;
+            //throw e;
         }
+
+        return false;
     }
 
 
@@ -137,19 +158,21 @@ public class TokenProvider implements InitializingBean {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
-            throw e;
+            //throw e;
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.");
-            throw e;
+            //throw e;
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
-            throw e;
+            //throw e;
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.");
-            throw e;
-        } finally {
-            return false;
-        }
+            //throw e;
+        } //finally {
+//            return false;
+//        }
+
+        return false;
     }
 
     /*
@@ -157,14 +180,25 @@ public class TokenProvider implements InitializingBean {
      */
     private Claims parseClaims(String accessToken) {
         try {
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
     }
 
     public Long getExpiration(String accessToken) {
-        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+        Date expiration = Jwts
+                .parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(accessToken)
+                .getBody()
+                .getExpiration();
         Long now = new Date().getTime();
         return (expiration.getTime() - now);
     }

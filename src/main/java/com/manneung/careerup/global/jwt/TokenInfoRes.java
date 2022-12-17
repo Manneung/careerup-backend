@@ -14,6 +14,15 @@ public class TokenInfoRes {
     private String refreshToken;
     private Long refreshTokenExpirationTime;
 
+    public TokenInfoRes(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+//    public TokenInfoRes(String accessToken, String refreshToken) {
+//        this.accessToken = accessToken;
+//        this.refreshToken = refreshToken;
+//    }
+
     public static TokenInfoRes from(
             String grantType, String accessToken, String refreshToken, Long refreshTokenExpirationTime) {
         return TokenInfoRes.builder()

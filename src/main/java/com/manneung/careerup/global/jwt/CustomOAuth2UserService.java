@@ -1,6 +1,5 @@
-package com.manneung.careerup.global;
+package com.manneung.careerup.global.jwt;
 
-import com.manneung.careerup.domain.user.OAuth2Attribute;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -13,28 +12,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
-import static com.manneung.careerup.domain.user.model.Role.ROLE_USER;
-
-
-@Service
 @Slf4j
+@Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);
+
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
         OAuth2Attribute oAuth2Attribute =
-                (OAuth2Attribute) OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+                OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         log.info("{}", oAuth2Attribute);
 
         var memberAttribute = oAuth2Attribute.convertToMap();
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(String.valueOf(ROLE_USER))), memberAttribute, "email");
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
+                memberAttribute, "email");
     }
 }

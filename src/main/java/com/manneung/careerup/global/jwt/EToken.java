@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum EToken{
+public enum EToken {
     eRefreshToken("RT:");
     private final String message;
 }

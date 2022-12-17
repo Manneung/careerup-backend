@@ -2,7 +2,6 @@ package com.manneung.careerup.global.jwt;
 
 import com.manneung.careerup.domain.base.BaseResponseStatus;
 import org.json.simple.JSONObject;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 
@@ -20,6 +18,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         String exception = (String)request.getAttribute("exception");
+
+
         if(exception == null) setResponse(response, JWT_UNKNOWN_ERROR);
             //잘못된 타입의 토큰인 경우
         else if(exception.equals(JWT_WRONG_TYPE_TOKEN.getCode()))
@@ -39,7 +39,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private void setResponse(HttpServletResponse response, BaseResponseStatus status) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  //401
 
         JSONObject responseJson = new JSONObject();
         responseJson.put("message", status.getMessage());
