@@ -13,6 +13,7 @@ import com.manneung.careerup.domain.user.model.dto.LoginUserReq;
 import com.manneung.careerup.domain.user.model.dto.LoginUserRes;
 import com.manneung.careerup.domain.user.model.dto.NaverLoginReq;
 import com.manneung.careerup.domain.user.repository.UserRepository;
+
 import com.manneung.careerup.global.jwt.EToken;
 import com.manneung.careerup.global.jwt.TokenInfoRes;
 import com.manneung.careerup.global.jwt.TokenProvider;
@@ -79,6 +80,32 @@ public class UserService {
     //DB에 유저의 추가정보(전공, 관심분야 등 저장)
 
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //테스트 로그인
+    //이부분은 수정이 필요한 부분
+//    public LoginUserRes signup(LoginUserReq loginUserReq) { //회원가입 로직
+//        if (userRepository.findOneWithAuthoritiesByUsername(loginUserReq.getUsername()).orElse(null) != null) {
+//            throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
+//        }
+//
+//        Authority authority = Authority.builder()
+//                .authorityName("ROLE_USER")
+//                .build();
+//
+//
+//        //유저정보와 권한정보 저장
+//        User user = User.builder()
+//                .username(userDto.getUsername())
+//                .password(passwordEncoder.encode(userDto.getPassword()))
+//                .nickname(userDto.getNickname())
+//                .authorities(Collections.singleton(authority))
+//                .activated(true)
+//                .build();
+//
+//        return UserDto.from(userRepository.save(user));
+//    }
+
 
     public LoginUserRes loginUser(LoginUserReq loginUserReq) {
         //System.out.println("로그인테스트1");
@@ -100,6 +127,8 @@ public class UserService {
         return tokenInfoRes;
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //소셜로그인 비즈니스 로직(구글)
     public LoginUserRes authGoogleUser(GoogleLoginReq googleLoginReq){
@@ -178,7 +207,7 @@ public class UserService {
 
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     //소셜로그인 비즈니스 로직(네이버)
     public LoginUserRes authNaverUser(NaverLoginReq naverLoginReq) throws IOException {
         String token = naverLoginReq.getToken();

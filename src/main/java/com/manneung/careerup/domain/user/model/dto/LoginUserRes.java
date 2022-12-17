@@ -17,9 +17,11 @@ public class LoginUserRes {
     private String accessToken;
     private String refreshToken;
     private String email;
+    //응답 토큰을 기반으로 접근토큰과 리프레시토큰 리턴
+
 
     public static LoginUserRes from(TokenInfoRes tokenInfoRes, String email) {
-        //응답 토큰을 기반으로 접근토큰과 리프레시토큰 리턴
+
         return LoginUserRes.builder()
                 .accessToken(tokenInfoRes.getAccessToken())
                 .refreshToken(tokenInfoRes.getRefreshToken())
