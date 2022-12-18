@@ -9,10 +9,7 @@ import com.manneung.careerup.domain.item.model.dto.GetItemRes;
 import com.manneung.careerup.domain.item.model.dto.PostItemReq;
 import com.manneung.careerup.domain.item.service.ItemService;
 import com.manneung.careerup.domain.map.model.Map;
-import com.manneung.careerup.domain.map.model.dto.GetMapDetailRes;
-import com.manneung.careerup.domain.map.model.dto.GetMapRes;
-import com.manneung.careerup.domain.map.model.dto.PostMapReq;
-import com.manneung.careerup.domain.map.model.dto.PostMapRes;
+import com.manneung.careerup.domain.map.model.dto.*;
 import com.manneung.careerup.domain.map.repository.MapRepository;
 import com.manneung.careerup.domain.user.model.User;
 import com.manneung.careerup.domain.user.repository.UserRepository;
@@ -35,7 +32,7 @@ public class MapService { //map, item
     private final MapitemRepository mapitemRepository;
 
 
-    //수정
+    //CRUD
     public PostMapRes createMap(PostMapReq postMapReq) { //닉네임, 타이틀, 직업군, 아이템리스트
         PostMapRes postMapRes = new PostMapRes();
         Map newMap = new Map(); //DB에 저장할 객체
@@ -67,13 +64,42 @@ public class MapService { //map, item
                 return postMapRes;
             }
         }
-
-
         return null;
     }
 
 
-    //수정
+    public PatchMapRes modifyMap(int mapIdx, PatchMapReq patchMapReq) {
+        Map findMap = mapRepository.findByMapIdx(mapIdx);
+
+        findMap.setTitle(patchMapReq.getTitle());
+        mapRepository.save(findMap);
+
+        PatchMapRes patchMapRes = new PatchMapRes(findMap.getMapIdx());
+
+        return patchMapRes;
+    }
+
+    public DeleteMapRes deleteMap(int mapIdx) {
+        Map findMap = mapRepository.findByMapIdx(mapIdx);
+
+        if(findMap != null){
+            if(findMap.getStatus().equals("A")){
+                findMap.setStatus("D");
+                mapRepository.save(findMap);
+                return new DeleteMapRes(mapIdx);
+            }
+            else{
+                return null;
+            }
+        }
+        return null;
+    }
+
+
+
+
+
+    //조회 메소드
     public List<GetMapRes> searchMapsByNickname(String nickname){
         List<GetMapRes> findMaps = new ArrayList<>();
         Integer userIdx;
@@ -85,15 +111,13 @@ public class MapService { //map, item
             userIdx = userRepository.findUserByNickname(nickname).getUserIdx();
         }
 
-        //해당하는 커리어맵 리스트
-        List<Usermap> usermapList = usermapRepository.findAllByUserIdx(userIdx);
-
-        for(Usermap connection : usermapList){
-            Map map = mapRepository.findByMapIdx(connection.getMapIdx());
-            GetMapRes getMapRes = new GetMapRes(map.getMapIdx(), map.getTitle(), map.getNickname());
-            findMaps.add(getMapRes);
+        List<Map> findMapList = mapRepository.findAllByUserIdx(userIdx);
+        for(Map m: findMapList){
+            if(m.getStatus().equals("A")){
+                GetMapRes getMapRes = new GetMapRes(m.getMapIdx(), m.getTitle(), m.getNickname());
+                findMaps.add(getMapRes);
+            }
         }
-
 
         //커리어맵 리스트가 존재하는지에 따라 분리
         if(!findMaps.isEmpty()){
@@ -103,10 +127,40 @@ public class MapService { //map, item
         }
     }
 
+    public List<GetMapRes> searchMapsByTitle(String title) {
+        List<GetMapRes> findMaps = new ArrayList<>();
+        List<Map> findMapList = mapRepository.findAllByTitleContaining(title);
+
+        if(findMapList != null){
+            for(Map m : findMapList) {
+                if(m.getStatus().equals("A")){
+                    GetMapRes getMapRes = new GetMapRes(m.getMapIdx(), m.getTitle(), m.getNickname());
+                    findMaps.add(getMapRes);
+                }
+            }
+            return findMaps;
+        }
+        return null;
+    }
+
+    public List<GetMapRes> searchMapsByJob(String job) {
+        List<GetMapRes> findMaps = new ArrayList<>();
+        List<Map> findMapList = mapRepository.findAllByJobContaining(job);
+
+        if(findMapList != null){
+            for(Map m : findMapList) {
+                if(m.getStatus().equals("A")){
+                    GetMapRes getMapRes = new GetMapRes(m.getMapIdx(), m.getTitle(), m.getNickname());
+                    findMaps.add(getMapRes);
+                }
+            }
+            return findMaps;
+        }
+        return null;
+    }
 
 
-
-
+    ////////////////////////////////////////세부정보 조회////////////////////////////////////////////////
     //맵 제목으로 맵 디테일 정보 찾기
     public GetMapDetailRes searchMapDetail(int mapIdx){
         GetMapDetailRes getMapDetailRes = new GetMapDetailRes(); //mapidx, 닉네임, 아이템리스트
@@ -131,8 +185,6 @@ public class MapService { //map, item
             return null;
         }
     }
-
-
 
 
 
