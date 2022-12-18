@@ -1,6 +1,7 @@
 package com.manneung.careerup.domain.map.model;
 
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.manneung.careerup.domain.base.BaseEntity;
 import com.manneung.careerup.domain.item.model.Item;
 import lombok.*;
@@ -33,6 +34,6 @@ public class Map extends BaseEntity {
     @Column(nullable = false)
     private String job;
 
-    //private String status;
+
 
 }

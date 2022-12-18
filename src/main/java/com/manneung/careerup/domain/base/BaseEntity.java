@@ -1,6 +1,7 @@
 package com.manneung.careerup.domain.base;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 
 @DynamicInsert
 @Getter
+@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
@@ -27,7 +29,7 @@ public class BaseEntity {
     private LocalDateTime updatedAt;
 
     //@Column(nullable = false)
-    //private String status; //protected, setter 필요
+    private String status; //protected, setter 필요
 
 
 }
