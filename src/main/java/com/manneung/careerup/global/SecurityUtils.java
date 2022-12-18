@@ -1,6 +1,6 @@
 package com.manneung.careerup.global;
 
-import com.manneung.careerup.domain.user.model.CustomUserDetails;
+import com.manneung.careerup.global.jwt.CustomUserDetails;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

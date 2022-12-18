@@ -1,7 +1,6 @@
 package com.manneung.careerup.global.jwt;
 
 
-import com.manneung.careerup.domain.user.model.CustomUserDetails;
 import com.manneung.careerup.domain.user.model.User;
 import com.manneung.careerup.domain.user.repository.UserRepository;
 import io.jsonwebtoken.*;
