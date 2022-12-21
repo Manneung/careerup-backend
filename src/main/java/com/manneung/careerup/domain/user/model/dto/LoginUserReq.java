@@ -14,9 +14,9 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(description = "로그인을 위한 요청 객체")
 public class LoginUserReq {
 
-    @NotBlank(message = "회원의 로그인Id를 입력해주세요.")
-    @ApiModelProperty(notes = "로그인 Id를 입력해 주세요.")
-    private String email;
+    @NotBlank(message = "회원의 이메일을 입력해주세요.")
+    @ApiModelProperty(notes = "로그인 이메일을 입력해 주세요.")
+    private String username;
 
     @NotBlank(message = "회원의 비밀번호를 입력해 주세요.")
     @ApiModelProperty(notes = "회원의 비밀번호를 입력해 주세요.")

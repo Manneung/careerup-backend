@@ -43,34 +43,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .formLogin().disable()
-                .httpBasic().disable()
+
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
-                .and()
 
-                .headers().frameOptions().sameOrigin()
+                // enable h2-console
                 .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
 
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
+                .and()
                 .authorizeRequests()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v3/api-docs").permitAll()
-
                 .antMatchers("/image/**").permitAll()
                 .antMatchers("/test/**").permitAll()
 
                 //일단 jwt 인증 풀어둠
-                .antMatchers("/map/**").permitAll()
-                .antMatchers("/item/**").permitAll()
-                .antMatchers("/user/**").permitAll()
-
+//                .antMatchers("/map/**").permitAll()
+//                .antMatchers("/item/**").permitAll()
+                .antMatchers("/user/signup").permitAll()
+                .antMatchers("/user/login").permitAll()
                 .anyRequest().authenticated() //위의 api가 아닌 경로는 모두 jwt 토큰 인증을 해야 함
+
+
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider))
 
