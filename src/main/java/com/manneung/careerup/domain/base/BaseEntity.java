@@ -2,6 +2,7 @@ package com.manneung.careerup.domain.base;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -28,7 +29,10 @@ public class BaseEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+
     //@Column(nullable = false)
+    @Column()
+    @ColumnDefault("A")
     private String status; //protected, setter 필요
 
 

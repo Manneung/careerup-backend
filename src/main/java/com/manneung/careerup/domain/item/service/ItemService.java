@@ -27,6 +27,7 @@ public class ItemService {
 
 
 
+    //아이템을 생성
     public boolean createItems(int mapIdx, List<PostItemReq> items) {
         //순서가 바뀐 상태의 item리스트를 받아옴
         for(PostItemReq postItemReq : items) {
@@ -47,6 +48,8 @@ public class ItemService {
     }
 
 
+
+    //간략하게 아이템 리스트 보여주기
     public List<GetItemRes> searchItemListSimple(int mapIdx){
         List<Item> findItemList = searchItemListByMapIdx(mapIdx);
         List<GetItemRes> getItemResList = new ArrayList<>();
@@ -60,6 +63,8 @@ public class ItemService {
     }
 
 
+
+    //자세하게 아이템 내용 보여주기
     public GetItemDetailRes showItemDetail(int itemIdx){
         Mapitem connection = mapitemRepository.findAllByItemIdx(itemIdx);
         Item findItem = itemRepository.findByItemIdx(itemIdx);
