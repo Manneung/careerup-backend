@@ -25,6 +25,7 @@ public class UserService {
 
 
     @Transactional
+    //지금 요청형식으로 반환중...!
     public SignUpUserReq signup(SignUpUserReq signupUserReq) {
         if (userRepository.findOneWithAuthoritiesByUsername(signupUserReq.getUsername()).orElse(null) != null) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다.");
@@ -38,6 +39,9 @@ public class UserService {
                 .username(signupUserReq.getUsername())
                 .password(passwordEncoder.encode(signupUserReq.getPassword()))
                 .nickname(signupUserReq.getNickname())
+                .name(signupUserReq.getName())
+                .birth(signupUserReq.getBirth())
+                .phone(signupUserReq.getPhone())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
