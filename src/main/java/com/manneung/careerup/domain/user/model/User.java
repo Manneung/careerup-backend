@@ -2,12 +2,16 @@ package com.manneung.careerup.domain.user.model;
 
 
 import com.manneung.careerup.domain.base.BaseEntity;
+import com.manneung.careerup.domain.map.model.Map;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,6 +45,13 @@ public class User extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
 
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_map",
+            joinColumns = {@JoinColumn(name = "user_idx", referencedColumnName = "user_idx")},
+            inverseJoinColumns = {@JoinColumn(name = "map_idx", referencedColumnName = "map_idx")})
+    private Set<Map> maps;
 
 
 }

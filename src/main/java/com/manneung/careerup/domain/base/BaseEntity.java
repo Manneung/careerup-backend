@@ -14,7 +14,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 
-@DynamicInsert
+
 @Getter
 @Setter
 @MappedSuperclass
@@ -32,7 +32,6 @@ public class BaseEntity {
 
     //@Column(nullable = false)
     @Column()
-    @ColumnDefault("A")
     private String status; //protected, setter 필요
 
 

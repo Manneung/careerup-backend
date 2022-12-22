@@ -1,10 +1,6 @@
 package com.manneung.careerup.domain.map.service;
 
 
-import com.manneung.careerup.domain.connection.mapitem.Mapitem;
-import com.manneung.careerup.domain.connection.mapitem.MapitemRepository;
-import com.manneung.careerup.domain.connection.usermap.Usermap;
-import com.manneung.careerup.domain.connection.usermap.UsermapRepository;
 import com.manneung.careerup.domain.item.model.dto.GetItemRes;
 import com.manneung.careerup.domain.item.model.dto.PostItemReq;
 import com.manneung.careerup.domain.item.service.ItemService;
@@ -27,9 +23,9 @@ public class MapService { //map, item
     private final MapRepository mapRepository;
     private final ItemService itemService;
 
-    private final UsermapRepository usermapRepository;
-
-    private final MapitemRepository mapitemRepository;
+//    private final UsermapRepository usermapRepository;
+//
+//    private final MapitemRepository mapitemRepository;
 
 
     //CRUD
@@ -50,9 +46,9 @@ public class MapService { //map, item
             newMap.setJob(postMapReq.getJob());
             mapRepository.save(newMap);
 
-            //유저 맵 커넥션 저장
-            Usermap usermap = new Usermap(findUser.getUserIdx(), newMap.getMapIdx());
-            usermapRepository.save(usermap);
+//            //유저 맵 커넥션 저장
+//            UserMap usermap = new UserMap(findUser.getUserIdx(), newMap.getMapIdx());
+//            usermapRepository.save(usermap);
 
 
             //아이템 정보 저장

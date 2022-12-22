@@ -1,9 +1,7 @@
 package com.manneung.careerup.domain.item.service;
 
 
-import com.manneung.careerup.domain.connection.mapitem.Mapitem;
-import com.manneung.careerup.domain.connection.mapitem.MapitemRepository;
-import com.manneung.careerup.domain.connection.usermap.UsermapRepository;
+
 import com.manneung.careerup.domain.item.model.Item;
 import com.manneung.careerup.domain.item.model.dto.GetItemDetailRes;
 import com.manneung.careerup.domain.item.model.dto.GetItemRes;
@@ -21,9 +19,9 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final UsermapRepository usermapRepository;
-
-    private final MapitemRepository mapitemRepository;
+//    private final UsermapRepository usermapRepository;
+//
+//    private final MapitemRepository mapitemRepository;
 
 
 
@@ -34,8 +32,8 @@ public class ItemService {
             Item toSave = postItemReq.toEntity(mapIdx, postItemReq);
             itemRepository.save(toSave);
 
-            Mapitem mapitem = new Mapitem(mapIdx, toSave.getItemIdx()); //커넥션 저장
-            mapitemRepository.save(mapitem);
+//            Mapitem mapitem = new Mapitem(mapIdx, toSave.getItemIdx()); //커넥션 저장
+//            mapitemRepository.save(mapitem);
         }
         return true;
     }
@@ -66,13 +64,13 @@ public class ItemService {
 
     //자세하게 아이템 내용 보여주기
     public GetItemDetailRes showItemDetail(int itemIdx){
-        Mapitem connection = mapitemRepository.findAllByItemIdx(itemIdx);
+//        Mapitem connection = mapitemRepository.findAllByItemIdx(itemIdx);
         Item findItem = itemRepository.findByItemIdx(itemIdx);
 
 
         if(findItem != null){
             GetItemDetailRes getItemDetailRes =
-                    new GetItemDetailRes(connection.getMapIdx(), findItem.getTitle(), findItem.getCategory());
+                    new GetItemDetailRes(findItem.getMapIdx(), findItem.getTitle(), findItem.getCategory());
             return getItemDetailRes;
         } else {
             return null;

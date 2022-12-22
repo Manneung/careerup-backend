@@ -4,10 +4,12 @@ package com.manneung.careerup.domain.item.model;
 import com.manneung.careerup.domain.base.BaseEntity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 
+@DynamicInsert
 @NoArgsConstructor
 //@AllArgsConstructor
 @Setter

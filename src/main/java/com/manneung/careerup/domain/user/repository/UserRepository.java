@@ -16,5 +16,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 //    boolean existsUserByEmail(String email);
 //    Optional<User> findByEmail(String email);
 
+
+    @EntityGraph(attributePaths = "maps")
+    Optional<User> findOneWithMapsByUsername(String username);
+
+
     User findUserByNickname(String nickname);
 }

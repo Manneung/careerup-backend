@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 import com.manneung.careerup.domain.base.BaseEntity;
 import com.manneung.careerup.domain.item.model.Item;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.List;
 
 
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
