@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/image/**").permitAll()
                 .antMatchers("/test/**").permitAll()
 
-                //일단 jwt 인증 풀어둠
+
 //                .antMatchers("/map/**").permitAll()
 //                .antMatchers("/item/**").permitAll()
                 .antMatchers("/user/signup").permitAll()

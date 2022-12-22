@@ -48,7 +48,10 @@ dependencies {
 	implementation 'com.google.apis:google-api-services-oauth2:v1-rev155-1.25.0'
 
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+	// query dsl
 	implementation 'com.querydsl:querydsl-jpa'
+	implementation "com.querydsl:querydsl-apt"
 
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'

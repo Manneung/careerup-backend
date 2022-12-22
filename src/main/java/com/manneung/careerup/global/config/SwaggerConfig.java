@@ -26,7 +26,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 @Configuration
 @EnableSwagger2
-public class    SwaggerConfig {
+public class SwaggerConfig {
     //jwt 토큰 인증을 위한 버튼까지 포함
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
