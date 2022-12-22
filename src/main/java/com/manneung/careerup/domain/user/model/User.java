@@ -53,6 +53,10 @@ public class User extends BaseEntity {
     /////user 추가 정보/////
     private String picture;
 
+    private String job;
+
+    private String address;
+
     private String univ;
 
     private String major1;

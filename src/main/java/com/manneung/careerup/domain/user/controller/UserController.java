@@ -1,7 +1,12 @@
 package com.manneung.careerup.domain.user.controller;
 
 
+import com.manneung.careerup.domain.base.BaseEntity;
+import com.manneung.careerup.domain.base.BaseResponse;
+import com.manneung.careerup.domain.base.BaseResponseStatus;
+import com.manneung.careerup.domain.user.model.dto.GetUserDetailRes;
 import com.manneung.careerup.domain.user.model.dto.LoginUserReq;
+import com.manneung.careerup.domain.user.model.dto.PatchUserReq;
 import com.manneung.careerup.domain.user.model.dto.SignUpUserReq;
 import com.manneung.careerup.domain.user.service.UserService;
 import com.manneung.careerup.global.jwt.JwtFilter;
@@ -60,22 +65,46 @@ public class UserController {
     }
 
 
+    @ApiOperation(value = "회원 가입(USER, ADMIN)", notes = "관리자 권한, 유저 권한")
+    @PostMapping("/signup-admin")
+    public ResponseEntity<SignUpUserReq> signupAdmin(@Valid @RequestBody SignUpUserReq signupUserReq){
+        return ResponseEntity.ok(userService.signupAdmin(signupUserReq));
+    }
+
+
+    @ApiOperation(value = "유저 정보 수정", notes = "유저 정보 수정")
+    @PatchMapping("/modify")
+    public ResponseEntity<BaseResponse<GetUserDetailRes>> modifyUserInfo(@RequestBody PatchUserReq patchUserReq) {
+        GetUserDetailRes getUserDetailRes = userService.modifyUserInfo(patchUserReq);
+        return ResponseEntity.ok(BaseResponse.create(BaseResponseStatus.SUCCESS, getUserDetailRes));
+    }
+
+
+    @ApiOperation(value = "내 정보 전부 불러오기", notes = "내 정보 전부 불러오기")
+    @GetMapping("")
+    public ResponseEntity<BaseResponse<GetUserDetailRes>> getUserInfo() {
+        GetUserDetailRes getUserDetailRes = userService.getUserInfo();
+        return ResponseEntity.ok(BaseResponse.create(BaseResponseStatus.SUCCESS, getUserDetailRes));
+    }
 
 
 
     @ApiOperation(value = "USER, ADMIN 권한 접근 가능 api", notes = "USER, ADMIN 권한 접근 가능 api")
-    @GetMapping("")
+    @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<SignUpUserReq> getMyUserInfo() {
+    public ResponseEntity<SignUpUserReq> getMyUserWithAuthorities() {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities());
     }
 
     @ApiOperation(value = "ADMIN 권한 접근 가능 api", notes = "ADMIN 권한 접근 가능 api")
-    @GetMapping("/{username}")
+    @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<SignUpUserReq> getUserInfo(@PathVariable String username) {
+    public ResponseEntity<SignUpUserReq> getUserWithAuthorities(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserWithAuthorities(username));
     }
+
+
+
 
 
 }
