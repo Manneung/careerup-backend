@@ -61,6 +61,10 @@ public class UserController {
     @PostMapping("/signup")
     //현재 요청형식으로 반환 중
     public ResponseEntity<SignUpUserReq> signup(@Valid @RequestBody SignUpUserReq signupUserReq) {
+
+
+
+
         return ResponseEntity.ok(userService.signup(signupUserReq));
     }
 

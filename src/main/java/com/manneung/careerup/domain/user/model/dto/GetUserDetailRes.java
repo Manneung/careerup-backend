@@ -4,9 +4,6 @@ package com.manneung.careerup.domain.user.model.dto;
 import com.manneung.careerup.domain.user.model.User;
 import lombok.*;
 
-import javax.persistence.Column;
-
-
 
 @Builder
 @AllArgsConstructor
@@ -48,9 +45,9 @@ public class GetUserDetailRes {
     private String interestField3;
 
 
-    public static GetUserDetailRes toGetUserDetailRes(User user){
+    public static GetUserDetailRes from(User user){
         return GetUserDetailRes.builder()
-                .username(user.getUsername())
+                .username(user.getUsername()) //이메일
                 .name(user.getName())
                 .birth(user.getBirth())
                 .nickname(user.getNickname())

@@ -44,10 +44,10 @@ public class UserService {
         User user = User.builder()
                 .username(signupUserReq.getUsername())
                 .password(passwordEncoder.encode(signupUserReq.getPassword()))
-                .nickname(signupUserReq.getNickname())
+                //.nickname(signupUserReq.getNickname())
                 .name(signupUserReq.getName())
-                .birth(signupUserReq.getBirth())
-                .phone(signupUserReq.getPhone())
+                //.birth(signupUserReq.getBirth())
+                //.phone(signupUserReq.getPhone())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
@@ -70,10 +70,10 @@ public class UserService {
         User user = User.builder()
                 .username(signupUserReq.getUsername())
                 .password(passwordEncoder.encode(signupUserReq.getPassword()))
-                .nickname(signupUserReq.getNickname())
+                //.nickname(signupUserReq.getNickname())
                 .name(signupUserReq.getName())
-                .birth(signupUserReq.getBirth())
-                .phone(signupUserReq.getPhone())
+                //.birth(signupUserReq.getBirth())
+                //.phone(signupUserReq.getPhone())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
@@ -105,6 +105,8 @@ public class UserService {
             user.setNickname(patchUserReq.getNickname());
         if(patchUserReq.getPhone() != null)
             user.setPhone(patchUserReq.getPhone());
+        if(patchUserReq.getBirth() != null)
+            user.setBirth(patchUserReq.getBirth());
         if(patchUserReq.getPicture() != null)
             user.setPicture(patchUserReq.getPicture());
         if(patchUserReq.getJob() != null)
@@ -127,7 +129,7 @@ public class UserService {
         //DB에 바뀐 정보 저장
         userRepository.save(user);
 
-        return GetUserDetailRes.toGetUserDetailRes(user);
+        return GetUserDetailRes.from(user);
     }
 
     public GetUserDetailRes getUserInfo() {
@@ -135,7 +137,7 @@ public class UserService {
         User user = findNowLoginUser();
 
         if(user != null){
-            return GetUserDetailRes.toGetUserDetailRes(user);
+            return GetUserDetailRes.from(user);
         } else {
             return null;
         }

@@ -11,6 +11,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class SignUpUserRes {
+    //안 씀
     private String email;
-    //private String accessToken;
 }

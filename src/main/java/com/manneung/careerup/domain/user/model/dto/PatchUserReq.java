@@ -21,6 +21,9 @@ public class PatchUserReq {
 
     private String phone;
 
+    private String birth;
+
+
 
     //추가 정보 중 수정
     private String picture;
