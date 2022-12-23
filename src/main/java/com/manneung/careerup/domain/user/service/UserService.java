@@ -4,6 +4,7 @@ package com.manneung.careerup.domain.user.service;
 import com.manneung.careerup.domain.user.model.Authority;
 import com.manneung.careerup.domain.user.model.User;
 import com.manneung.careerup.domain.user.model.dto.GetUserDetailRes;
+import com.manneung.careerup.domain.user.model.dto.PasswordRes;
 import com.manneung.careerup.domain.user.model.dto.PatchUserReq;
 import com.manneung.careerup.domain.user.model.dto.SignUpUserReq;
 import com.manneung.careerup.domain.user.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Random;
 
 
 @Slf4j
@@ -141,5 +143,64 @@ public class UserService {
         } else {
             return null;
         }
+    }
+
+
+    //스프링시큐리티에선 비밀번호 암호화만 존재
+    //복호화가 있을 경우 보안상의 문제를 발생하기 때문
+    //그래서 임시 비밀번호를 발급 후
+    //로그인 해서 비밀번호 수정을 하는 방향을 개발..?
+    /**
+     * 비밀번호 찾기 -> 비밀번호 재설정
+     * 1. 이메일로 임시 비밀번호 발급
+     * 2. 이메일과 임시 비밀번호로 로그인
+     * 3. 토큰 인가 버튼에 등록
+     * 4. 새로운 비밀번호 등록
+     * 5. (선택) 다시 로그인되는지 확인까지 가능
+     * */
+
+
+    //문자열 난수 발생(알파벳 + 숫자)
+    public static String randomString() {
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        return generatedString;
+    }
+
+
+
+    public PasswordRes getTemporaryPassword(String email) {
+        String temporaryPassword = randomString();
+
+        User user = null;
+
+        if(userRepository.existsUserByUsername(email)){
+            user = userRepository.findUserByUsername(email);
+
+            user.setPassword(passwordEncoder.encode(temporaryPassword));
+
+            userRepository.save(user);
+
+            return new PasswordRes(temporaryPassword);
+        }
+
+        return null;
+    }
+
+    public PasswordRes setPassword(String newPassword) {
+        User user = findNowLoginUser();
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        return new PasswordRes(newPassword);
     }
 }
