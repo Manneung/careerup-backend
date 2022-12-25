@@ -59,6 +59,8 @@ dependencies {
 
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.6.RELEASE', ext: 'pom'
 	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.1021'
+	implementation 'com.amazonaws:aws-java-sdk-bom:1.11.228'
+	implementation 'com.amazonaws:aws-java-sdk-s3'
 
 	//implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
@@ -88,9 +90,9 @@ dependencies {
 	implementation "io.swagger:swagger-annotations:1.5.21"
 	implementation "io.swagger:swagger-models:1.5.21"
 
-
-
 	implementation "com.google.guava:guava:24.0-jre"
+
+
 }
 
 tasks.named('test') {

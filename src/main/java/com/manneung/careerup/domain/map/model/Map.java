@@ -1,15 +1,12 @@
 package com.manneung.careerup.domain.map.model;
 
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.manneung.careerup.domain.base.BaseEntity;
-import com.manneung.careerup.domain.item.model.Item;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.List;
 
 
 @DynamicInsert
@@ -30,13 +27,10 @@ public class Map extends BaseEntity {
     private int userIdx;
 
     @Column()
-    private String nickname;
-
-    @Column()
     private String title;
 
     @Column(nullable = false)
-    private String job;
+    private String career; //희망 직무
 
 
 

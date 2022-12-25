@@ -6,6 +6,7 @@ import com.manneung.careerup.domain.item.model.Item;
 import com.manneung.careerup.domain.item.model.dto.GetItemDetailRes;
 import com.manneung.careerup.domain.item.model.dto.GetItemRes;
 import com.manneung.careerup.domain.item.model.dto.PostItemReq;
+import com.manneung.careerup.domain.item.model.dto.PostItemRes;
 import com.manneung.careerup.domain.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,24 +20,27 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-//    private final UsermapRepository usermapRepository;
-//
-//    private final MapitemRepository mapitemRepository;
 
+
+
+    //활동 하나 생성
+//    public PostItemRes createItem(int mapIdx, PostItemReq postItemReq) {
+//
+//    }
 
 
     //아이템을 생성
-    public boolean createItems(int mapIdx, List<PostItemReq> items) {
-        //순서가 바뀐 상태의 item리스트를 받아옴
-        for(PostItemReq postItemReq : items) {
-            Item toSave = postItemReq.toEntity(mapIdx, postItemReq);
-            itemRepository.save(toSave);
-
-//            Mapitem mapitem = new Mapitem(mapIdx, toSave.getItemIdx()); //커넥션 저장
-//            mapitemRepository.save(mapitem);
-        }
-        return true;
-    }
+//    public boolean createItems(int mapIdx, List<PostItemReq> items) {
+//        //순서가 바뀐 상태의 item리스트를 받아옴
+//        for(PostItemReq postItemReq : items) {
+//            Item toSave = postItemReq.toEntity(mapIdx, postItemReq);
+//            itemRepository.save(toSave);
+//
+////            Mapitem mapitem = new Mapitem(mapIdx, toSave.getItemIdx()); //커넥션 저장
+////            mapitemRepository.save(mapitem);
+//        }
+//        return true;
+//    }
 
 
 
@@ -76,6 +80,7 @@ public class ItemService {
             return null;
         }
     }
+
 
 
     //    public GetItemDetailRes showItemDetail(int itemIdx){

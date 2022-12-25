@@ -107,8 +107,8 @@ public class UserService {
             user.setNickname(patchUserReq.getNickname());
         if(patchUserReq.getPhone() != null)
             user.setPhone(patchUserReq.getPhone());
-        if(patchUserReq.getBirth() != null)
-            user.setBirth(patchUserReq.getBirth());
+        if(patchUserReq.getAge() != null)
+            user.setAge(patchUserReq.getAge());
         if(patchUserReq.getPicture() != null)
             user.setPicture(patchUserReq.getPicture());
         if(patchUserReq.getJob() != null)

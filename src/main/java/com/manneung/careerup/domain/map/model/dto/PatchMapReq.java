@@ -14,8 +14,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PatchMapReq {
+    //맵 수정
 
+    //맵 정보
     private String title;
 
+    private String career;
 
 }

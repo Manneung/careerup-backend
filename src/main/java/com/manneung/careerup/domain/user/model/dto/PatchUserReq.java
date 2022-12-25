@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +19,7 @@ public class PatchUserReq {
 
     private String phone;
 
-    private String birth;
+    private String age;
 
 
 

@@ -2,16 +2,11 @@ package com.manneung.careerup.domain.user.model;
 
 
 import com.manneung.careerup.domain.base.BaseEntity;
-import com.manneung.careerup.domain.map.model.Map;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @DynamicInsert
@@ -38,19 +33,19 @@ public class User extends BaseEntity {
 
     private String name;
 
-    private String birth;
-
-    @Column(nullable = false)
-    private String nickname;
-
-    private String phone;
-
     @Column(name = "activated")
     private boolean activated;
 
 
 
     /////user 추가 정보/////
+    private String age;
+
+    @Column(nullable = false)
+    private String nickname;
+
+    private String phone;
+
     private String picture;
 
     private String job;

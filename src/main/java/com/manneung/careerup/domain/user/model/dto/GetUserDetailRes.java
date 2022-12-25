@@ -18,7 +18,7 @@ public class GetUserDetailRes {
 
     private String name;
 
-    private String birth;
+    private String age;
 
     private String nickname;
 
@@ -49,7 +49,7 @@ public class GetUserDetailRes {
         return GetUserDetailRes.builder()
                 .username(user.getUsername()) //이메일
                 .name(user.getName())
-                .birth(user.getBirth())
+                .age(user.getAge())
                 .nickname(user.getNickname())
                 .phone(user.getPhone())
                 .picture(user.getPicture())

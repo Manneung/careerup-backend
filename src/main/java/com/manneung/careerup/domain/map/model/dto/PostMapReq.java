@@ -1,23 +1,25 @@
 package com.manneung.careerup.domain.map.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.manneung.careerup.domain.item.model.dto.PostItemReq;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
-@JsonPropertyOrder({"nickname", "title", "job", "itemList"})
 public class PostMapReq {
+    //맵 작성
 
-    //private Integer userIdx;
-    private String nickname;
+    //맵 정보
     private String title;
-    private String job;
-    private List<PostItemReq> itemList;
+    private String career;
+
 
 }

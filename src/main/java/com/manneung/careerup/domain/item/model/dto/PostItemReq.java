@@ -17,14 +17,14 @@ public class PostItemReq {
     private int sequence;
 
 
-    public Item toEntity(int mapIdx, PostItemReq postItemReq) {
-        return Item.builder()
-                .mapIdx(mapIdx)
-                .title(postItemReq.getTitle())
-                .category(postItemReq.getCategory())
-                .sequence(postItemReq.getSequence())
-                //.status("A")
-                .build();
-    }
+//    public Item toEntity(int mapIdx, PostItemReq postItemReq) {
+//        return Item.builder()
+//                .mapIdx(mapIdx)
+//                .title(postItemReq.getTitle())
+//                .category(postItemReq.getCategory())
+//                .sequence(postItemReq.getSequence())
+//                //.status("A")
+//                .build();
+//    }
 
 }

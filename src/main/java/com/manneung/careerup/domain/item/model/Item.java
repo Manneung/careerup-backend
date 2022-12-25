@@ -24,39 +24,25 @@ public class Item extends BaseEntity {
     @Column(name = "item_idx")
     private int itemIdx;
 
-
+    //아이템 기본 정보
     @Column(name = "map_idx")
     private int mapIdx;
-
-    private String title;
-
-    //@Enumerated(EnumType.STRING)
-    private String category; //활동 카테고리
-
     private int sequence; //순서 컬럼
 
 
+    //활동 내용 정보들
+    private String title;
+
+    private String category; //활동 카테고리
 
 
 
 
-    @Builder
-    public Item(int mapIdx, String title, String category, int sequence){
-        this.mapIdx = mapIdx;
-        this.title = title;
-        this.category = category;
-        this.sequence = sequence;
-        //this.status = status;
-    }
 
-    public Item toEntity() {
-        return Item.builder()
-                .mapIdx(mapIdx)
-                .title(title)
-                .category(category)
-                .sequence(sequence)
-                //.status("A")
-                .build();
-    }
+
+
+
+
+
 
 }

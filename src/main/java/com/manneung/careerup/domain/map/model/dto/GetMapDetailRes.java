@@ -15,9 +15,21 @@ import java.util.List;
 @Setter
 @Getter
 public class GetMapDetailRes {
+    //커리어맵 안에서 전부 보여줄 때
 
     private int mapIdx;
-    private String nickname;
+
+    //내 정보
+    private String name;
+
+    private String age;
+
+    private String job;
+
+    //맵 정보
+    private String career;
+
+    //아이템 정보
     private List<GetItemRes> itemList;
 
 }
