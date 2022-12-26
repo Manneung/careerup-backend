@@ -22,25 +22,39 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
 
+    public GetItemDetailRes createItem(int mapIdx, PostItemReq postItemReq){
+        Item newItem = new Item();
 
-    //활동 하나 생성
-//    public PostItemRes createItem(int mapIdx, PostItemReq postItemReq) {
-//
-//    }
+        //아이템 내용
+        newItem.setMapIdx(mapIdx);
+        newItem.setSequence(postItemReq.getSequence());
+        newItem.setCategory(postItemReq.getCategory());
+        newItem.setInstitution(postItemReq.getInstitution());
+        newItem.setPeriod(postItemReq.getPeriod());
+        newItem.setAcquisition(postItemReq.getAcquisition());
+        newItem.setField(postItemReq.getField());
+        newItem.setRole(postItemReq.getRole());
+        newItem.setContent(postItemReq.getContent());
+        newItem.setRealization(postItemReq.getRealization());
+
+        itemRepository.save(newItem);
+
+        return GetItemDetailRes.from(newItem);
+    }
 
 
-    //아이템을 생성
-//    public boolean createItems(int mapIdx, List<PostItemReq> items) {
-//        //순서가 바뀐 상태의 item리스트를 받아옴
-//        for(PostItemReq postItemReq : items) {
-//            Item toSave = postItemReq.toEntity(mapIdx, postItemReq);
-//            itemRepository.save(toSave);
-//
-////            Mapitem mapitem = new Mapitem(mapIdx, toSave.getItemIdx()); //커넥션 저장
-////            mapitemRepository.save(mapitem);
-//        }
-//        return true;
-//    }
+
+    //자세하게 아이템 내용 보여주기
+    public GetItemDetailRes showItemDetail(int itemIdx){
+
+        Item findItem = itemRepository.findByItemIdx(itemIdx);
+
+        if(findItem != null){
+            return GetItemDetailRes.from(findItem);
+        } else {
+            return null;
+        }
+    }
 
 
 
@@ -51,7 +65,7 @@ public class ItemService {
 
 
 
-    //간략하게 아이템 리스트 보여주기
+    //간략하게 아이템 리스트 보여주기(커리어맵에서 옆에 제목으로만 보이는 것)
     public List<GetItemRes> searchItemListSimple(int mapIdx){
         List<Item> findItemList = searchItemListByMapIdx(mapIdx);
         List<GetItemRes> getItemResList = new ArrayList<>();
@@ -65,21 +79,6 @@ public class ItemService {
     }
 
 
-
-    //자세하게 아이템 내용 보여주기
-    public GetItemDetailRes showItemDetail(int itemIdx){
-//        Mapitem connection = mapitemRepository.findAllByItemIdx(itemIdx);
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-
-        if(findItem != null){
-            GetItemDetailRes getItemDetailRes =
-                    new GetItemDetailRes(findItem.getMapIdx(), findItem.getTitle(), findItem.getCategory());
-            return getItemDetailRes;
-        } else {
-            return null;
-        }
-    }
 
 
 

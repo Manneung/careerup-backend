@@ -1,21 +1,47 @@
 package com.manneung.careerup.domain.item.model.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-
+import com.manneung.careerup.domain.item.model.Item;
+import lombok.*;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
+@Builder
 public class GetItemDetailRes {
-    private int mapIdx;
-    private String title;
+
     private String category;
+
+    private String title;
+
+    private String institution; //기관
+
+    private String period;
+
+    private String acquisition; //취득일
+
+    private String field; //분야, 주제
+
+    private String role; //맡은 역할
+
+    private String content; //활동 내용
+
+    private String realization; //느낀 점
+
+    public static GetItemDetailRes from(Item item){
+        return GetItemDetailRes.builder()
+                .category(item.getCategory())
+                .title(item.getTitle())
+                .institution(item.getInstitution())
+                .period(item.getPeriod())
+                .acquisition(item.getAcquisition())
+                .field(item.getField())
+                .role(item.getRole())
+                .content(item.getContent())
+                .realization(item.getRealization())
+                .build();
+    }
 
 }
