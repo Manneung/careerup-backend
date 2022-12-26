@@ -103,18 +103,22 @@ public class UserService {
         User user = findNowLoginUser();
 
         //유저 정보 수정
+        if(patchUserReq.getAge() != null)
+            user.setAge(patchUserReq.getAge());
         if(patchUserReq.getNickname() != null)
             user.setNickname(patchUserReq.getNickname());
         if(patchUserReq.getPhone() != null)
             user.setPhone(patchUserReq.getPhone());
-        if(patchUserReq.getAge() != null)
-            user.setAge(patchUserReq.getAge());
         if(patchUserReq.getPicture() != null)
             user.setPicture(patchUserReq.getPicture());
         if(patchUserReq.getJob() != null)
             user.setJob(patchUserReq.getJob());
         if(patchUserReq.getAddress() != null)
             user.setAddress(patchUserReq.getAddress());
+
+
+        if(patchUserReq.getLink() != null)
+            user.setLink(patchUserReq.getLink());
         if(patchUserReq.getUniv() != null)
             user.setUniv(patchUserReq.getUniv());
         if(patchUserReq.getMajor1() != null)

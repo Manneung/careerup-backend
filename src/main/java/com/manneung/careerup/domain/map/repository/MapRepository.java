@@ -12,6 +12,6 @@ public interface MapRepository extends JpaRepository<Map, Integer> {
 
     List<Map> findAllByUserIdx(Integer userIdx);
     List<Map> findAllByTitleContaining(String title);
-    List<Map> findAllByJobContaining(String job);
+    //List<Map> findAllByJobContaining(String job);
     Map findByMapIdx(int mapIdx);
 }

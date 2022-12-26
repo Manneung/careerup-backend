@@ -91,9 +91,8 @@ public class MapController {
 
         if(title != null){
             getMapRes = mapService.searchMapsByTitle(title);
-        } else if(job != null){
-            getMapRes = mapService.searchMapsByJob(job);
         }
+
 
 
 
