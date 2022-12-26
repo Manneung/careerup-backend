@@ -33,15 +33,13 @@ public class User extends BaseEntity {
 
     private String name;
 
+
+    /////user 추가 정보/////
     @Column(name = "activated")
     private boolean activated;
 
-
-
-    /////user 추가 정보/////
     private String age;
 
-    @Column(nullable = false)
     private String nickname;
 
     private String phone;
@@ -51,6 +49,10 @@ public class User extends BaseEntity {
     private String job;
 
     private String address;
+
+
+    /////학교 및 포폴 정보/////
+    private String link;
 
     private String univ;
 

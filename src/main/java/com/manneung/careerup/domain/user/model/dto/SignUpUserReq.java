@@ -3,6 +3,7 @@ package com.manneung.careerup.domain.user.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.manneung.careerup.domain.user.model.User;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -21,14 +22,17 @@ public class SignUpUserReq {
 
     @NotNull
     @Size(min = 3, max = 50)
+    @ApiModelProperty(example = "test@gmail.com")
     private String username;  //이메일
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @Size(min = 3, max = 100)
+    @ApiModelProperty(example = "test1234")
     private String password;
 
     @NotNull
+    @ApiModelProperty(example = "이름")
     private String name;
 
 

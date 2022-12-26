@@ -12,19 +12,29 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PostItemReq {
-    private String title;
+    //아이템 생성
+    //mapIdx는 따로
+
+    private int sequence; //순서
+
     private String category;
-    private int sequence;
+
+    private String title;
+
+    private String institution; //기관
+
+    private String period;
+
+    private String acquisition; //취득일
+
+    private String field; //분야, 주제
+
+    private String role; //맡은 역할
+
+    private String content; //활동 내용
+
+    private String realization; //느낀 점
 
 
-//    public Item toEntity(int mapIdx, PostItemReq postItemReq) {
-//        return Item.builder()
-//                .mapIdx(mapIdx)
-//                .title(postItemReq.getTitle())
-//                .category(postItemReq.getCategory())
-//                .sequence(postItemReq.getSequence())
-//                //.status("A")
-//                .build();
-//    }
 
 }

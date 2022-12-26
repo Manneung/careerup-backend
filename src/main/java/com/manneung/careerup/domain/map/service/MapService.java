@@ -138,21 +138,21 @@ public class MapService { //map, item
         return null;
     }
 
-    public List<GetMapRes> searchMapsByJob(String job) {
-        List<GetMapRes> findMaps = new ArrayList<>();
-        List<Map> findMapList = mapRepository.findAllByJobContaining(job);
-
-        if(findMapList != null){
-            for(Map m : findMapList) {
-                if(m.getStatus().equals("A")){
-                    GetMapRes getMapRes = new GetMapRes(m.getMapIdx(), m.getTitle());
-                    findMaps.add(getMapRes);
-                }
-            }
-            return findMaps;
-        }
-        return null;
-    }
+//    public List<GetMapRes> searchMapsByJob(String job) {
+//        List<GetMapRes> findMaps = new ArrayList<>();
+//        List<Map> findMapList = mapRepository.findAllByJobContaining(job);
+//
+//        if(findMapList != null){
+//            for(Map m : findMapList) {
+//                if(m.getStatus().equals("A")){
+//                    GetMapRes getMapRes = new GetMapRes(m.getMapIdx(), m.getTitle());
+//                    findMaps.add(getMapRes);
+//                }
+//            }
+//            return findMaps;
+//        }
+//        return null;
+//    }
 
 
     ////////////////////////////////////////세부정보 조회////////////////////////////////////////////////

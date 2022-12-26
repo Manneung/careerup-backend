@@ -40,18 +40,13 @@ public class ItemController {
     }
 
 
-//    @ApiOperation(value = "활동 추가하기", notes = "활동 추가하기(+버튼 눌렀을 때 생성")
-//    @PostMapping("")
-//    public ResponseEntity<BaseResponse<PostItemRes>> createItem(int mapIdx, PostItemReq postItemReq){
-//        PostItemRes postItemRes = itemService.createItem(mapIdx, postItemReq);
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, postItemRes));
-//
-////        if(postItemRes == null){
-////            return ResponseEntity.ok(BaseResponse.create(ITEM_NOT_FOUND_IDX_ERROR));
-////        } else {
-////            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
-////        }
-//    }
+    @ApiOperation(value = "활동 추가하기", notes = "활동 추가하기(+버튼 눌렀을 때 생성")
+    @PostMapping("")
+    public ResponseEntity<BaseResponse<GetItemDetailRes>> createItem(int mapIdx, PostItemReq postItemReq){
+        GetItemDetailRes getItemDetailRes = itemService.createItem(mapIdx, postItemReq);
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
+
+    }
 
 
 
