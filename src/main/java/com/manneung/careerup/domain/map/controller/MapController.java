@@ -20,7 +20,7 @@ public class MapController {
     private final MapService mapService;
 
 
-    @ApiOperation(value = "커리어맵 생성(커리어맵, 아이템)", notes = "커리어맵 생성합니다")
+    @ApiOperation(value = "커리어맵 생성", notes = "커리어맵 생성합니다")
     @PostMapping("")
     public ResponseEntity<BaseResponse<PostMapRes>> createMap(@RequestBody PostMapReq postMapReq){
 
