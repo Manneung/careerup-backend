@@ -60,7 +60,7 @@ dependencies {
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.6.RELEASE', ext: 'pom'
 	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.1021'
 
-	//implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	implementation 'org.springframework.boot:spring-boot-starter-quartz'
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
