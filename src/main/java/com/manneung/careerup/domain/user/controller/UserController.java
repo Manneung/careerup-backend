@@ -9,6 +9,7 @@ import com.manneung.careerup.domain.user.service.UserService;
 import com.manneung.careerup.global.jwt.JwtFilter;
 import com.manneung.careerup.global.jwt.TokenProvider;
 import com.manneung.careerup.global.jwt.TokenRes;
+import com.manneung.careerup.global.s3.S3UploaderService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
-import static com.manneung.careerup.domain.base.BaseResponseStatus.USER_FAILED_TO_SET_PASSWORD;
-import static com.manneung.careerup.domain.base.BaseResponseStatus.USER_NOT_EXIST_EMAIL_ERROR;
+import java.io.IOException;
+
+import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 
 
 @RequiredArgsConstructor
@@ -37,6 +40,8 @@ public class UserController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    private final S3UploaderService s3UploaderService;
 
 
 
@@ -82,13 +87,33 @@ public class UserController {
     }
 
 
-
+    //유저 정보 수정, 비밀번호, 프로필 사진 등등 수정 api
     @ApiOperation(value = "유저 정보 수정", notes = "유저 정보 수정")
     @PatchMapping("/modify")
     public ResponseEntity<BaseResponse<GetUserDetailRes>> modifyUserInfo(@RequestBody PatchUserReq patchUserReq) {
         GetUserDetailRes getUserDetailRes = userService.modifyUserInfo(patchUserReq);
         return ResponseEntity.ok(BaseResponse.create(BaseResponseStatus.SUCCESS, getUserDetailRes));
     }
+
+
+    @ApiOperation(value = "프로필 이미지 설정", notes = "프로필 이미지")
+    @PatchMapping("/picture")
+    public ResponseEntity<BaseResponse<String>> setPicture(@RequestPart("data") MultipartFile multipartFile) throws IOException {
+
+        if(multipartFile != null){
+            String imageUrl = userService.setUserPicture(multipartFile);
+            return ResponseEntity.ok(BaseResponse.create(SUCCESS, imageUrl));
+        } else {
+            return ResponseEntity.ok(BaseResponse.create(USER_FAILED_TO_SET_PICTURE));
+        }
+    }
+
+    @PostMapping("/image-upload")
+    @ResponseBody
+    public String imageUpload(@RequestPart("data") MultipartFile multipartFile) throws IOException {
+        return s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
+    }
+
 
 
     @ApiOperation(value = "비밀번호 찾기(임시 비밀번호 발급하기)", notes = "비밀번호 찾기")
@@ -119,6 +144,8 @@ public class UserController {
 
 
 
+
+    //권한별 접근 가능 체크 api
     @ApiOperation(value = "USER, ADMIN 권한 접근 가능 api", notes = "USER, ADMIN 권한 접근 가능 api")
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")

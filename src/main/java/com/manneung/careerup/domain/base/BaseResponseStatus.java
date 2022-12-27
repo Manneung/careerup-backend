@@ -39,6 +39,7 @@ public enum BaseResponseStatus {
 
     USER_FAILED_TO_SET_PASSWORD("2009", "비밀번호 재설정에 실패했습니다."),
 
+    USER_FAILED_TO_SET_PICTURE("2010", "프로필 사진 설정에 실패했습니다."),
 
 
     /**
