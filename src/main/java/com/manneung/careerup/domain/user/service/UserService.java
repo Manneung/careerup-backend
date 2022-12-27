@@ -9,12 +9,15 @@ import com.manneung.careerup.domain.user.model.dto.PatchUserReq;
 import com.manneung.careerup.domain.user.model.dto.SignUpUserReq;
 import com.manneung.careerup.domain.user.repository.UserRepository;
 import com.manneung.careerup.global.jwt.SecurityUtil;
+import com.manneung.careerup.global.s3.S3UploaderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Random;
 
@@ -25,6 +28,9 @@ import java.util.Random;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final S3UploaderService s3UploaderService;
+
 
 
     public User findNowLoginUser(){
@@ -137,6 +143,20 @@ public class UserService {
 
         return GetUserDetailRes.from(user);
     }
+
+
+    @Transactional
+    public String setUserPicture(MultipartFile multipartFile) throws IOException {
+        User user = findNowLoginUser();
+
+        String imageUrl = s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
+
+        user.setPicture(imageUrl);
+        userRepository.save(user);
+
+        return imageUrl;
+    }
+
 
     public GetUserDetailRes getUserInfo() {
         //현재 로그인한 유저 불러오기
