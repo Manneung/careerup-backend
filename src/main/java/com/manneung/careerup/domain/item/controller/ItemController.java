@@ -7,13 +7,14 @@ import com.manneung.careerup.domain.item.model.dto.PostItemReq;
 import com.manneung.careerup.domain.item.model.dto.PostItemRes;
 import com.manneung.careerup.domain.item.service.ItemService;
 import com.manneung.careerup.domain.map.service.MapService;
+import com.manneung.careerup.global.s3.S3UploaderService;
 import io.swagger.annotations.ApiOperation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.ITEM_NOT_FOUND_IDX_ERROR;
 import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
@@ -24,6 +25,7 @@ import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
 @RequestMapping("/item")
 public class ItemController {
     private final ItemService itemService;
+    private final S3UploaderService s3UploaderService;
     private final MapService mapService;
 
 
@@ -37,6 +39,12 @@ public class ItemController {
         } else {
             return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
         }
+    }
+
+    @PostMapping("/image-upload")
+    @ResponseBody
+    public String imageUpload(@RequestPart("data") MultipartFile multipartFile) throws IOException {
+        return s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
     }
 
 
