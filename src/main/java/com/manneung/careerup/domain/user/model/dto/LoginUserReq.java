@@ -2,6 +2,7 @@ package com.manneung.careerup.domain.user.model.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,12 @@ public class LoginUserReq {
 
     @NotBlank(message = "회원의 이메일을 입력해주세요.")
     @ApiModelProperty(notes = "로그인 이메일을 입력해 주세요.")
+    @ApiParam(name = "이메일")
     private String username;
 
     @NotBlank(message = "회원의 비밀번호를 입력해 주세요.")
     @ApiModelProperty(notes = "회원의 비밀번호를 입력해 주세요.")
+    @ApiParam(name = "비밀번호")
     private String password;
 
 }

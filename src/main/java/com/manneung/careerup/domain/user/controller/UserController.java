@@ -9,6 +9,7 @@ import com.manneung.careerup.domain.user.service.UserService;
 import com.manneung.careerup.global.jwt.JwtFilter;
 import com.manneung.careerup.global.jwt.TokenProvider;
 import com.manneung.careerup.global.jwt.TokenRes;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +40,7 @@ public class UserController {
 
 
 
-    @ApiOperation(value = "회원 가입", notes = "회원 가입")
+    @ApiOperation(value = "회원 가입", notes = "authorities는 적지 않아도 됨")
     @PostMapping("/signup")
     //현재 요청형식으로 반환 중
     public ResponseEntity<SignUpUserReq> signup(@Valid @RequestBody SignUpUserReq signupUserReq) {
@@ -47,7 +48,7 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "회원 가입(ADMIN)", notes = "관리자 권한")
+    @ApiOperation(value = "회원 가입(ADMIN)", notes = "관리자 권한 계정 생성")
     @PostMapping("/signup-admin")
     public ResponseEntity<SignUpUserReq> signupAdmin(@Valid @RequestBody SignUpUserReq signupUserReq){
         return ResponseEntity.ok(userService.signupAdmin(signupUserReq));
@@ -128,6 +129,7 @@ public class UserController {
     @ApiOperation(value = "ADMIN 권한 접근 가능 api", notes = "ADMIN 권한 접근 가능 api")
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @ApiImplicitParam(name = "username", value = "이메일 입력하기")
     public ResponseEntity<SignUpUserReq> getUserWithAuthorities(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserWithAuthorities(username));
     }
