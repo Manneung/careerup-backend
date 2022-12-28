@@ -2,6 +2,7 @@ package com.manneung.careerup.domain.item.service;
 
 
 
+import com.manneung.careerup.domain.file.service.FileService;
 import com.manneung.careerup.domain.item.model.Item;
 import com.manneung.careerup.domain.item.model.dto.GetItemDetailRes;
 import com.manneung.careerup.domain.item.model.dto.GetItemRes;
@@ -20,6 +21,8 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+
+    private final FileService fileService;
 
 
     public GetItemDetailRes createItem(int mapIdx, PostItemReq postItemReq){
