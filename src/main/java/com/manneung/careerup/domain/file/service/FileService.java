@@ -32,6 +32,9 @@ public class FileService {
         return s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
     }
 
+
+
+    //fileType: "활동사진", "활동파일"
     //활동 사진 업로드
     public String itemPictureUpload(int itemIdx, MultipartFile multipartFile, String bucket, String dirName ) throws IOException {
         String fileName = s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
