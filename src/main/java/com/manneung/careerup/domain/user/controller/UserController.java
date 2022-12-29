@@ -48,34 +48,23 @@ public class UserController {
     @ApiOperation(value = "회원 가입", notes = "authorities는 적지 않아도 됨")
     @PostMapping("/signup")
     //현재 요청형식으로 반환 중
-    public ResponseEntity<SignUpUserReq> signup(@Valid @RequestBody SignUpUserReq signupUserReq) {
-        return ResponseEntity.ok(userService.signup(signupUserReq));
+    public ResponseEntity<BaseResponse<SignUpUserReq>> signup(@Valid @RequestBody SignUpUserReq signupUserReq) {
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, userService.signup(signupUserReq)));
     }
 
 
     @ApiOperation(value = "회원 가입(ADMIN)", notes = "관리자 권한 계정 생성")
     @PostMapping("/signup-admin")
-    public ResponseEntity<SignUpUserReq> signupAdmin(@Valid @RequestBody SignUpUserReq signupUserReq){
-        return ResponseEntity.ok(userService.signupAdmin(signupUserReq));
+    public ResponseEntity<BaseResponse<SignUpUserReq>> signupAdmin(@Valid @RequestBody SignUpUserReq signupUserReq){
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, userService.signupAdmin(signupUserReq)));
     }
 
 
     @ApiOperation(value = "회원 로그인", notes = "회원 로그인")
     @PostMapping("/login")
-    public ResponseEntity<TokenRes> login(@Valid @RequestBody LoginUserReq loginUserReq) {
-
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginUserReq.getUsername(), loginUserReq.getPassword());
-
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = tokenProvider.createToken(authentication);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-
-        return new ResponseEntity<>(new TokenRes(jwt), httpHeaders, HttpStatus.OK);
+    public ResponseEntity<BaseResponse<TokenRes>> login(@Valid @RequestBody LoginUserReq loginUserReq){
+        TokenRes tokenRes = userService.login(loginUserReq);
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS,tokenRes));
     }
 
 

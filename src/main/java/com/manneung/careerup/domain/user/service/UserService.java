@@ -3,15 +3,20 @@ package com.manneung.careerup.domain.user.service;
 
 import com.manneung.careerup.domain.user.model.Authority;
 import com.manneung.careerup.domain.user.model.User;
-import com.manneung.careerup.domain.user.model.dto.GetUserDetailRes;
-import com.manneung.careerup.domain.user.model.dto.PasswordRes;
-import com.manneung.careerup.domain.user.model.dto.PatchUserReq;
-import com.manneung.careerup.domain.user.model.dto.SignUpUserReq;
+import com.manneung.careerup.domain.user.model.dto.*;
 import com.manneung.careerup.domain.user.repository.UserRepository;
+import com.manneung.careerup.global.jwt.JwtFilter;
 import com.manneung.careerup.global.jwt.SecurityUtil;
+import com.manneung.careerup.global.jwt.TokenProvider;
+import com.manneung.careerup.global.jwt.TokenRes;
 import com.manneung.careerup.global.s3.S3UploaderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +33,8 @@ import java.util.Random;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final S3UploaderService s3UploaderService;
 
 
@@ -62,6 +68,25 @@ public class UserService {
 
         return SignUpUserReq.from(userRepository.save(user));
     }
+
+
+    @Transactional
+    public TokenRes login(LoginUserReq loginUserReq){
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(loginUserReq.getUsername(), loginUserReq.getPassword());
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.createToken(authentication);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+
+        return new TokenRes(jwt);
+    }
+
+
 
 
     @Transactional
