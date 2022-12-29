@@ -11,6 +11,7 @@ import lombok.*;
 @Getter
 @Builder
 public class GetCertificateRes {
+    //자격증 응답
 
     private String category;
 

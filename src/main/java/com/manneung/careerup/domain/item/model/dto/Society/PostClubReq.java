@@ -1,6 +1,5 @@
 package com.manneung.careerup.domain.item.model.dto.Society;
 
-import com.manneung.careerup.domain.item.model.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class PostSocietyReq {
-    //아이템 생성
-    //mapIdx는 따로
+public class PostClubReq {
+    //동아리 요청
 
     private String category;
 

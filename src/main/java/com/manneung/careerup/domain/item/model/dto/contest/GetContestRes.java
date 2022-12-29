@@ -11,6 +11,7 @@ import lombok.*;
 @Getter
 @Builder
 public class GetContestRes {
+    //공모전 응답
 
     private String category;
 

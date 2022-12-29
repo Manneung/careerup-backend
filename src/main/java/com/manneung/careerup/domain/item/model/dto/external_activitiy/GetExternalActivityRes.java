@@ -11,6 +11,7 @@ import lombok.*;
 @Getter
 @Builder
 public class GetExternalActivityRes {
+    //대외활동 응답
 
     private String category;
 

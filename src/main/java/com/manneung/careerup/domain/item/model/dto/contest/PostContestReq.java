@@ -1,6 +1,15 @@
 package com.manneung.careerup.domain.item.model.dto.contest;
 
+
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
 public class PostContestReq {
+    //공모전 요청
 
     private int sequence; //순서
 

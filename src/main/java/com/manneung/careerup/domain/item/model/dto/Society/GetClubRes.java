@@ -9,7 +9,9 @@ import lombok.*;
 @Setter
 @Getter
 @Builder
-public class GetSocietyRes {
+public class GetClubRes {
+    //동아리 응답
+
     private String category;
 
     private String title;
@@ -22,8 +24,8 @@ public class GetSocietyRes {
 
     private String realization; //느낀 점
 
-    public static GetSocietyRes from(Item item){
-        return GetSocietyRes.builder()
+    public static GetClubRes from(Item item){
+        return GetClubRes.builder()
                 .category(item.getCategory())
                 .title(item.getTitle())
                 .period(item.getPeriod())

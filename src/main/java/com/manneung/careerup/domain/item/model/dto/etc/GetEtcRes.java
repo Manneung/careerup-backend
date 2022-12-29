@@ -10,6 +10,8 @@ import lombok.*;
 @Getter
 @Builder
 public class GetEtcRes {
+    //기타 응답
+
     private String category;
 
     private String title;

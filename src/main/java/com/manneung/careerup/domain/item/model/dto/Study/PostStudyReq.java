@@ -12,8 +12,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PostStudyReq {
-    //아이템 생성
-    //mapIdx는 따로
+    //스터디 요청
 
     private String category;
 

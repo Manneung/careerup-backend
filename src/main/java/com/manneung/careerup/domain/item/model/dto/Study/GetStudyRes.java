@@ -11,6 +11,7 @@ import lombok.*;
 @Getter
 @Builder
 public class GetStudyRes {
+    //스터디 응답
 
     private String category;
 

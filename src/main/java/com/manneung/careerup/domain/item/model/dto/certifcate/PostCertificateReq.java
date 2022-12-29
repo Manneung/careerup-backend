@@ -1,6 +1,15 @@
 package com.manneung.careerup.domain.item.model.dto.certifcate;
 
+
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
 public class PostCertificateReq {
+    //자격증 요청
 
     private int sequence; //순서
 

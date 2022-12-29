@@ -1,6 +1,15 @@
 package com.manneung.careerup.domain.item.model.dto.external_activitiy;
 
+
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
 public class PostExternalActivityReq {
+    //대외활동 요청
 
     private int sequence; //순서
 
