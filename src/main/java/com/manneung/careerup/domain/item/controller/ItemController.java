@@ -2,6 +2,7 @@ package com.manneung.careerup.domain.item.controller;
 
 
 import com.manneung.careerup.domain.base.BaseResponse;
+import com.manneung.careerup.domain.file.service.FileService;
 import com.manneung.careerup.domain.item.model.dto.item.GetItemDetailRes;
 import com.manneung.careerup.domain.item.model.dto.item.PostItemReq;
 import com.manneung.careerup.domain.item.service.ItemService;
@@ -11,6 +12,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.ITEM_NOT_FOUND_IDX_ERROR;
 import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
@@ -21,8 +25,9 @@ import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
 @RequestMapping("/item")
 public class ItemController {
     private final ItemService itemService;
-    private final S3UploaderService s3UploaderService;
+
     private final MapService mapService;
+    private final FileService fileService;
 
 
     @ApiOperation(value = "itemIdx로 활동 상세 내용 보기", notes = "itemIdx로 활동 상세 내용 보기")
@@ -43,6 +48,16 @@ public class ItemController {
         GetItemDetailRes getItemDetailRes = itemService.createItem(mapIdx, postItemReq);
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
 
+    }
+
+
+    @ApiOperation(value = "아이템에 활동 사진 추가", notes = "아이템에 활동 사진 추가")
+    @PostMapping("/upload/{itemIdx}/picture")
+    public String itemPictureUpload(
+            @RequestPart("data") MultipartFile multipartFile,
+            @PathVariable int itemIdx) throws IOException {
+
+        return fileService.itemPictureUpload(itemIdx, multipartFile, "careerup-bucket", "image" );
     }
 
 
