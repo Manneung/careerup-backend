@@ -97,13 +97,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("/image-upload")
-    @ResponseBody
-    public String imageUpload(@RequestPart("data") MultipartFile multipartFile) throws IOException {
-        return s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
-    }
-
-
 
     @ApiOperation(value = "비밀번호 찾기(임시 비밀번호 발급하기)", notes = "비밀번호 찾기")
     @GetMapping("/password")

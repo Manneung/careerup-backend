@@ -6,6 +6,7 @@ import com.manneung.careerup.domain.user.model.dto.GetUserRes;
 import com.manneung.careerup.global.jwt.JwtFilter;
 
 import com.manneung.careerup.global.jwt.TokenProvider;
+import com.manneung.careerup.global.s3.S3UploaderService;
 import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+
+import java.io.IOException;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.FAIL;
 import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
@@ -31,6 +35,7 @@ public class TestController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder; //AuthenticationManagerBuilder 이건 만든 거 아님
+    private final S3UploaderService s3UploaderService;;
 
 
     @ApiOperation(value = "테스트 컨트롤러 성공 api", notes = "테스트 컨트롤러 성공 api")
@@ -39,6 +44,15 @@ public class TestController {
         TestRes testRes = new TestRes("test success api");
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, testRes));
     }
+
+
+    @PostMapping("/image-upload")
+    @ResponseBody
+    public String imageUpload(@RequestPart("data") MultipartFile multipartFile) throws IOException {
+        return s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
+    }
+
+
 
 
     @ApiOperation(value = "테스트 컨트롤러 에러 api", notes = "테스트 컨트롤러 에러 api")

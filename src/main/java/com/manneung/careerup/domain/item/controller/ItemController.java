@@ -41,17 +41,9 @@ public class ItemController {
         }
     }
 
-
-    @PostMapping("/image-upload")
-    @ResponseBody
-    public String imageUpload(@RequestPart("data") MultipartFile multipartFile) throws IOException {
-        return s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
-    }
-
-
-    @ApiOperation(value = "활동 추가하기", notes = "활동 추가하기(+버튼 눌렀을 때 생성")
+    @ApiOperation(value = "맵idx로 활동 추가하기", notes = "활동 추가하기(+버튼 눌렀을 때 생성")
     @PostMapping("")
-    public ResponseEntity<BaseResponse<GetItemDetailRes>> createItem(int mapIdx, PostItemReq postItemReq){
+    public ResponseEntity<BaseResponse<GetItemDetailRes>> createItem(@RequestParam int mapIdx, PostItemReq postItemReq){
         GetItemDetailRes getItemDetailRes = itemService.createItem(mapIdx, postItemReq);
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
 
