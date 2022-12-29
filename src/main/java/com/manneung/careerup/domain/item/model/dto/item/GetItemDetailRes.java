@@ -1,4 +1,4 @@
-package com.manneung.careerup.domain.item.model.dto;
+package com.manneung.careerup.domain.item.model.dto.item;
 
 
 import com.manneung.careerup.domain.item.model.Item;

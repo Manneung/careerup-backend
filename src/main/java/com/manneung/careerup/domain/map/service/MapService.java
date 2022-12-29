@@ -1,8 +1,7 @@
 package com.manneung.careerup.domain.map.service;
 
 
-import com.manneung.careerup.domain.item.model.dto.GetItemRes;
-import com.manneung.careerup.domain.item.model.dto.PostItemReq;
+import com.manneung.careerup.domain.item.model.dto.item.GetItemRes;
 import com.manneung.careerup.domain.item.service.ItemService;
 import com.manneung.careerup.domain.map.model.Map;
 import com.manneung.careerup.domain.map.model.dto.*;

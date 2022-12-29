@@ -4,10 +4,9 @@ package com.manneung.careerup.domain.item.service;
 
 import com.manneung.careerup.domain.file.service.FileService;
 import com.manneung.careerup.domain.item.model.Item;
-import com.manneung.careerup.domain.item.model.dto.GetItemDetailRes;
-import com.manneung.careerup.domain.item.model.dto.GetItemRes;
-import com.manneung.careerup.domain.item.model.dto.PostItemReq;
-import com.manneung.careerup.domain.item.model.dto.PostItemRes;
+import com.manneung.careerup.domain.item.model.dto.item.GetItemDetailRes;
+import com.manneung.careerup.domain.item.model.dto.item.GetItemRes;
+import com.manneung.careerup.domain.item.model.dto.item.PostItemReq;
 import com.manneung.careerup.domain.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

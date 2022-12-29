@@ -1,7 +1,7 @@
 package com.manneung.careerup.domain.map.model.dto;
 
 
-import com.manneung.careerup.domain.item.model.dto.GetItemRes;
+import com.manneung.careerup.domain.item.model.dto.item.GetItemRes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
