@@ -1,4 +1,4 @@
-package com.manneung.careerup.domain.item.model.dto.Society;
+package com.manneung.careerup.domain.item.model.dto.club;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +12,8 @@ import lombok.Setter;
 @Getter
 public class PostClubReq {
     //동아리 요청
+
+    private int sequence; //순서
 
     private String category;
 

@@ -13,6 +13,8 @@ import lombok.Setter;
 public class PostEtcReq {
     //기타 요청
 
+    private int sequence; //순서
+
     private String category;
 
     private String title;

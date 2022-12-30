@@ -4,6 +4,18 @@ package com.manneung.careerup.domain.item.service;
 
 import com.manneung.careerup.domain.file.service.FileService;
 import com.manneung.careerup.domain.item.model.Item;
+import com.manneung.careerup.domain.item.model.dto.Study.PostStudyReq;
+import com.manneung.careerup.domain.item.model.dto.certifcate.PostCertificateReq;
+import com.manneung.careerup.domain.item.model.dto.club.GetClubRes;
+import com.manneung.careerup.domain.item.model.dto.Study.GetStudyRes;
+import com.manneung.careerup.domain.item.model.dto.certifcate.GetCertificateRes;
+import com.manneung.careerup.domain.item.model.dto.club.PostClubReq;
+import com.manneung.careerup.domain.item.model.dto.contest.GetContestRes;
+import com.manneung.careerup.domain.item.model.dto.contest.PostContestReq;
+import com.manneung.careerup.domain.item.model.dto.etc.GetEtcRes;
+import com.manneung.careerup.domain.item.model.dto.etc.PostEtcReq;
+import com.manneung.careerup.domain.item.model.dto.external_activitiy.GetExternalActivityRes;
+import com.manneung.careerup.domain.item.model.dto.external_activitiy.PostExternalActivityReq;
 import com.manneung.careerup.domain.item.model.dto.item.GetItemDetailRes;
 import com.manneung.careerup.domain.item.model.dto.item.GetItemRes;
 import com.manneung.careerup.domain.item.model.dto.item.PostItemReq;
@@ -44,7 +56,108 @@ public class ItemService {
         return GetItemDetailRes.from(newItem);
     }
 
+    public GetCertificateRes createCertificate(int mapIdx, PostCertificateReq postCertificateReq){
+        Item newItem = new Item();
 
+        //아이템 내용
+        newItem.setMapIdx(mapIdx);
+        newItem.setTitle(postCertificateReq.getTitle());
+        newItem.setSequence(postCertificateReq.getSequence());
+        newItem.setCategory(postCertificateReq.getCategory());
+        newItem.setInstitution(postCertificateReq.getInstitution());
+        newItem.setPeriod(postCertificateReq.getPeriod());
+        newItem.setAcquisition(postCertificateReq.getAcquisition());
+        newItem.setContent(postCertificateReq.getContent());
+        newItem.setRealization(postCertificateReq.getRealization());
+
+        itemRepository.save(newItem);
+
+        return GetCertificateRes.from(newItem);
+    }
+    public GetClubRes createClub(int mapIdx, PostClubReq  postClubReq){
+        Item newItem = new Item();
+
+        //아이템 내용
+        newItem.setMapIdx(mapIdx);
+        newItem.setTitle(postClubReq.getTitle());
+        newItem.setSequence(postClubReq.getSequence());
+        newItem.setCategory(postClubReq.getCategory());
+        newItem.setPeriod(postClubReq.getPeriod());
+        newItem.setRole(postClubReq.getRole());
+        newItem.setContent(postClubReq.getContent());
+        newItem.setRealization(postClubReq.getRealization());
+
+        itemRepository.save(newItem);
+
+        return GetClubRes.from(newItem);
+    }
+    public GetContestRes createContest(int mapIdx, PostContestReq postContestReq){
+        Item newItem = new Item();
+
+        //아이템 내용
+        newItem.setMapIdx(mapIdx);
+        newItem.setTitle(postContestReq.getTitle());
+        newItem.setSequence(postContestReq.getSequence());
+        newItem.setCategory(postContestReq.getCategory());
+        newItem.setInstitution(postContestReq.getInstitution());
+        newItem.setField(postContestReq.getField());
+        newItem.setPeriod(postContestReq.getPeriod());
+        newItem.setContent(postContestReq.getContent());
+        newItem.setRealization(postContestReq.getRealization());
+
+        itemRepository.save(newItem);
+
+        return GetContestRes.from(newItem);
+    }
+    public GetEtcRes createEtc(int mapIdx, PostEtcReq postEtcReq){
+        Item newItem = new Item();
+
+        //아이템 내용
+        newItem.setMapIdx(mapIdx);
+        newItem.setSequence(postEtcReq.getSequence());
+        newItem.setCategory(postEtcReq.getCategory());
+        newItem.setPeriod(postEtcReq.getPeriod());
+        newItem.setRole(postEtcReq.getRole());
+        newItem.setContent(postEtcReq.getContent());
+        newItem.setRealization(postEtcReq.getRealization());
+
+        itemRepository.save(newItem);
+
+        return GetEtcRes.from(newItem);
+    }
+    public GetExternalActivityRes createExternalActivity(int mapIdx, PostExternalActivityReq postExternalActivityReq){
+        Item newItem = new Item();
+
+        //아이템 내용
+        newItem.setMapIdx(mapIdx);
+        newItem.setTitle(postExternalActivityReq.getTitle());
+        newItem.setSequence(postExternalActivityReq.getSequence());
+        newItem.setCategory(postExternalActivityReq.getCategory());
+        newItem.setInstitution(postExternalActivityReq.getInstitution());
+        newItem.setPeriod(postExternalActivityReq.getPeriod());
+        newItem.setContent(postExternalActivityReq.getContent());
+        newItem.setRealization(postExternalActivityReq.getRealization());
+
+        itemRepository.save(newItem);
+
+        return GetExternalActivityRes.from(newItem);
+    }
+    public GetStudyRes createStudy(int mapIdx, PostStudyReq postStudyReq){
+        Item newItem = new Item();
+
+        //아이템 내용
+        newItem.setMapIdx(mapIdx);
+        newItem.setTitle(postStudyReq.getTitle());
+        newItem.setSequence(postStudyReq.getSequence());
+        newItem.setCategory(postStudyReq.getCategory());
+        newItem.setPeriod(postStudyReq.getPeriod());
+        newItem.setContent(postStudyReq.getContent());
+        newItem.setRealization(postStudyReq.getRealization());
+
+        itemRepository.save(newItem);
+
+        return GetStudyRes.from(newItem);
+    }
 
     //자세하게 아이템 내용 보여주기
     public GetItemDetailRes showItemDetail(int itemIdx){
@@ -57,7 +170,6 @@ public class ItemService {
             return null;
         }
     }
-
 
 
     //아이템 리스트 조회(item테이블에 있는 map_idx를 이용해서 찾는 방법
@@ -81,6 +193,66 @@ public class ItemService {
     }
 
 
+    //자격증 내용 보여주기
+    public GetCertificateRes showCertificate(int itemIdx) {
+        Item findItem = itemRepository.findByItemIdx(itemIdx);
+
+        if (findItem != null) {
+            return GetCertificateRes.from(findItem);
+        } else {
+            return null;
+        }
+    }
+    //공모전 내용 보여주기
+    public GetContestRes showContest(int itemIdx) {
+        Item findItem = itemRepository.findByItemIdx(itemIdx);
+
+        if (findItem != null) {
+            return GetContestRes.from(findItem);
+        } else {
+            return null;
+        }
+    }
+    //기타 내용 보여주기
+    public GetEtcRes showEtc(int itemIdx) {
+        Item findItem = itemRepository.findByItemIdx(itemIdx);
+
+        if (findItem != null) {
+            return GetEtcRes.from(findItem);
+        } else {
+            return null;
+        }
+    }
+    //대외활동 내용 보여주기
+    public GetExternalActivityRes showExternalActivity(int itemIdx) {
+        Item findItem = itemRepository.findByItemIdx(itemIdx);
+
+        if (findItem != null) {
+            return GetExternalActivityRes.from(findItem);
+        } else {
+            return null;
+        }
+    }
+    //동아리 내용 보여주기
+    public GetClubRes showClub(int itemIdx) {
+        Item findItem = itemRepository.findByItemIdx(itemIdx);
+
+        if (findItem != null) {
+            return GetClubRes.from(findItem);
+        } else {
+            return null;
+        }
+    }
+    //스터디 내용 보여주기
+    public GetStudyRes showStudy(int itemIdx) {
+        Item findItem = itemRepository.findByItemIdx(itemIdx);
+
+        if (findItem != null) {
+            return GetStudyRes.from(findItem);
+        } else {
+            return null;
+        }
+    }
 
 
 
