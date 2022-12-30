@@ -26,6 +26,9 @@ public class Map extends BaseEntity {
     @Column(name = "user_idx")
     private int userIdx;
 
+    @Column(nullable = true)
+    private int job;
+
     @Column()
     private String title;
 
