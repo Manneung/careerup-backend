@@ -66,6 +66,7 @@ public class MapService { //map, item
         Map findMap = mapRepository.findByMapIdx(mapIdx);
 
         findMap.setTitle(patchMapReq.getTitle());
+        findMap.setCareer(patchMapReq.getCareer());
         mapRepository.save(findMap);
 
         PatchMapRes patchMapRes = new PatchMapRes(findMap.getMapIdx());
