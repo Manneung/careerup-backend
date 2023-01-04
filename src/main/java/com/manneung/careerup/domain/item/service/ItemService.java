@@ -4,6 +4,10 @@ package com.manneung.careerup.domain.item.service;
 
 import com.manneung.careerup.domain.file.service.FileService;
 import com.manneung.careerup.domain.item.model.Item;
+import com.manneung.careerup.domain.item.model.dto.contest.PatchContestReq;
+import com.manneung.careerup.domain.item.model.dto.etc.PatchEtcReq;
+import com.manneung.careerup.domain.item.model.dto.external_activitiy.PatchExternalActivityReq;
+import com.manneung.careerup.domain.item.model.dto.study.PatchStudyReq;
 import com.manneung.careerup.domain.item.model.dto.study.PostStudyReq;
 import com.manneung.careerup.domain.item.model.dto.certifcate.PostCertificateReq;
 import com.manneung.careerup.domain.item.model.dto.club.GetClubRes;
@@ -36,25 +40,25 @@ public class ItemService {
     private final FileService fileService;
 
 
-    public GetItemDetailRes createItem(int mapIdx, PostItemReq postItemReq){
-        Item newItem = new Item();
-
-        //아이템 내용
-        newItem.setMapIdx(mapIdx);
-        newItem.setSequence(postItemReq.getSequence());
-        newItem.setCategory(postItemReq.getCategory());
-        newItem.setInstitution(postItemReq.getInstitution());
-        newItem.setPeriod(postItemReq.getPeriod());
-        newItem.setAcquisition(postItemReq.getAcquisition());
-        newItem.setField(postItemReq.getField());
-        newItem.setRole(postItemReq.getRole());
-        newItem.setContent(postItemReq.getContent());
-        newItem.setRealization(postItemReq.getRealization());
-
-        itemRepository.save(newItem);
-
-        return GetItemDetailRes.from(newItem);
-    }
+//    public GetItemDetailRes createItem(int mapIdx, PostItemReq postItemReq){
+//        Item newItem = new Item();
+//
+//        //아이템 내용
+//        newItem.setMapIdx(mapIdx);
+//        newItem.setSequence(postItemReq.getSequence());
+//        newItem.setCategory(postItemReq.getCategory());
+//        newItem.setInstitution(postItemReq.getInstitution());
+//        newItem.setPeriod(postItemReq.getPeriod());
+//        newItem.setAcquisition(postItemReq.getAcquisition());
+//        newItem.setField(postItemReq.getField());
+//        newItem.setRole(postItemReq.getRole());
+//        newItem.setContent(postItemReq.getContent());
+//        newItem.setRealization(postItemReq.getRealization());
+//
+//        itemRepository.save(newItem);
+//
+//        return GetItemDetailRes.from(newItem);
+//    }
 
     public GetCertificateRes createCertificate(int mapIdx, PostCertificateReq postCertificateReq){
         Item newItem = new Item();
@@ -63,7 +67,8 @@ public class ItemService {
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postCertificateReq.getTitle());
         newItem.setSequence(postCertificateReq.getSequence());
-        newItem.setCategory(postCertificateReq.getCategory());
+        //newItem.setCategory(postCertificateReq.getCategory());
+        newItem.setCategory("자격증");
         newItem.setInstitution(postCertificateReq.getInstitution());
         newItem.setPeriod(postCertificateReq.getPeriod());
         newItem.setAcquisition(postCertificateReq.getAcquisition());
@@ -81,7 +86,8 @@ public class ItemService {
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postClubReq.getTitle());
         newItem.setSequence(postClubReq.getSequence());
-        newItem.setCategory(postClubReq.getCategory());
+        //newItem.setCategory(postClubReq.getCategory());
+        newItem.setCategory("동아리");
         newItem.setPeriod(postClubReq.getPeriod());
         newItem.setRole(postClubReq.getRole());
         newItem.setContent(postClubReq.getContent());
@@ -98,7 +104,8 @@ public class ItemService {
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postContestReq.getTitle());
         newItem.setSequence(postContestReq.getSequence());
-        newItem.setCategory(postContestReq.getCategory());
+        //newItem.setCategory(postContestReq.getCategory());
+        newItem.setCategory("공모전");
         newItem.setInstitution(postContestReq.getInstitution());
         newItem.setField(postContestReq.getField());
         newItem.setPeriod(postContestReq.getPeriod());
@@ -115,7 +122,8 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setSequence(postEtcReq.getSequence());
-        newItem.setCategory(postEtcReq.getCategory());
+        //newItem.setCategory(postEtcReq.getCategory());
+        newItem.setCategory("기타");
         newItem.setPeriod(postEtcReq.getPeriod());
         newItem.setRole(postEtcReq.getRole());
         newItem.setContent(postEtcReq.getContent());
@@ -132,7 +140,8 @@ public class ItemService {
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postExternalActivityReq.getTitle());
         newItem.setSequence(postExternalActivityReq.getSequence());
-        newItem.setCategory(postExternalActivityReq.getCategory());
+        //newItem.setCategory(postExternalActivityReq.getCategory());
+        newItem.setCategory("대외활동");
         newItem.setInstitution(postExternalActivityReq.getInstitution());
         newItem.setPeriod(postExternalActivityReq.getPeriod());
         newItem.setContent(postExternalActivityReq.getContent());
@@ -149,7 +158,8 @@ public class ItemService {
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postStudyReq.getTitle());
         newItem.setSequence(postStudyReq.getSequence());
-        newItem.setCategory(postStudyReq.getCategory());
+        //newItem.setCategory(postStudyReq.getCategory());
+        newItem.setCategory("스터디");
         newItem.setPeriod(postStudyReq.getPeriod());
         newItem.setContent(postStudyReq.getContent());
         newItem.setRealization(postStudyReq.getRealization());
@@ -158,6 +168,124 @@ public class ItemService {
 
         return GetStudyRes.from(newItem);
     }
+
+
+    public GetCertificateRes modifyCertificate(int itemIdx, PostItemReq postItemReq) {
+        Item item = itemRepository.findByItemIdx(itemIdx);
+
+        if(postItemReq.getTitle() != null)
+            item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getInstitution() != null)
+            item.setInstitution(postItemReq.getInstitution());
+        if(postItemReq.getPeriod() != null)
+            item.setPeriod(postItemReq.getPeriod());
+        if(postItemReq.getAcquisition() != null)
+            item.setAcquisition(postItemReq.getAcquisition());
+        if(postItemReq.getContent() != null)
+            item.setContent(postItemReq.getContent());
+        if(postItemReq.getRealization() != null)
+            item.setRealization(postItemReq.getRealization());
+
+        itemRepository.save(item);
+        return GetCertificateRes.from(item);
+    }
+
+    public GetClubRes modifyClub(int itemIdx,  PostItemReq postItemReq) {
+        Item item = itemRepository.findByItemIdx(itemIdx);
+
+        if(postItemReq.getTitle() != null)
+            item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getPeriod() != null)
+            item.setPeriod(postItemReq.getPeriod());
+        if(postItemReq.getRole() != null)
+            item.setRole(postItemReq.getRole());
+        if(postItemReq.getContent() != null)
+            item.setContent(postItemReq.getContent());
+        if(postItemReq.getRealization() != null)
+            item.setRealization(postItemReq.getRealization());
+
+        itemRepository.save(item);
+        return GetClubRes.from(item);
+    }
+
+    public GetContestRes modifyContest(int itemIdx,  PostItemReq postItemReq) {
+        Item item = itemRepository.findByItemIdx(itemIdx);
+
+        if(postItemReq.getTitle() != null)
+            item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getInstitution() != null)
+            item.setInstitution(postItemReq.getInstitution());
+        if(postItemReq.getPeriod() != null)
+            item.setPeriod(postItemReq.getPeriod());
+        if(postItemReq.getField() != null)
+            item.setField(postItemReq.getField());
+        if(postItemReq.getContent() != null)
+            item.setContent(postItemReq.getContent());
+        if(postItemReq.getRealization() != null)
+            item.setRealization(postItemReq.getRealization());
+
+        itemRepository.save(item);
+        return GetContestRes.from(item);
+    }
+
+    public GetEtcRes modifyEtc(int itemIdx,  PostItemReq postItemReq) {
+        Item item = itemRepository.findByItemIdx(itemIdx);
+
+        if(postItemReq.getTitle() != null)
+            item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getPeriod() != null)
+            item.setPeriod(postItemReq.getPeriod());
+        if(postItemReq.getRole() != null)
+            item.setRole(postItemReq.getRole());
+        if(postItemReq.getContent() != null)
+            item.setContent(postItemReq.getContent());
+        if(postItemReq.getRealization() != null)
+            item.setRealization(postItemReq.getRealization());
+
+        itemRepository.save(item);
+        return GetEtcRes.from(item);
+    }
+
+    public GetExternalActivityRes modifyExternalActivity(int itemIdx, PostItemReq postItemReq) {
+        Item item = itemRepository.findByItemIdx(itemIdx);
+
+        if(postItemReq.getTitle() != null)
+            item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getInstitution() != null)
+            item.setInstitution(postItemReq.getInstitution());
+        if(postItemReq.getPeriod() != null)
+            item.setPeriod(postItemReq.getPeriod());
+        if(postItemReq.getField() != null)
+            item.setField(postItemReq.getField());
+        if(postItemReq.getContent() != null)
+            item.setContent(postItemReq.getContent());
+        if(postItemReq.getRealization() != null)
+            item.setRealization(postItemReq.getRealization());
+
+        itemRepository.save(item);
+        return GetExternalActivityRes.from(item);
+    }
+
+    public GetStudyRes modifyStudy(int itemIdx, PostItemReq postItemReq) {
+        Item item = itemRepository.findByItemIdx(itemIdx);
+
+        if(postItemReq.getTitle() != null)
+            item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getPeriod() != null)
+            item.setPeriod(postItemReq.getPeriod());
+        if(postItemReq.getField() != null)
+            item.setField(postItemReq.getField());
+        if(postItemReq.getContent() != null)
+            item.setContent(postItemReq.getContent());
+        if(postItemReq.getRealization() != null)
+            item.setRealization(postItemReq.getRealization());
+
+        itemRepository.save(item);
+        return GetStudyRes.from(item);
+    }
+
+
+
 
     //자세하게 아이템 내용 보여주기
     public GetItemDetailRes showItemDetail(int itemIdx){
@@ -256,17 +384,7 @@ public class ItemService {
 
 
 
-    //    public GetItemDetailRes showItemDetail(int itemIdx){
-//        Item findItem = itemRepository.findByItemIdx(itemIdx);
-//
-//        if(findItem != null){
-//            GetItemDetailRes getItemDetailRes = new GetItemDetailRes(findItem.getMapIdx(), findItem.getTitle(), findItem.getCategory());
-//            return getItemDetailRes;
-//
-//        } else {
-//            return null;
-//        }
-//    }
+
 
 
 
