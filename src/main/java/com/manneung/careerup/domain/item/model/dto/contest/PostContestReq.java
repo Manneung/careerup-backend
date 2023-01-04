@@ -13,7 +13,7 @@ public class PostContestReq {
 
     private int sequence; //순서
 
-    private String category;
+    //private String category;
 
     private String title;
 
