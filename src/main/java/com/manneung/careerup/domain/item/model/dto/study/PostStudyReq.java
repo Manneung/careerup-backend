@@ -1,6 +1,5 @@
-package com.manneung.careerup.domain.item.model.dto.Study;
+package com.manneung.careerup.domain.item.model.dto.study;
 
-import com.manneung.careerup.domain.item.model.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

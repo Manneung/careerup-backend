@@ -63,7 +63,7 @@ public class MapController {
 
 
 
-    //닉네임 일치, 커리어맵 제목에 키워드 포함, --
+    //닉네임 일치, 커리어맵 제목에 키워드 포함,
     @ApiOperation(value = "닉네임으로 커리어맵 전부 찾기", notes = "닉네임으로 커리어맵을 전부 찾습니다.")
     @GetMapping("/list/{nickname}")
     public ResponseEntity<BaseResponse<List<GetMapRes>>> searchMapsByNickname(@PathVariable String nickname){
@@ -81,19 +81,16 @@ public class MapController {
     }
 
 
-    @ApiOperation(value = "제목, 직업으로 커리어맵 전부 찾기", notes = "제목, 직업으로 커리어맵 전부 찾기")
+    @ApiOperation(value = "제목으로 커리어맵 전부 찾기", notes = "제목으로 커리어맵 전부 찾기")
     @GetMapping("/list")
     public ResponseEntity<BaseResponse<List<GetMapRes>>> searchMaps(
-            @RequestParam(value = "title",required = false) String title,
-            @RequestParam(value = "job", required = false) String job
+            @RequestParam(value = "title",required = false) String title
     ){
         List<GetMapRes> getMapRes = null;
 
         if(title != null){
             getMapRes = mapService.searchMapsByTitle(title);
         }
-
-
 
 
         if(getMapRes == null){
@@ -106,8 +103,8 @@ public class MapController {
 
 
 
-    @ApiOperation(value = "커리어맵 idx로 맵의 간략한 정보를 출력", notes = "커리어맵 idx로 맵의 간략한 정보를 출력합니다.")
-    @GetMapping("{mapIdx}")
+    @ApiOperation(value = "커리어맵idx로 맵의 간략한 정보를 출력(아이템리스트 제목만 포함)", notes = "커리어맵 idx로 맵의 간략한 정보를 출력합니다.")
+    @GetMapping("/{mapIdx}")
     public ResponseEntity<BaseResponse<GetMapDetailRes>> searchMapDetail(@PathVariable int mapIdx){
         GetMapDetailRes getMapDetailRes = mapService.searchMapDetail(mapIdx);
 

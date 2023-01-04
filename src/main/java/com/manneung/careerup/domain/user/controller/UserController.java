@@ -45,7 +45,7 @@ public class UserController {
 
 
 
-    @ApiOperation(value = "회원 가입", notes = "authorities는 적지 않아도 됨")
+    @ApiOperation(value = "회원 가입(authorities는 적지 않아도 됨)", notes = "authorities는 적지 않아도 됨")
     @PostMapping("/signup")
     //현재 요청형식으로 반환 중
     public ResponseEntity<BaseResponse<SignUpUserReq>> signup(@Valid @RequestBody SignUpUserReq signupUserReq) {
@@ -128,14 +128,14 @@ public class UserController {
 
 
     //권한별 접근 가능 체크 api
-    @ApiOperation(value = "USER, ADMIN 권한 접근 가능 api", notes = "USER, ADMIN 권한 접근 가능 api")
+    @ApiOperation(value = "(잘 사용하지 않을 것 같은 느낌?)USER, ADMIN 권한 접근 가능 api", notes = "USER, ADMIN 권한 접근 가능 api")
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<SignUpUserReq> getMyUserWithAuthorities() {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities());
     }
 
-    @ApiOperation(value = "ADMIN 권한 접근 가능 api", notes = "ADMIN 권한 접근 가능 api")
+    @ApiOperation(value = "(잘 사용하지 않을 것 같은 느낌?)ADMIN 권한 접근 가능 api", notes = "ADMIN 권한 접근 가능 api")
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiImplicitParam(name = "username", value = "이메일 입력하기")

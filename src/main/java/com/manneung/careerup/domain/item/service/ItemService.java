@@ -4,10 +4,10 @@ package com.manneung.careerup.domain.item.service;
 
 import com.manneung.careerup.domain.file.service.FileService;
 import com.manneung.careerup.domain.item.model.Item;
-import com.manneung.careerup.domain.item.model.dto.Study.PostStudyReq;
+import com.manneung.careerup.domain.item.model.dto.study.PostStudyReq;
 import com.manneung.careerup.domain.item.model.dto.certifcate.PostCertificateReq;
 import com.manneung.careerup.domain.item.model.dto.club.GetClubRes;
-import com.manneung.careerup.domain.item.model.dto.Study.GetStudyRes;
+import com.manneung.careerup.domain.item.model.dto.study.GetStudyRes;
 import com.manneung.careerup.domain.item.model.dto.certifcate.GetCertificateRes;
 import com.manneung.careerup.domain.item.model.dto.club.PostClubReq;
 import com.manneung.careerup.domain.item.model.dto.contest.GetContestRes;

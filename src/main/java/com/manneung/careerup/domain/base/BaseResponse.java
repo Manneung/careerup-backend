@@ -21,7 +21,6 @@ public class BaseResponse<T> {
 
 
     public static <T> BaseResponse<T> create(BaseResponseStatus baseResponseStatus) {
-        //return new BaseResponse<>(code, message, null);
         return new BaseResponse<>(baseResponseStatus.getCode(), baseResponseStatus.getMessage(), null);
     }
     public static <T> BaseResponse<T> create(BaseResponseStatus baseResponseStatus, T result) {

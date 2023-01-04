@@ -29,7 +29,7 @@ public class GetMapDetailRes {
     //맵 정보
     private String career;
 
-    //아이템 정보
+    //아이템 정보(간략하게)
     private List<GetItemRes> itemList;
 
 }

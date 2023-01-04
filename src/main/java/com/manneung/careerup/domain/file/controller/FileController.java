@@ -17,7 +17,7 @@ public class FileController {
 
     private final FileService fileService;
 
-    @ApiOperation(value = "파일 한 개 업로드 테스트", notes = "파일 한 개 업로드 테스트")
+    @ApiOperation(value = "파일 한 개 업로드 테스트(사용x)", notes = "파일 한 개 업로드 테스트")
     @PostMapping("/upload")
     public String imageUpload(@RequestPart("data") MultipartFile multipartFile) throws IOException {
         return fileService.upload(multipartFile, "careerup-bucket", "image");
