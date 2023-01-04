@@ -7,6 +7,7 @@ import com.manneung.careerup.domain.item.model.Item;
 import com.manneung.careerup.domain.item.model.dto.contest.PatchContestReq;
 import com.manneung.careerup.domain.item.model.dto.etc.PatchEtcReq;
 import com.manneung.careerup.domain.item.model.dto.external_activitiy.PatchExternalActivityReq;
+import com.manneung.careerup.domain.item.model.dto.item.PatchSequenceReq;
 import com.manneung.careerup.domain.item.model.dto.study.PatchStudyReq;
 import com.manneung.careerup.domain.item.model.dto.study.PostStudyReq;
 import com.manneung.careerup.domain.item.model.dto.certifcate.PostCertificateReq;
@@ -285,6 +286,23 @@ public class ItemService {
     }
 
 
+    //맵 내 아이템 순서변경하기
+    public List<GetItemRes> changeItemSequence(int mapIdx, List<PatchSequenceReq> sequenceReqList) {
+        List<Item> items = itemRepository.findAllByMapIdx(mapIdx);
+
+        for(Item item : items){
+            for(PatchSequenceReq patchSequenceReq : sequenceReqList){
+                if(item.getItemIdx() == patchSequenceReq.getItemIdx()){
+                    item.setSequence(patchSequenceReq.getSequence());
+                }
+                itemRepository.save(item);
+            }
+        }
+
+        List<GetItemRes> getItemResList = searchItemListSimple(mapIdx);
+        return getItemResList;
+    }
+
 
 
     //자세하게 아이템 내용 보여주기
@@ -313,7 +331,7 @@ public class ItemService {
         List<GetItemRes> getItemResList = new ArrayList<>();
 
         for(Item i : findItemList){
-            GetItemRes getItemRes = new GetItemRes(i.getTitle(), i.getSequence());
+            GetItemRes getItemRes = new GetItemRes(i.getItemIdx(), i.getTitle(), i.getSequence());
             getItemResList.add(getItemRes);
         }
 
@@ -381,10 +399,6 @@ public class ItemService {
             return null;
         }
     }
-
-
-
-
 
 
 

@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class GetItemRes { //커리어맵에서 제목만 간단하게 보여줌
+    private int itemIdx;
     private String title;
     private int sequence;
 }

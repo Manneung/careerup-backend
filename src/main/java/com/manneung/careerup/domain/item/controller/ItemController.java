@@ -8,6 +8,8 @@ import com.manneung.careerup.domain.item.model.dto.club.PatchClubReq;
 import com.manneung.careerup.domain.item.model.dto.contest.PatchContestReq;
 import com.manneung.careerup.domain.item.model.dto.etc.PatchEtcReq;
 import com.manneung.careerup.domain.item.model.dto.external_activitiy.PatchExternalActivityReq;
+import com.manneung.careerup.domain.item.model.dto.item.GetItemRes;
+import com.manneung.careerup.domain.item.model.dto.item.PatchSequenceReq;
 import com.manneung.careerup.domain.item.model.dto.item.PostItemReq;
 import com.manneung.careerup.domain.item.model.dto.study.GetStudyRes;
 import com.manneung.careerup.domain.item.model.dto.study.PatchStudyReq;
@@ -29,6 +31,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.ITEM_NOT_FOUND_IDX_ERROR;
 import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
@@ -55,15 +59,6 @@ public class ItemController {
             return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
         }
     }
-
-
-
-//    @ApiOperation(value = "맵idx로 활동 추가하기(기본형태)", notes = "활동 추가하기(+버튼 눌렀을 때 생성")
-//    @PostMapping("")
-//    public ResponseEntity<BaseResponse<GetItemDetailRes>> createItem(@RequestParam int mapIdx, PostItemReq postItemReq){
-//        GetItemDetailRes getItemDetailRes = itemService.createItem(mapIdx, postItemReq);
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
-//    }
 
 
     //아이템 추가하기 api
@@ -112,8 +107,8 @@ public class ItemController {
 
 
 
-    //아이템 수정하기 api
-    @ApiOperation(value="맵idx로 자격증 내용만 수정하기(카테고리로 구분, 순서변경은 따로)", notes = "자격증 수정하기")
+    //아이템 내용만 수정하기 api
+    @ApiOperation(value="맵idx로 아이템 내용만 수정하기(카테고리로 구분, 순서변경은 따로)", notes = "아이템 수정하기")
     @PatchMapping("/{itemIdx}/modify")
     public ResponseEntity<BaseResponse<Object>> modifyItem(
             @PathVariable(name = "itemIdx") int itemIdx, @RequestBody PostItemReq postItemReq){
@@ -140,6 +135,18 @@ public class ItemController {
 
         return ResponseEntity.ok(BaseResponse.create(ITEM_NOT_FOUND_IDX_ERROR));
     }
+
+    @ApiOperation(value="맵idx로 아이템 순서 변경 ", notes = "맵idx로 아이템 순서 변경")
+    @PatchMapping("/{mapIdx}")
+    public ResponseEntity<BaseResponse<List<GetItemRes>>> showItemDetail(
+            @PathVariable(name = "mapIdx") int mapIdx, @RequestBody List<PatchSequenceReq> sequenceReqList){
+        List<GetItemRes> getItemResList = itemService.changeItemSequence(mapIdx, sequenceReqList);
+
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemResList));
+    }
+
+
+
 
 
 
@@ -184,10 +191,12 @@ public class ItemController {
 
 
 
-
-
-
-
+//    @ApiOperation(value = "맵idx로 활동 추가하기(기본형태)", notes = "활동 추가하기(+버튼 눌렀을 때 생성")
+//    @PostMapping("")
+//    public ResponseEntity<BaseResponse<GetItemDetailRes>> createItem(@RequestParam int mapIdx, PostItemReq postItemReq){
+//        GetItemDetailRes getItemDetailRes = itemService.createItem(mapIdx, postItemReq);
+//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
+//    }
 
 
 
