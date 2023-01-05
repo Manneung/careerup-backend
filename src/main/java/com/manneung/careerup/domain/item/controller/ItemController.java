@@ -146,6 +146,12 @@ public class ItemController {
     }
 
 
+    @DeleteMapping("/{itemIdx}")
+    public ResponseEntity<BaseResponse<String>> deleteItem(@PathVariable(name = "itemIdx") int itemIdx){
+        String result = itemService.deleteItem(itemIdx);
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, result));
+    }
+
 
 
 

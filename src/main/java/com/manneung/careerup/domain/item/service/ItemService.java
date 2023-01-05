@@ -305,6 +305,18 @@ public class ItemService {
 
 
 
+    public String deleteItem(int itemIdx) {
+        Item item = itemRepository.findByItemIdx(itemIdx);
+        itemRepository.delete(item);
+
+        if(itemRepository.findByItemIdx(itemIdx) == null){
+            return "성공적으로 삭제되었습니다";
+        } else {
+            return "활동이 삭제되지 않았습니다";
+        }
+    }
+
+
     //자세하게 아이템 내용 보여주기
     public GetItemDetailRes showItemDetail(int itemIdx){
 
@@ -337,6 +349,9 @@ public class ItemService {
 
         return getItemResList;
     }
+
+
+
 
 
     //자격증 내용 보여주기
@@ -399,7 +414,6 @@ public class ItemService {
             return null;
         }
     }
-
 
 
 }
