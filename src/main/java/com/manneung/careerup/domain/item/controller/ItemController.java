@@ -146,6 +146,7 @@ public class ItemController {
     }
 
 
+    @ApiOperation(value="아이템 idx로 삭제하기", notes = "아이템 idx로 삭제하기")
     @DeleteMapping("/{itemIdx}")
     public ResponseEntity<BaseResponse<String>> deleteItem(@PathVariable(name = "itemIdx") int itemIdx){
         String result = itemService.deleteItem(itemIdx);
