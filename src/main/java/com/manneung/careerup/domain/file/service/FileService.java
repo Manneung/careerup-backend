@@ -29,7 +29,7 @@ public class FileService {
 
     //파일 업로드
     public String upload(MultipartFile multipartFile, String bucket, String dirName ) throws IOException {
-        return s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
+        return s3UploaderService.upload(multipartFile, "careerup-bucket", dirName);
     }
 
 
@@ -37,7 +37,7 @@ public class FileService {
     //fileType: "활동사진", "활동파일"
     //활동 사진 업로드
     public String itemPictureUpload(int itemIdx, MultipartFile multipartFile, String bucket, String dirName ) throws IOException {
-        String fileName = s3UploaderService.upload(multipartFile, "careerup-bucket", "image");
+        String fileName = s3UploaderService.upload(multipartFile, "careerup-bucket", dirName);
 
         File newFile = new File();
         newFile.setItemIdx(itemIdx);
