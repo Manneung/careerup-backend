@@ -41,7 +41,8 @@ public class FileService {
 
         File newFile = new File();
         newFile.setItemIdx(itemIdx);
-        newFile.setFileType("활동사진");
+        if (dirName == "files") newFile.setFileType("활동파일");
+        else newFile.setFileType("활동사진");
         newFile.setFileName(fileName);
 
         fileRepository.save(newFile);
