@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,8 +45,7 @@ public class S3UploaderService {
     }
 
     public String upload(MultipartFile multipartFile, String bucket, String dirName) throws IOException {
-        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
-                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
+        File uploadFile = convertMultipartFileToFile(multipartFile);  // 파일 변환할 수 없으면 에러
 
         return upload(uploadFile, bucket, dirName);
     }
@@ -78,20 +78,29 @@ public class S3UploaderService {
      * @param multipartFile
      * 로컬에 파일 저장하기
      */
-    private Optional<File> convert(MultipartFile multipartFile) throws IOException {
-        if (multipartFile.isEmpty()) {
-            return Optional.empty();
-        }
 
-        String originalFilename = multipartFile.getOriginalFilename();
-        String storeFileName = createStoreFileName(originalFilename);
-
-        //파일 업로드
-        File file = new File(fileDir+storeFileName);
-        multipartFile.transferTo(file);
-
-        return Optional.of(file);
+    private File convertMultipartFileToFile(MultipartFile file) throws IOException {
+        File convFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
     }
+
+//    private Optional<File> convert(MultipartFile multipartFile) throws IOException {
+//        if (multipartFile.isEmpty()) {
+//            return Optional.empty();
+//        }
+//
+//        String originalFilename = multipartFile.getOriginalFilename();
+//        String storeFileName = createStoreFileName(originalFilename);
+//
+//        //파일 업로드
+//        File file = new File(fileDir+storeFileName);
+//        multipartFile.transferTo(file);
+//
+//        return Optional.of(file);
+//    }
 
     /**
      * @description 파일 이름이 이미 업로드된 파일들과 겹치지 않게 UUID를 사용한다.
