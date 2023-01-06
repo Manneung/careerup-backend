@@ -210,8 +210,7 @@ public class ItemController {
     @ApiOperation(value = "아이템에 활동 사진 추가", notes = "아이템에 활동 사진 추가")
     @PostMapping("/upload/{itemIdx}/picture")
     public List<String> itemPictureUpload(
-            @RequestPart("images") List<MultipartFile> multipartFiles,
-            @PathVariable int itemIdx) throws IOException {
+            @RequestPart("images") List<MultipartFile> multipartFiles, @PathVariable int itemIdx) throws IOException {
             List<String> list = new ArrayList<>();
             for (MultipartFile file : multipartFiles) {
                 String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "images");
@@ -222,8 +221,8 @@ public class ItemController {
 
     @ApiOperation(value = "아이템에 파일 추가", notes = "아이템에 파일 추가")
     @PostMapping("upload/{itemIdx}/files")
-    public List<String> itemFileUpload(@RequestPart("files") List<MultipartFile> multipartFiles,
-    @PathVariable int itemIdx) throws IOException {
+    public List<String> itemFileUpload(
+            @RequestPart("files") List<MultipartFile> multipartFiles, @PathVariable int itemIdx) throws IOException {
         List<String> list = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
             String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "files");
