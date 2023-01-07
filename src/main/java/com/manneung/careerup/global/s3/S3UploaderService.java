@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -87,20 +87,6 @@ public class S3UploaderService {
         return convFile;
     }
 
-//    private Optional<File> convert(MultipartFile multipartFile) throws IOException {
-//        if (multipartFile.isEmpty()) {
-//            return Optional.empty();
-//        }
-//
-//        String originalFilename = multipartFile.getOriginalFilename();
-//        String storeFileName = createStoreFileName(originalFilename);
-//
-//        //파일 업로드
-//        File file = new File(fileDir+storeFileName);
-//        multipartFile.transferTo(file);
-//
-//        return Optional.of(file);
-//    }
 
     /**
      * @description 파일 이름이 이미 업로드된 파일들과 겹치지 않게 UUID를 사용한다.
@@ -123,5 +109,21 @@ public class S3UploaderService {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
+
+
+//    private Optional<File> convert(MultipartFile multipartFile) throws IOException {
+//        if (multipartFile.isEmpty()) {
+//            return Optional.empty();
+//        }
+//
+//        String originalFilename = multipartFile.getOriginalFilename();
+//        String storeFileName = createStoreFileName(originalFilename);
+//
+//        //파일 업로드
+//        File file = new File(fileDir+storeFileName);
+//        multipartFile.transferTo(file);
+//
+//        return Optional.of(file);
+//    }
 
 }
