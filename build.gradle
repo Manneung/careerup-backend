@@ -56,7 +56,7 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 
-
+	//s3
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.6.RELEASE', ext: 'pom'
 	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.1021'
 	implementation 'com.amazonaws:aws-java-sdk-bom:1.11.228'
@@ -73,12 +73,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security:spring-security-test'
 
+	//jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
 
 	implementation 'org.mockito:mockito-inline:4.6.1'
 
+
+	//oauth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 
