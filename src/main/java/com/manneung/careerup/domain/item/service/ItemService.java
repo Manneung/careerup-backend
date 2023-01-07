@@ -1,19 +1,12 @@
 package com.manneung.careerup.domain.item.service;
 
 
-
+import com.manneung.careerup.domain.file.model.File;
 import com.manneung.careerup.domain.file.service.FileService;
 import com.manneung.careerup.domain.item.model.Item;
-import com.manneung.careerup.domain.item.model.dto.contest.PatchContestReq;
-import com.manneung.careerup.domain.item.model.dto.etc.PatchEtcReq;
-import com.manneung.careerup.domain.item.model.dto.external_activitiy.PatchExternalActivityReq;
-import com.manneung.careerup.domain.item.model.dto.item.PatchSequenceReq;
-import com.manneung.careerup.domain.item.model.dto.study.PatchStudyReq;
-import com.manneung.careerup.domain.item.model.dto.study.PostStudyReq;
+import com.manneung.careerup.domain.item.model.dto.certifcate.GetCertificateRes;
 import com.manneung.careerup.domain.item.model.dto.certifcate.PostCertificateReq;
 import com.manneung.careerup.domain.item.model.dto.club.GetClubRes;
-import com.manneung.careerup.domain.item.model.dto.study.GetStudyRes;
-import com.manneung.careerup.domain.item.model.dto.certifcate.GetCertificateRes;
 import com.manneung.careerup.domain.item.model.dto.club.PostClubReq;
 import com.manneung.careerup.domain.item.model.dto.contest.GetContestRes;
 import com.manneung.careerup.domain.item.model.dto.contest.PostContestReq;
@@ -23,7 +16,10 @@ import com.manneung.careerup.domain.item.model.dto.external_activitiy.GetExterna
 import com.manneung.careerup.domain.item.model.dto.external_activitiy.PostExternalActivityReq;
 import com.manneung.careerup.domain.item.model.dto.item.GetItemDetailRes;
 import com.manneung.careerup.domain.item.model.dto.item.GetItemRes;
+import com.manneung.careerup.domain.item.model.dto.item.PatchSequenceReq;
 import com.manneung.careerup.domain.item.model.dto.item.PostItemReq;
+import com.manneung.careerup.domain.item.model.dto.study.GetStudyRes;
+import com.manneung.careerup.domain.item.model.dto.study.PostStudyReq;
 import com.manneung.careerup.domain.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -319,11 +315,11 @@ public class ItemService {
 
     //자세하게 아이템 내용 보여주기
     public GetItemDetailRes showItemDetail(int itemIdx){
-
+        List<File> filesByItemIdx = fileService.findFilesByItemIdx(itemIdx);
         Item findItem = itemRepository.findByItemIdx(itemIdx);
 
         if(findItem != null){
-            return GetItemDetailRes.from(findItem);
+            return GetItemDetailRes.from(findItem, filesByItemIdx);
         } else {
             return null;
         }
