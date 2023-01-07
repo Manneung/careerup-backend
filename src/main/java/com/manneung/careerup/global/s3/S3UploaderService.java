@@ -22,12 +22,12 @@ import java.util.UUID;
 public class S3UploaderService {
 
     // local, development 등 현재 프로파일
-    @Value("${spring.environment}")
-    private String environment;
-
-    // 파일이 저장되는 경로
-    @Value("${spring.file-dir}")
-    private String basicDir;
+//    @Value("${spring.environment}")
+//    private String environment;
+//
+//    // 파일이 저장되는 경로
+//    @Value("${spring.file-dir}")
+//    private String basicDir;
     private String fileDir;
 
     private final AmazonS3Client amazonS3Client;
@@ -35,14 +35,14 @@ public class S3UploaderService {
     /**
      * 서버가 시작할 때 프로파일에 맞는 파일 경로를 설정해줌
      */
-    @PostConstruct
-    private void init(){
-        if(environment.equals("local")){
-            this.fileDir = System.getProperty("user.dir") + this.basicDir;
-        } else if(environment.equals("development")){
-            this.fileDir = this.basicDir;
-        }
-    }
+//    @PostConstruct
+//    private void init(){
+//        if(environment.equals("local")){
+//            this.fileDir = System.getProperty("user.dir") + this.basicDir;
+//        } else if(environment.equals("development")){
+//            this.fileDir = this.basicDir;
+//        }
+//    }
 
     public String upload(MultipartFile multipartFile, String bucket, String dirName) throws IOException {
         File uploadFile = convertMultipartFileToFile(multipartFile);  // 파일 변환할 수 없으면 에러

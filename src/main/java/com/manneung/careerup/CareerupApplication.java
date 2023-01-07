@@ -16,11 +16,11 @@ import java.io.File;
 @SpringBootApplication
 public class CareerupApplication {
 
-	@Value("${spring.environment}")
-	private String environment;
-
-	@Value("${spring.file-dir}")
-	private String fileDir;
+//	@Value("${spring.environment}")
+//	private String environment;
+//
+//	@Value("${spring.file-dir}")
+//	private String fileDir;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CareerupApplication.class, args);
@@ -35,20 +35,20 @@ public class CareerupApplication {
 	}
 
 
-	@PostConstruct
-	private void init() {
-
-		if (environment.equals("local")) {
-			String staticFolder = System.getProperty("user.dir") + "/src/main/resources/static";
-			mkdirResource(staticFolder);
-
-			String files = System.getProperty("user.dir") + fileDir;
-			mkdirResource(files);
-		} else if (environment.equals("development")) {
-			String filesFolder = "/var/www/html/files";
-			mkdirResource(filesFolder);
-		}
-	}
+//	@PostConstruct
+//	private void init() {
+//
+//		if (environment.equals("local")) {
+//			String staticFolder = System.getProperty("user.dir") + "/src/main/resources/static";
+//			mkdirResource(staticFolder);
+//
+//			String files = System.getProperty("user.dir") + fileDir;
+//			mkdirResource(files);
+//		} else if (environment.equals("development")) {
+//			String filesFolder = "/var/www/html/files";
+//			mkdirResource(filesFolder);
+//		}
+//	}
 
 	/**
 	 * @param fileDir 생성을 위한 폴더명
