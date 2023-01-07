@@ -54,7 +54,6 @@ public class FileService {
         return fileName;
     }
 
-
     public Boolean deleteFile(int fileIdx) {
         try {
             fileRepository.deleteById(fileIdx);
