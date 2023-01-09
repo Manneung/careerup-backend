@@ -1,8 +1,11 @@
 package com.manneung.careerup.domain.item.model.dto.item;
 
 
+import com.manneung.careerup.domain.file.model.File;
 import com.manneung.careerup.domain.item.model.Item;
 import lombok.*;
+
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -30,7 +33,9 @@ public class GetItemDetailRes {
 
     private String realization; //느낀 점
 
-    public static GetItemDetailRes from(Item item){
+    private List<File> files;
+
+    public static GetItemDetailRes from(Item item, List<File> files){
         return GetItemDetailRes.builder()
                 .category(item.getCategory())
                 .title(item.getTitle())
@@ -41,6 +46,7 @@ public class GetItemDetailRes {
                 .role(item.getRole())
                 .content(item.getContent())
                 .realization(item.getRealization())
+                .files(files)
                 .build();
     }
 

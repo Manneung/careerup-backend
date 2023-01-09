@@ -5,12 +5,15 @@ import com.manneung.careerup.domain.file.model.File;
 import com.manneung.careerup.domain.file.repository.FileRepository;
 import com.manneung.careerup.global.s3.S3UploaderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -34,6 +37,7 @@ public class FileService {
 
 
 
+
     //fileType: "활동사진", "활동파일"
     //활동 사진 업로드
     public String itemPictureUpload(int itemIdx, MultipartFile multipartFile, String bucket, String dirName ) throws IOException {
@@ -50,5 +54,27 @@ public class FileService {
         return fileName;
     }
 
+    public Boolean deleteFile(int fileIdx) {
+        try {
+            fileRepository.deleteById(fileIdx);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    public File updateFile(int fileIdx, File file) {
+        // Get the file to be updated
+        Optional<File> optionalFile = fileRepository.findById(fileIdx);
+        if (!optionalFile.isPresent()) {
+            // Return null if the file with the given fileIdx does not exist
+            return null;
+        }
+        File fileToUpdate = optionalFile.get();
+        // Update the file according to your business logic
+        fileToUpdate.setFileType(file.getFileType());
+        fileToUpdate.setFileName(file.getFileName());
+        // Save the updated file to the database
+        return fileRepository.save(fileToUpdate);
+    }
 }
