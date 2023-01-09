@@ -117,16 +117,16 @@ public class UserService {
 
 
 
-
-    @Transactional(readOnly = true)
-    public SignUpUserReq getUserWithAuthorities(String username) {
-        return SignUpUserReq.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
-    }
-
-    @Transactional(readOnly = true)
-    public SignUpUserReq getMyUserWithAuthorities() {
-        return SignUpUserReq.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername).orElse(null));
-    }
+//
+//    @Transactional(readOnly = true)
+//    public SignUpUserReq getUserWithAuthorities(String username) {
+//        return SignUpUserReq.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public SignUpUserReq getMyUserWithAuthorities() {
+//        return SignUpUserReq.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername).orElse(null));
+//    }
 
     @Transactional
     public GetUserDetailRes modifyUserInfo(PatchUserReq patchUserReq) {
@@ -146,6 +146,9 @@ public class UserService {
             user.setJob(patchUserReq.getJob());
         if(patchUserReq.getAddress() != null)
             user.setAddress(patchUserReq.getAddress());
+        if(patchUserReq.getGender() != null)
+            user.setGender(patchUserReq.getGender());
+
 
 
         if(patchUserReq.getLink() != null)
@@ -170,6 +173,7 @@ public class UserService {
     }
 
 
+    //유저 프로필 사진 설정
     @Transactional
     public String setUserPicture(MultipartFile multipartFile) throws IOException {
         User user = findNowLoginUser();
