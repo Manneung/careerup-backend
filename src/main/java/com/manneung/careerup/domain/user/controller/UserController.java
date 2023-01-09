@@ -125,22 +125,22 @@ public class UserController {
 
 
 
-
-
-    //권한별 접근 가능 체크 api
-    @ApiOperation(value = "(잘 사용하지 않을 것 같은 느낌?)USER, ADMIN 권한 접근 가능 api", notes = "USER, ADMIN 권한 접근 가능 api")
-    @GetMapping("/user")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<SignUpUserReq> getMyUserWithAuthorities() {
-        return ResponseEntity.ok(userService.getMyUserWithAuthorities());
-    }
-
-    @ApiOperation(value = "(잘 사용하지 않을 것 같은 느낌?)ADMIN 권한 접근 가능 api", notes = "ADMIN 권한 접근 가능 api")
-    @GetMapping("/user/{username}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @ApiImplicitParam(name = "username", value = "이메일 입력하기")
-    public ResponseEntity<SignUpUserReq> getUserWithAuthorities(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUserWithAuthorities(username));
-    }
+//
+//
+//    //권한별 접근 가능 체크 api
+//    @ApiOperation(value = "(잘 사용하지 않을 것 같은 느낌?)USER, ADMIN 권한 접근 가능 api", notes = "USER, ADMIN 권한 접근 가능 api")
+//    @GetMapping("/user")
+//    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+//    public ResponseEntity<SignUpUserReq> getMyUserWithAuthorities() {
+//        return ResponseEntity.ok(userService.getMyUserWithAuthorities());
+//    }
+//
+//    @ApiOperation(value = "(잘 사용하지 않을 것 같은 느낌?)ADMIN 권한 접근 가능 api", notes = "ADMIN 권한 접근 가능 api")
+//    @GetMapping("/user/{username}")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
+//    @ApiImplicitParam(name = "username", value = "이메일 입력하기")
+//    public ResponseEntity<SignUpUserReq> getUserWithAuthorities(@PathVariable String username) {
+//        return ResponseEntity.ok(userService.getUserWithAuthorities(username));
+//    }
 
 }

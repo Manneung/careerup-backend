@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class GetMapRes {
+public class GetMapSimpleRes {
     //마이페이지에서 맵 리스트 보여줄 때 사용할 dto
 
     private int mapIdx;
