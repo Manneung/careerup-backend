@@ -34,6 +34,8 @@ public class GetUserDetailRes {
 
     private String address;
 
+    private String gender;
+
 
     private String link;
 
@@ -60,6 +62,7 @@ public class GetUserDetailRes {
                 .picture(user.getPicture())
                 .job(user.getJob())
                 .address(user.getAddress())
+                .gender(user.getGender())
                 .link(user.getLink())
                 .univ(user.getUniv())
                 .major1(user.getMajor1())

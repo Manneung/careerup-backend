@@ -50,6 +50,8 @@ public class User extends BaseEntity {
 
     private String address;
 
+    private String gender;
+
 
     /////학교 및 포폴 정보/////
     private String link;

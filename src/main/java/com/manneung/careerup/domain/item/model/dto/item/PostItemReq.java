@@ -14,6 +14,7 @@ import lombok.Setter;
 public class PostItemReq {
     //아이템 생성
     //mapIdx는 따로
+    //각 아이템에 따라 필요한 항목만 채워서 실행하기
 
     private int sequence; //순서
 
