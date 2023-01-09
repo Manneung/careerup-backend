@@ -57,7 +57,7 @@ public enum BaseResponseStatus {
 
     MAP_FAILED_TO_DELETE_ERROR( "3006", "커리어맵 삭제에 실패했습니다."),
 
-
+    MAP_MY_MAP_LIST_EMPTY("3007", "작성한 커리어맵이 없습니다"),
 
 
 

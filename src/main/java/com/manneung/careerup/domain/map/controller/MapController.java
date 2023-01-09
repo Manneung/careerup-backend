@@ -61,49 +61,21 @@ public class MapController {
     }
 
 
+    @ApiOperation(value = "현재 로그인한 회원의 커리어맵 리스트", notes = "현재 로그인한 회원의 커리어맵 리스트")
+    @GetMapping("/my-map")
+    public ResponseEntity<BaseResponse<List<GetMapSimpleRes>>> searchMyMap(){
+        List<GetMapSimpleRes> getMapSimpleResList = mapService.searchMyMaps();
 
-
-    //닉네임 일치, 커리어맵 제목에 키워드 포함,
-    @ApiOperation(value = "닉네임으로 커리어맵 전부 찾기", notes = "닉네임으로 커리어맵을 전부 찾습니다.")
-    @GetMapping("/list/{nickname}")
-    public ResponseEntity<BaseResponse<List<GetMapRes>>> searchMapsByNickname(@PathVariable String nickname){
-        List<GetMapRes> getMapRes = null;
-
-        if(nickname != null){
-            getMapRes = mapService.searchMapsByNickname(nickname);
-        }
-
-        if(getMapRes == null){
-            return ResponseEntity.ok(BaseResponse.create(MAP_EMPTY_LIST_ERROR));
+        if(getMapSimpleResList == null){
+            return ResponseEntity.ok(BaseResponse.create(MAP_MY_MAP_LIST_EMPTY));
         } else{
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapRes));
-        }
-    }
-
-
-    @ApiOperation(value = "제목으로 커리어맵 전부 찾기", notes = "제목으로 커리어맵 전부 찾기")
-    @GetMapping("/list")
-    public ResponseEntity<BaseResponse<List<GetMapRes>>> searchMaps(
-            @RequestParam(value = "title",required = false) String title
-    ){
-        List<GetMapRes> getMapRes = null;
-
-        if(title != null){
-            getMapRes = mapService.searchMapsByTitle(title);
-        }
-
-
-        if(getMapRes == null){
-            return ResponseEntity.ok(BaseResponse.create(MAP_EMPTY_LIST_ERROR));
-        } else{
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapRes));
+            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapSimpleResList));
         }
     }
 
 
 
-
-    @ApiOperation(value = "커리어맵idx로 맵의 간략한 정보를 출력(아이템리스트 제목만 포함)", notes = "커리어맵 idx로 맵의 간략한 정보를 출력합니다.")
+    @ApiOperation(value = "커리어맵idx로 맵 전체 정보 조회", notes = "커리어맵idx로 맵 전체 정보 조회")
     @GetMapping("/{mapIdx}")
     public ResponseEntity<BaseResponse<GetMapDetailRes>> searchMapDetail(@PathVariable int mapIdx){
         GetMapDetailRes getMapDetailRes = mapService.searchMapDetail(mapIdx);
@@ -117,8 +89,43 @@ public class MapController {
     }
 
 
-
-
+//
+//    //닉네임 일치, 커리어맵 제목에 키워드 포함,
+//    @ApiOperation(value = "닉네임으로 커리어맵 전부 찾기", notes = "닉네임으로 커리어맵을 전부 찾습니다.")
+//    @GetMapping("/list/{nickname}")
+//    public ResponseEntity<BaseResponse<List<GetMapSimpleRes>>> searchMapsByNickname(@PathVariable String nickname){
+//        List<GetMapSimpleRes> getMapSimpleRes = null;
+//
+//        if(nickname != null){
+//            getMapSimpleRes = mapService.searchMapsByNickname(nickname);
+//        }
+//
+//        if(getMapSimpleRes == null){
+//            return ResponseEntity.ok(BaseResponse.create(MAP_EMPTY_LIST_ERROR));
+//        } else{
+//            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapSimpleRes));
+//        }
+//    }
+//
+//
+//    @ApiOperation(value = "제목으로 커리어맵 전부 찾기", notes = "제목으로 커리어맵 전부 찾기")
+//    @GetMapping("/list")
+//    public ResponseEntity<BaseResponse<List<GetMapSimpleRes>>> searchMaps(
+//            @RequestParam(value = "title",required = false) String title
+//    ){
+//        List<GetMapSimpleRes> getMapSimpleRes = null;
+//
+//        if(title != null){
+//            getMapSimpleRes = mapService.searchMapsByTitle(title);
+//        }
+//
+//
+//        if(getMapSimpleRes == null){
+//            return ResponseEntity.ok(BaseResponse.create(MAP_EMPTY_LIST_ERROR));
+//        } else{
+//            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapSimpleRes));
+//        }
+//    }
 
 
 }

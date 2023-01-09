@@ -95,8 +95,26 @@ public class MapService { //map, item
 
 
     //조회 메소드
-    public List<GetMapRes> searchMapsByNickname(String nickname){
-        List<GetMapRes> findMaps = new ArrayList<>();
+
+    public List<GetMapSimpleRes> searchMyMaps() {
+        List<GetMapSimpleRes> findMaps = new ArrayList<>();
+        User user = findNowLoginUser();
+
+        List<Map> maps = mapRepository.findAllByUserIdx(user.getUserIdx());
+
+        if(maps.isEmpty()) return null;
+
+        for(Map m: maps){
+            GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
+            findMaps.add(getMapSimpleRes);
+        }
+
+        return findMaps;
+    }
+
+
+    public List<GetMapSimpleRes> searchMapsByNickname(String nickname){
+        List<GetMapSimpleRes> findMaps = new ArrayList<>();
         Integer userIdx;
 
         //유저 찾기
@@ -109,8 +127,8 @@ public class MapService { //map, item
         List<Map> findMapList = mapRepository.findAllByUserIdx(userIdx);
         for(Map m: findMapList){
             if(m.getStatus().equals("A")){
-                GetMapRes getMapRes = new GetMapRes(m.getMapIdx(), m.getTitle());
-                findMaps.add(getMapRes);
+                GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
+                findMaps.add(getMapSimpleRes);
             }
         }
 
@@ -122,15 +140,15 @@ public class MapService { //map, item
         }
     }
 
-    public List<GetMapRes> searchMapsByTitle(String title) {
-        List<GetMapRes> findMaps = new ArrayList<>();
+    public List<GetMapSimpleRes> searchMapsByTitle(String title) {
+        List<GetMapSimpleRes> findMaps = new ArrayList<>();
         List<Map> findMapList = mapRepository.findAllByTitleContaining(title);
 
         if(findMapList != null){
             for(Map m : findMapList) {
                 if(m.getStatus().equals("A")){
-                    GetMapRes getMapRes = new GetMapRes(m.getMapIdx(), m.getTitle());
-                    findMaps.add(getMapRes);
+                    GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
+                    findMaps.add(getMapSimpleRes);
                 }
             }
             return findMaps;
@@ -138,21 +156,6 @@ public class MapService { //map, item
         return null;
     }
 
-//    public List<GetMapRes> searchMapsByJob(String job) {
-//        List<GetMapRes> findMaps = new ArrayList<>();
-//        List<Map> findMapList = mapRepository.findAllByJobContaining(job);
-//
-//        if(findMapList != null){
-//            for(Map m : findMapList) {
-//                if(m.getStatus().equals("A")){
-//                    GetMapRes getMapRes = new GetMapRes(m.getMapIdx(), m.getTitle());
-//                    findMaps.add(getMapRes);
-//                }
-//            }
-//            return findMaps;
-//        }
-//        return null;
-//    }
 
 
     ////////////////////////////////////////세부정보 조회////////////////////////////////////////////////
