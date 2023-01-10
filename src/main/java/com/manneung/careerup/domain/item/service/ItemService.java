@@ -156,6 +156,7 @@ public class ItemService {
         newItem.setTitle(postStudyReq.getTitle());
         newItem.setSequence(postStudyReq.getSequence());
         //newItem.setCategory(postStudyReq.getCategory());
+        newItem.setField(postStudyReq.getField());
         newItem.setCategory("스터디");
         newItem.setPeriod(postStudyReq.getPeriod());
         newItem.setContent(postStudyReq.getContent());
