@@ -1,6 +1,7 @@
 package com.manneung.careerup.domain.map.service;
 
 
+import com.manneung.careerup.domain.item.model.Item;
 import com.manneung.careerup.domain.item.model.dto.item.GetItemRes;
 import com.manneung.careerup.domain.item.service.ItemService;
 import com.manneung.careerup.domain.map.model.Map;
@@ -66,8 +67,17 @@ public class MapService { //map, item
 
         if(findMap != null){
             if(findMap.getStatus().equals("A")){
+                //맵 상제 상태로 변경
                 findMap.setStatus("D");
                 mapRepository.save(findMap);
+
+                //맵 내의 아이템 전부 삭제
+                List<Item> itemList = itemService.searchItemListByMapIdx(findMap.getMapIdx());
+                for(Item i: itemList){
+                    itemService.deleteItem(i.getItemIdx());
+                }
+
+                //삭제된 맵 인덱스 반환
                 return new DeleteMapRes(mapIdx);
             }
             else{

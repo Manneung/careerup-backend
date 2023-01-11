@@ -380,66 +380,66 @@ public class ItemService {
 
 
 
-    //자격증 내용 보여주기
-    public GetCertificateRes showCertificate(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetCertificateRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //공모전 내용 보여주기
-    public GetContestRes showContest(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetContestRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //기타 내용 보여주기
-    public GetEtcRes showEtc(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetEtcRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //대외활동 내용 보여주기
-    public GetExternalActivityRes showExternalActivity(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetExternalActivityRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //동아리 내용 보여주기
-    public GetClubRes showClub(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetClubRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //스터디 내용 보여주기
-    public GetStudyRes showStudy(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetStudyRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
+//    //자격증 내용 보여주기
+//    public GetCertificateRes showCertificate(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetCertificateRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //공모전 내용 보여주기
+//    public GetContestRes showContest(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetContestRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //기타 내용 보여주기
+//    public GetEtcRes showEtc(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetEtcRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //대외활동 내용 보여주기
+//    public GetExternalActivityRes showExternalActivity(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetExternalActivityRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //동아리 내용 보여주기
+//    public GetClubRes showClub(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetClubRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //스터디 내용 보여주기
+//    public GetStudyRes showStudy(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetStudyRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
 
 
 }
