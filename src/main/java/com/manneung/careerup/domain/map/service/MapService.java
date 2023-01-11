@@ -33,30 +33,17 @@ public class MapService { //map, item
     public PostMapRes createMap(PostMapReq postMapReq) { //맵 자체만 생성
 
         Map newMap = new Map(); //DB에 저장할 객체
-
-
-        //해당 유저 누군지 찾기
         User findUser = findNowLoginUser();
 
         if(findUser != null){
 
-            //새로운 맵의 정보 저장
+            //새로운 맵의 정보만 저장
             newMap.setUserIdx(findUser.getUserIdx());
             newMap.setTitle(postMapReq.getTitle());
             newMap.setCareer(postMapReq.getCareer());
             mapRepository.save(newMap);
 
             return new PostMapRes(newMap.getMapIdx());
-
-//
-//            //아이템 정보 저장
-//            List<PostItemReq> items = postMapReq.getItemList();
-//            boolean itemSaved = itemService.createItems(newMap.getMapIdx(), items);
-//
-//            if(itemSaved){
-//                postMapRes.setMapIdx(newMap.getMapIdx());
-//                return postMapRes;
-//            }
         }
         return null;
     }
@@ -105,86 +92,85 @@ public class MapService { //map, item
         if(maps.isEmpty()) return null;
 
         for(Map m: maps){
-            GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
-            findMaps.add(getMapSimpleRes);
+            if(m.getStatus().equals("A")){  //활성 상태만
+                GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle(), m.getCareer());
+                findMaps.add(getMapSimpleRes);
+            }
         }
 
         return findMaps;
     }
 
 
-    public List<GetMapSimpleRes> searchMapsByNickname(String nickname){
-        List<GetMapSimpleRes> findMaps = new ArrayList<>();
-        Integer userIdx;
-
-        //유저 찾기
-        if(userRepository.findUserByNickname(nickname) == null){
-            return null;
-        } else {
-            userIdx = userRepository.findUserByNickname(nickname).getUserIdx();
-        }
-
-        List<Map> findMapList = mapRepository.findAllByUserIdx(userIdx);
-        for(Map m: findMapList){
-            if(m.getStatus().equals("A")){
-                GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
-                findMaps.add(getMapSimpleRes);
-            }
-        }
-
-        //커리어맵 리스트가 존재하는지에 따라 분리
-        if(!findMaps.isEmpty()){
-            return findMaps;
-        } else {
-            return null;
-        }
-    }
-
-    public List<GetMapSimpleRes> searchMapsByTitle(String title) {
-        List<GetMapSimpleRes> findMaps = new ArrayList<>();
-        List<Map> findMapList = mapRepository.findAllByTitleContaining(title);
-
-        if(findMapList != null){
-            for(Map m : findMapList) {
-                if(m.getStatus().equals("A")){
-                    GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
-                    findMaps.add(getMapSimpleRes);
-                }
-            }
-            return findMaps;
-        }
-        return null;
-    }
-
-
 
     ////////////////////////////////////////세부정보 조회////////////////////////////////////////////////
-    //맵 제목으로 맵 디테일 정보 찾기
+    //맵 인덱스으로 맵 디테일 정보 찾기
 
     public GetMapDetailRes searchMapDetail(int mapIdx){
         GetMapDetailRes getMapDetailRes = new GetMapDetailRes(); //mapidx, 닉네임, 아이템리스트
 
-        if(mapRepository.findByMapIdx(mapIdx) != null){
+        if(mapRepository.findByMapIdx(mapIdx).getStatus().equals("A")){
             Map findMap = mapRepository.findByMapIdx(mapIdx);
 
-
-            //int userIdx  = findMap.getUserIdx();
-            //String nickname = findMap.getNickname();
             User user = findNowLoginUser();
             List<GetItemRes> getItemResList = itemService.searchItemListSimple(mapIdx);
-
 
             getMapDetailRes.setMapIdx(findMap.getMapIdx());
             getMapDetailRes.setName(user.getName());
             getMapDetailRes.setItemList(getItemResList);
 
-
             return getMapDetailRes;
-
         } else{
             return null;
         }
     }
+
+
+
+//    public List<GetMapSimpleRes> searchMapsByNickname(String nickname){
+//        List<GetMapSimpleRes> findMaps = new ArrayList<>();
+//        Integer userIdx;
+//
+//        //유저 찾기
+//        if(userRepository.findUserByNickname(nickname) == null){
+//            return null;
+//        } else {
+//            userIdx = userRepository.findUserByNickname(nickname).getUserIdx();
+//        }
+//
+//        List<Map> findMapList = mapRepository.findAllByUserIdx(userIdx);
+//        for(Map m: findMapList){
+//            if(m.getStatus().equals("A")){
+//                GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
+//                findMaps.add(getMapSimpleRes);
+//            }
+//        }
+//
+//        //커리어맵 리스트가 존재하는지에 따라 분리
+//        if(!findMaps.isEmpty()){
+//            return findMaps;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public List<GetMapSimpleRes> searchMapsByTitle(String title) {
+//        List<GetMapSimpleRes> findMaps = new ArrayList<>();
+//        List<Map> findMapList = mapRepository.findAllByTitleContaining(title);
+//
+//        if(findMapList != null){
+//            for(Map m : findMapList) {
+//                if(m.getStatus().equals("A")){
+//                    GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
+//                    findMaps.add(getMapSimpleRes);
+//                }
+//            }
+//            return findMaps;
+//        }
+//        return null;
+//    }
+
+
 
 
 
