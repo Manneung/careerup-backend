@@ -21,6 +21,8 @@ import com.manneung.careerup.domain.item.model.dto.item.PostItemReq;
 import com.manneung.careerup.domain.item.model.dto.study.GetStudyRes;
 import com.manneung.careerup.domain.item.model.dto.study.PostStudyReq;
 import com.manneung.careerup.domain.item.repository.ItemRepository;
+import com.manneung.careerup.domain.map.model.Map;
+import com.manneung.careerup.domain.map.repository.MapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,7 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final MapRepository mapRepository;
 
     private final FileService fileService;
 
@@ -57,6 +60,9 @@ public class ItemService {
 //        return GetItemDetailRes.from(newItem);
 //    }
 
+    /**
+     * CREATE
+     * */
     public GetCertificateRes createCertificate(int mapIdx, PostCertificateReq postCertificateReq){
         Item newItem = new Item();
 
@@ -168,6 +174,10 @@ public class ItemService {
     }
 
 
+
+    /**
+     * MODIFY
+     * */
     public GetCertificateRes modifyCertificate(int itemIdx, PostItemReq postItemReq) {
         Item item = itemRepository.findByItemIdx(itemIdx);
 
@@ -283,6 +293,10 @@ public class ItemService {
     }
 
 
+
+    /**
+     * CHANGE SEQUENCE
+     * */
     //맵 내 아이템 순서변경하기
     public List<GetItemRes> changeItemSequence(int mapIdx, List<PatchSequenceReq> sequenceReqList) {
         List<Item> items = itemRepository.findAllByMapIdx(mapIdx);
@@ -301,11 +315,26 @@ public class ItemService {
     }
 
 
-
+    /**
+     * DELETE
+     * */
     public String deleteItem(int itemIdx) {
+
+        //아이템 삭제
         Item item = itemRepository.findByItemIdx(itemIdx);
         itemRepository.delete(item);
 
+        //아이템 삭제 후 시퀀스 재정렬 로직
+        List<Item> itemList = itemRepository.findAllByMapIdxOrderBySequenceAsc(item.getMapIdx());
+
+        int sq = 1;
+        for(Item i : itemList){
+            i.setSequence(sq);
+            itemRepository.save(i);
+            sq++;
+        }
+
+        //item 존재 여부에 따라 null반환
         if(itemRepository.findByItemIdx(itemIdx) == null){
             return "성공적으로 삭제되었습니다";
         } else {
@@ -351,66 +380,66 @@ public class ItemService {
 
 
 
-    //자격증 내용 보여주기
-    public GetCertificateRes showCertificate(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetCertificateRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //공모전 내용 보여주기
-    public GetContestRes showContest(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetContestRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //기타 내용 보여주기
-    public GetEtcRes showEtc(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetEtcRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //대외활동 내용 보여주기
-    public GetExternalActivityRes showExternalActivity(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetExternalActivityRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //동아리 내용 보여주기
-    public GetClubRes showClub(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetClubRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
-    //스터디 내용 보여주기
-    public GetStudyRes showStudy(int itemIdx) {
-        Item findItem = itemRepository.findByItemIdx(itemIdx);
-
-        if (findItem != null) {
-            return GetStudyRes.from(findItem);
-        } else {
-            return null;
-        }
-    }
+//    //자격증 내용 보여주기
+//    public GetCertificateRes showCertificate(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetCertificateRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //공모전 내용 보여주기
+//    public GetContestRes showContest(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetContestRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //기타 내용 보여주기
+//    public GetEtcRes showEtc(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetEtcRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //대외활동 내용 보여주기
+//    public GetExternalActivityRes showExternalActivity(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetExternalActivityRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //동아리 내용 보여주기
+//    public GetClubRes showClub(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetClubRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
+//    //스터디 내용 보여주기
+//    public GetStudyRes showStudy(int itemIdx) {
+//        Item findItem = itemRepository.findByItemIdx(itemIdx);
+//
+//        if (findItem != null) {
+//            return GetStudyRes.from(findItem);
+//        } else {
+//            return null;
+//        }
+//    }
 
 
 }

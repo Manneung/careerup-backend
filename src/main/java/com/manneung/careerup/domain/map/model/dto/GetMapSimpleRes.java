@@ -16,5 +16,7 @@ public class GetMapSimpleRes {
 
     private int mapIdx;
     private String title;
+    private String career;
+
 
 }
