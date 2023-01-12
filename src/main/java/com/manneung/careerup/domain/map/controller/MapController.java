@@ -67,7 +67,7 @@ public class MapController {
         List<GetMapSimpleRes> getMapSimpleResList = mapService.searchMyMaps();
 
         if(getMapSimpleResList == null){
-            return ResponseEntity.ok(BaseResponse.create(MAP_MY_MAP_LIST_EMPTY));
+            return ResponseEntity.ok(BaseResponse.create(MAP_MY_MAP_LIST_EMPTY));  //"작성한 커리어맵이 없습니다"
         } else{
             return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapSimpleResList));
         }

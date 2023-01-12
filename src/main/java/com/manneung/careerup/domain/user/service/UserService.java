@@ -44,6 +44,23 @@ public class UserService {
     }
 
 
+    public boolean existsUserByUsername(String username){
+        return userRepository.existsUserByUsername(username);
+    }
+
+
+    public boolean loginPasswordCheck(String username, String password){
+        User user = userRepository.findUserByUsername(username);
+
+        if(passwordEncoder.matches(password, user.getPassword())){
+            return true;
+        } else{
+            return false;
+        }
+
+    }
+
+
     @Transactional
     //지금 요청형식으로 반환중...!
     public SignUpUserReq signup(SignUpUserReq signupUserReq) {
@@ -89,31 +106,31 @@ public class UserService {
 
 
 
-    @Transactional
-    public SignUpUserReq signupAdmin(SignUpUserReq signupUserReq) {
-        if (userRepository.findOneWithAuthoritiesByUsername(signupUserReq.getUsername()).orElse(null) != null) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다.");
-        }
-
-        Authority authority = Authority.builder()
-                //.authorityName("ROLE_USER")
-                .authorityName("ROLE_ADMIN")
-                .build();
-
-        User user = User.builder()
-                .username(signupUserReq.getUsername())
-                .password(passwordEncoder.encode(signupUserReq.getPassword()))
-                //.nickname(signupUserReq.getNickname())
-                .name(signupUserReq.getName())
-                //.birth(signupUserReq.getBirth())
-                //.phone(signupUserReq.getPhone())
-                .authorities(Collections.singleton(authority))
-                .activated(true)
-                .build();
-
-        return SignUpUserReq.from(userRepository.save(user));
-    }
-
+//    @Transactional
+//    public SignUpUserReq signupAdmin(SignUpUserReq signupUserReq) {
+//        if (userRepository.findOneWithAuthoritiesByUsername(signupUserReq.getUsername()).orElse(null) != null) {
+//            throw new RuntimeException("이미 가입되어 있는 유저입니다.");
+//        }
+//
+//        Authority authority = Authority.builder()
+//                //.authorityName("ROLE_USER")
+//                .authorityName("ROLE_ADMIN")
+//                .build();
+//
+//        User user = User.builder()
+//                .username(signupUserReq.getUsername())
+//                .password(passwordEncoder.encode(signupUserReq.getPassword()))
+//                //.nickname(signupUserReq.getNickname())
+//                .name(signupUserReq.getName())
+//                //.birth(signupUserReq.getBirth())
+//                //.phone(signupUserReq.getPhone())
+//                .authorities(Collections.singleton(authority))
+//                .activated(true)
+//                .build();
+//
+//        return SignUpUserReq.from(userRepository.save(user));
+//    }
+//
 
 
 
