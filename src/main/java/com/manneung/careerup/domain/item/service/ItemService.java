@@ -340,7 +340,7 @@ public class ItemService {
         List<GetItemRes> getItemResList = new ArrayList<>();
 
         for(Item i : findItemList){
-            GetItemRes getItemRes = new GetItemRes(i.getItemIdx(), i.getTitle(), i.getSequence());
+            GetItemRes getItemRes = new GetItemRes(i.getItemIdx(),i.getCategory(), i.getTitle(), i.getSequence());
             getItemResList.add(getItemRes);
         }
 
