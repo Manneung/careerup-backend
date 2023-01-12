@@ -41,6 +41,10 @@ public enum BaseResponseStatus {
 
     USER_FAILED_TO_SET_PICTURE("2010", "프로필 사진 설정에 실패했습니다."),
 
+    USER_ALREADY_EXIST_USERNAME("2011", "이미 존재하는 이메일입니다."),
+
+    USER_NOT_CORRECT_PASSWORD("2012", "틀린 비밀번호입니다. 다시 입력해주세요."),
+
 
     /**
      * 3000 : Map 오류

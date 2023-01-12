@@ -5,6 +5,7 @@ import com.manneung.careerup.domain.base.BaseEntity;
 import com.manneung.careerup.domain.base.BaseResponse;
 import com.manneung.careerup.domain.base.BaseResponseStatus;
 import com.manneung.careerup.domain.user.model.dto.*;
+import com.manneung.careerup.domain.user.repository.UserRepository;
 import com.manneung.careerup.domain.user.service.UserService;
 import com.manneung.careerup.global.jwt.JwtFilter;
 import com.manneung.careerup.global.jwt.TokenProvider;
@@ -37,6 +38,7 @@ import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -49,20 +51,39 @@ public class UserController {
     @PostMapping("/signup")
     //현재 요청형식으로 반환 중
     public ResponseEntity<BaseResponse<SignUpUserReq>> signup(@Valid @RequestBody SignUpUserReq signupUserReq) {
+
+        //같은 이메일로 회원가입
+        if(userService.existsUserByUsername(signupUserReq.getUsername())){
+            return ResponseEntity.ok(BaseResponse.create(USER_ALREADY_EXIST_USERNAME));
+        }
+
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, userService.signup(signupUserReq)));
     }
 
 
-    @ApiOperation(value = "회원 가입(ADMIN)", notes = "관리자 권한 계정 생성")
-    @PostMapping("/signup-admin")
-    public ResponseEntity<BaseResponse<SignUpUserReq>> signupAdmin(@Valid @RequestBody SignUpUserReq signupUserReq){
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, userService.signupAdmin(signupUserReq)));
-    }
+//    @ApiOperation(value = "회원 가입(ADMIN)", notes = "관리자 권한 계정 생성")
+//    @PostMapping("/signup-admin")
+//    public ResponseEntity<BaseResponse<SignUpUserReq>> signupAdmin(@Valid @RequestBody SignUpUserReq signupUserReq){
+//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, userService.signupAdmin(signupUserReq)));
+//    }
 
 
     @ApiOperation(value = "회원 로그인", notes = "회원 로그인")
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<TokenRes>> login(@Valid @RequestBody LoginUserReq loginUserReq){
+
+
+        //없는 계정으로 로그인
+        if(!userService.existsUserByUsername(loginUserReq.getUsername())){
+            return ResponseEntity.ok(BaseResponse.create(USER_NOT_EXIST_EMAIL_ERROR));
+        }
+
+        //비밀번호 다르게 입력
+        if(!userService.loginPasswordCheck(loginUserReq.getUsername(), loginUserReq.getPassword())){
+            return ResponseEntity.ok(BaseResponse.create(USER_NOT_CORRECT_PASSWORD));
+        }
+
+
         TokenRes tokenRes = userService.login(loginUserReq);
         return ResponseEntity.ok(BaseResponse.create(SUCCESS,tokenRes));
     }
