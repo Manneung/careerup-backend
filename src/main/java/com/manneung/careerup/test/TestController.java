@@ -3,6 +3,9 @@ package com.manneung.careerup.test;
 
 import com.manneung.careerup.domain.base.BaseResponse;
 import com.manneung.careerup.domain.user.model.dto.GetUserRes;
+import com.manneung.careerup.global.email.EmailAuthRequestDto;
+import com.manneung.careerup.global.email.EmailAuthResponseDto;
+import com.manneung.careerup.global.email.EmailService;
 import com.manneung.careerup.global.jwt.JwtFilter;
 
 import com.manneung.careerup.global.jwt.TokenProvider;
@@ -20,9 +23,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.FAIL;
 import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
@@ -35,8 +40,15 @@ public class TestController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder; //AuthenticationManagerBuilder 이건 만든 거 아님
-    private final S3UploaderService s3UploaderService;;
+    private final S3UploaderService s3UploaderService;
+    private final EmailService emailService;
 
+    @PostMapping("login/mailConfirm")
+    public ResponseEntity<BaseResponse<EmailAuthResponseDto>> mailConfirm(@RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
+
+        EmailAuthResponseDto emailAuthResponseDto = emailService.sendEmail(emailDto.getEmail());
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, emailAuthResponseDto));
+    }
 
     @ApiOperation(value = "테스트 컨트롤러 성공 api", notes = "테스트 컨트롤러 성공 api")
     @GetMapping("/success")
