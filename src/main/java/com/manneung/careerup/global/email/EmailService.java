@@ -32,7 +32,7 @@ public class EmailService {
         String toEmail = email; //받는 사람
         String title = "careerup 회원가입 인증 번호"; //제목
         String msgg = "";
-        msgg += "<div style='margin:100px;'>";
+        msgg += "<div style='margin:10%;'>";
         msgg += "<h1> 안녕하세요</h1>";
         msgg += "<h1> 내 손으로 직접 만드는 커리어 성장 플랫폼 커리업 입니다</h1>";
         msgg += "<br>";
@@ -67,7 +67,7 @@ public class EmailService {
         String toEmail = email; //받는 사람
         String title = "careerup 임시 비밀번호 발급"; //제목
         String msgg = "";
-        msgg += "<div style='margin:100px;'>";
+        msgg += "<div style='margin:10%;'>";
         msgg += "<h1> 안녕하세요</h1>";
         msgg += "<h1> 내 손으로 직접 만드는 커리어 성장 플랫폼 커리업 입니다</h1>";
         msgg += "<br>";
