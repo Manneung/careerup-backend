@@ -125,6 +125,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setSequence(postEtcReq.getSequence());
+        newItem.setTitle(postEtcReq.getTitle());
         //newItem.setCategory(postEtcReq.getCategory());
         newItem.setCategory("기타");
         newItem.setPeriod(postEtcReq.getPeriod());
@@ -145,6 +146,7 @@ public class ItemService {
         newItem.setSequence(postExternalActivityReq.getSequence());
         //newItem.setCategory(postExternalActivityReq.getCategory());
         newItem.setCategory("대외활동");
+        newItem.setField(postExternalActivityReq.getField());
         newItem.setInstitution(postExternalActivityReq.getInstitution());
         newItem.setPeriod(postExternalActivityReq.getPeriod());
         newItem.setContent(postExternalActivityReq.getContent());
@@ -369,7 +371,7 @@ public class ItemService {
         List<GetItemRes> getItemResList = new ArrayList<>();
 
         for(Item i : findItemList){
-            GetItemRes getItemRes = new GetItemRes(i.getItemIdx(),i.getCategory(), i.getTitle(), i.getSequence());
+            GetItemRes getItemRes = new GetItemRes(i.getItemIdx(), i.getTitle(), i.getCategory(), i.getSequence());
             getItemResList.add(getItemRes);
         }
 
