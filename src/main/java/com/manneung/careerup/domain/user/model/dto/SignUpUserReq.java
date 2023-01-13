@@ -36,7 +36,9 @@ public class SignUpUserReq {
     @ApiModelProperty(example = "이름")
     private String name;
 
-
+    @NotNull
+    @ApiModelProperty(example = "true or false")
+    private boolean emailCertification;
 
     //입력할 필요 없음
     private Set<AuthorityRes> authorities;
@@ -50,6 +52,7 @@ public class SignUpUserReq {
                 .authorities(user.getAuthorities().stream()
                         .map(authority -> AuthorityRes.builder().authorityName(authority.getAuthorityName()).build())
                         .collect(Collectors.toSet()))
+                .emailCertification(true)
                 .build();
     }
 }
