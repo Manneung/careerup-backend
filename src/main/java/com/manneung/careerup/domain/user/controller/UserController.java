@@ -52,7 +52,7 @@ public class UserController {
     private final EmailService emailService;
 
     @ApiOperation(value = "이메일로 인증코드 발신", notes = "이메일로 인증코드 발신 -> 인증 코드 json 형태로 반환")
-    @PostMapping("login/mailConfirm")
+    @PostMapping("/signup/mailconfirm")
     public ResponseEntity<BaseResponse<EmailAuthResponseDto>> mailConfirm(@RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
 
         EmailAuthResponseDto emailAuthResponseDto = emailService.sendEmail(emailDto.getEmail());

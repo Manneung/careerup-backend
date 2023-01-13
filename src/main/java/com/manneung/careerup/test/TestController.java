@@ -44,7 +44,7 @@ public class TestController {
     private final EmailService emailService;
 
     @ApiOperation(value = "테스트 이메일 인증 api", notes = "테스트 이메일 인증 api")
-    @PostMapping("login/mailConfirm")
+    @PostMapping("/login/mailConfirm")
     public ResponseEntity<BaseResponse<EmailAuthResponseDto>> mailConfirm(@RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
 
         EmailAuthResponseDto emailAuthResponseDto = emailService.sendEmail(emailDto.getEmail());

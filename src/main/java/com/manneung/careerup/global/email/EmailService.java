@@ -3,6 +3,7 @@ package com.manneung.careerup.global.email;
 import com.manneung.careerup.domain.user.model.dto.PasswordRes;
 import com.manneung.careerup.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
