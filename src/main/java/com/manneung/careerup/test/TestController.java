@@ -43,6 +43,7 @@ public class TestController {
     private final S3UploaderService s3UploaderService;
     private final EmailService emailService;
 
+    @ApiOperation(value = "테스트 이메일 인증 api", notes = "테스트 이메일 인증 api")
     @PostMapping("login/mailConfirm")
     public ResponseEntity<BaseResponse<EmailAuthResponseDto>> mailConfirm(@RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
 
