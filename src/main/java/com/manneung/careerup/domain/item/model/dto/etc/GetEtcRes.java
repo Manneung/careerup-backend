@@ -12,6 +12,8 @@ import lombok.*;
 public class GetEtcRes {
     //기타 응답
 
+    private int itemIdx;
+
     private String category;
 
     private String title;
@@ -26,6 +28,7 @@ public class GetEtcRes {
 
     public static GetEtcRes from(Item item){
         return GetEtcRes.builder()
+                .itemIdx(item.getItemIdx())
                 .category(item.getCategory())
                 .title(item.getTitle())
                 .period(item.getPeriod())

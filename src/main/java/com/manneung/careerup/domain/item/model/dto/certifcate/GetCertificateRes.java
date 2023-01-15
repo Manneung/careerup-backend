@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 public class GetCertificateRes {
     //자격증 응답
+    private int itemIdx;
 
     private String category;
 
@@ -29,6 +30,7 @@ public class GetCertificateRes {
 
     public static GetCertificateRes from(Item item){
         return GetCertificateRes.builder()
+                .itemIdx(item.getItemIdx())
                 .category(item.getCategory())
                 .title(item.getTitle())
                 .institution(item.getInstitution())

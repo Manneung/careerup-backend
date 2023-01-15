@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 public class GetContestRes {
     //공모전 응답
+    private int itemIdx;
 
     private String category;
 
@@ -29,6 +30,7 @@ public class GetContestRes {
 
     public static GetContestRes from(Item item){
         return GetContestRes.builder()
+                .itemIdx(item.getItemIdx())
                 .category(item.getCategory())
                 .title(item.getTitle())
                 .institution(item.getInstitution())
