@@ -30,6 +30,7 @@ public class GetCertificateRes {
 
     public static GetCertificateRes from(Item item){
         return GetCertificateRes.builder()
+                .itemIdx(item.getItemIdx())
                 .category(item.getCategory())
                 .title(item.getTitle())
                 .institution(item.getInstitution())
