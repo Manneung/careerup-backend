@@ -18,6 +18,7 @@ public interface MapRepository extends JpaRepository<Map, Integer> {
     //List<Map> findAllByJobContaining(String job);
     Map findByMapIdx(int mapIdx);
 
+    boolean existsMapByMapIdx(int mapIdx);
 
 
 }
