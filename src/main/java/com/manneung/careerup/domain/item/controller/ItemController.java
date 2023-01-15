@@ -143,7 +143,7 @@ public class ItemController {
 
 
     //아이템 내용만 수정하기 api
-    @ApiOperation(value = "맵idx로 아이템 내용만 수정하기(카테고리로 구분, 순서변경은 따로)", notes = "아이템 수정하기")
+    @ApiOperation(value = "아이템idx로 아이템 내용만 수정하기(카테고리로 구분, 순서변경은 따로)", notes = "아이템 수정하기")
     @PatchMapping("/{itemIdx}/modify")
     public ResponseEntity<BaseResponse<Object>> modifyItem(
             @PathVariable(name = "itemIdx") int itemIdx, @RequestBody PostItemReq postItemReq) {

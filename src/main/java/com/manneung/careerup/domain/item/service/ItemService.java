@@ -64,9 +64,6 @@ public class ItemService {
      * CREATE
      * */
     public GetCertificateRes createCertificate(int mapIdx, PostCertificateReq postCertificateReq){
-
-        if(!mapRepository.existsMapByMapIdx(mapIdx)) return null;
-
         Item newItem = new Item();
 
         //아이템 내용
@@ -86,8 +83,6 @@ public class ItemService {
         return GetCertificateRes.from(newItem);
     }
     public GetClubRes createClub(int mapIdx, PostClubReq  postClubReq){
-        if(!mapRepository.existsMapByMapIdx(mapIdx)) return null;
-
         Item newItem = new Item();
 
         //아이템 내용
@@ -106,8 +101,6 @@ public class ItemService {
         return GetClubRes.from(newItem);
     }
     public GetContestRes createContest(int mapIdx, PostContestReq postContestReq){
-        if(!mapRepository.existsMapByMapIdx(mapIdx)) return null;
-
         Item newItem = new Item();
 
         //아이템 내용
@@ -127,9 +120,6 @@ public class ItemService {
         return GetContestRes.from(newItem);
     }
     public GetEtcRes createEtc(int mapIdx, PostEtcReq postEtcReq){
-
-        if(!mapRepository.existsMapByMapIdx(mapIdx)) return null;
-
         Item newItem = new Item();
 
         //아이템 내용
@@ -148,8 +138,6 @@ public class ItemService {
         return GetEtcRes.from(newItem);
     }
     public GetExternalActivityRes createExternalActivity(int mapIdx, PostExternalActivityReq postExternalActivityReq){
-        if(!mapRepository.existsMapByMapIdx(mapIdx)) return null;
-
         Item newItem = new Item();
 
         //아이템 내용
@@ -169,10 +157,8 @@ public class ItemService {
         return GetExternalActivityRes.from(newItem);
     }
     public GetStudyRes createStudy(int mapIdx, PostStudyReq postStudyReq){
-
-        if(!mapRepository.existsMapByMapIdx(mapIdx)) return null;
-
         Item newItem = new Item();
+
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postStudyReq.getTitle());

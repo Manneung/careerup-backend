@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 public class GetContestRes {
     //공모전 응답
+    private int itemIdx;
 
     private int itemIdx;
 

@@ -13,6 +13,8 @@ public class GetEtcRes {
     //기타 응답
     private int itemIdx;
 
+    private int itemIdx;
+
     private String category;
 
     private String title;
