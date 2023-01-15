@@ -99,7 +99,7 @@ public class MapService { //map, item
 
         List<Map> maps = mapRepository.findAllByUserIdx(user.getUserIdx());
 
-        if(maps.isEmpty()) return null;
+        if(maps.isEmpty()) return findMaps;
 
         for(Map m: maps){
             if(m.getStatus().equals("A")){  //활성 상태만
