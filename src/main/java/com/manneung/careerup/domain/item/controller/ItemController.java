@@ -31,8 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.manneung.careerup.domain.base.BaseResponseStatus.ITEM_NOT_FOUND_IDX_ERROR;
-import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
+import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 
 
 @RequiredArgsConstructor
@@ -63,7 +62,13 @@ public class ItemController {
     @PostMapping("/certificate")
     public ResponseEntity<BaseResponse<GetCertificateRes>> createCertificate(
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostCertificateReq postCertificateReq) {
+
+
         GetCertificateRes getCertificateRes = itemService.createCertificate(mapIdx, postCertificateReq);
+
+        if(getCertificateRes == null)
+            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, getCertificateRes));
     }
 
@@ -71,7 +76,13 @@ public class ItemController {
     @PostMapping("/club")
     public ResponseEntity<BaseResponse<GetClubRes>> createClub(
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostClubReq postClubReq) {
+
+
         GetClubRes getItemDetailRes = itemService.createClub(mapIdx, postClubReq);
+
+        if(getItemDetailRes == null)
+            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
     }
 
@@ -79,7 +90,12 @@ public class ItemController {
     @PostMapping("/contest")
     public ResponseEntity<BaseResponse<GetContestRes>> createContest(
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostContestReq postContestReq) {
+
         GetContestRes getContestRes = itemService.createContest(mapIdx, postContestReq);
+
+        if(getContestRes == null)
+            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, getContestRes));
     }
 
@@ -87,7 +103,12 @@ public class ItemController {
     @PostMapping("/etc")
     public ResponseEntity<BaseResponse<GetEtcRes>> createEtc(
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostEtcReq postEtcReq) {
+
         GetEtcRes getEtcRes = itemService.createEtc(mapIdx, postEtcReq);
+
+        if(getEtcRes == null)
+            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, getEtcRes));
     }
 
@@ -95,7 +116,14 @@ public class ItemController {
     @PostMapping("/external-activity")
     public ResponseEntity<BaseResponse<GetExternalActivityRes>> createExternalActivity(
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostExternalActivityReq postExternalActivityReq) {
+
+
+
         GetExternalActivityRes getExternalActivityRes = itemService.createExternalActivity(mapIdx, postExternalActivityReq);
+
+        if(getExternalActivityRes == null)
+            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, getExternalActivityRes));
     }
 
@@ -103,7 +131,13 @@ public class ItemController {
     @PostMapping("/study")
     public ResponseEntity<BaseResponse<GetStudyRes>> createStudy(
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostStudyReq postStudyReq) {
+
+
         GetStudyRes getStudyRes = itemService.createStudy(mapIdx, postStudyReq);
+
+        if(getStudyRes == null)
+            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, getStudyRes));
     }
 
