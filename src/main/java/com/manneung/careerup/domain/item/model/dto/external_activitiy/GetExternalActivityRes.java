@@ -13,6 +13,8 @@ import lombok.*;
 public class GetExternalActivityRes {
     //대외활동 응답
 
+    private int itemIdx;
+
     private String category;
 
     private String title;
@@ -29,6 +31,7 @@ public class GetExternalActivityRes {
 
     public static GetExternalActivityRes from(Item item){
         return GetExternalActivityRes.builder()
+                .itemIdx(item.getItemIdx())
                 .category(item.getCategory())
                 .title(item.getTitle())
                 .institution(item.getInstitution())

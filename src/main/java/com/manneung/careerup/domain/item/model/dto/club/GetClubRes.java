@@ -11,6 +11,7 @@ import lombok.*;
 @Builder
 public class GetClubRes {
     //동아리 응답
+    private int itemIdx;
 
     private String category;
 
@@ -26,6 +27,7 @@ public class GetClubRes {
 
     public static GetClubRes from(Item item){
         return GetClubRes.builder()
+                .itemIdx(item.getItemIdx())
                 .category(item.getCategory())
                 .title(item.getTitle())
                 .period(item.getPeriod())
