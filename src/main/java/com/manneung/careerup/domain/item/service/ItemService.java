@@ -158,7 +158,6 @@ public class ItemService {
     }
     public GetStudyRes createStudy(int mapIdx, PostStudyReq postStudyReq){
         Item newItem = new Item();
-
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postStudyReq.getTitle());

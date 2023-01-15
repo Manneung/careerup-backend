@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 public class GetStudyRes {
     //스터디 응답
+    private int itemIdx;
 
     private String category;
 
@@ -27,6 +28,7 @@ public class GetStudyRes {
 
     public static GetStudyRes from(Item item){
         return GetStudyRes.builder()
+                .itemIdx(item.getItemIdx())
                 .category(item.getCategory())
                 .title(item.getTitle())
                 .period(item.getPeriod())
