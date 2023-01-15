@@ -188,7 +188,7 @@ public class UserService {
         if(patchUserReq.getMajor1() != null)
             user.setMajor1(patchUserReq.getMajor1());
         if(patchUserReq.getMajor2() != null)
-            user.setMajor1(patchUserReq.getMajor2());
+            user.setMajor2(patchUserReq.getMajor2());
         if(patchUserReq.getInterestField1() != null)
             user.setInterestField1(patchUserReq.getInterestField1());
         if(patchUserReq.getInterestField2() != null)
