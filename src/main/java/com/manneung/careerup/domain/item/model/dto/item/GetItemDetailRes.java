@@ -2,6 +2,7 @@ package com.manneung.careerup.domain.item.model.dto.item;
 
 
 import com.manneung.careerup.domain.file.model.File;
+import com.manneung.careerup.domain.file.model.GetFile;
 import com.manneung.careerup.domain.item.model.Item;
 import lombok.*;
 
@@ -19,6 +20,8 @@ public class GetItemDetailRes {
 
     private String title;
 
+    private String subtitle; //활동 부제목
+
     private String institution; //기관
 
     private String period;
@@ -33,12 +36,13 @@ public class GetItemDetailRes {
 
     private String realization; //느낀 점
 
-    private List<File> files;
+    private List<GetFile> files;
 
-    public static GetItemDetailRes from(Item item, List<File> files){
+    public static GetItemDetailRes from(Item item, List<GetFile> files){
         return GetItemDetailRes.builder()
                 .category(item.getCategory())
                 .title(item.getTitle())
+                .subtitle(item.getSubtitle())
                 .institution(item.getInstitution())
                 .period(item.getPeriod())
                 .acquisition(item.getAcquisition())

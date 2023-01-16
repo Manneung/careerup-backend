@@ -2,6 +2,7 @@ package com.manneung.careerup.domain.item.service;
 
 
 import com.manneung.careerup.domain.file.model.File;
+import com.manneung.careerup.domain.file.model.GetFile;
 import com.manneung.careerup.domain.file.service.FileService;
 import com.manneung.careerup.domain.item.model.Item;
 import com.manneung.careerup.domain.item.model.dto.certifcate.GetCertificateRes;
@@ -72,6 +73,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postCertificateReq.getTitle());
+        newItem.setSubtitle(postCertificateReq.getSubtitle());
         newItem.setSequence(postCertificateReq.getSequence());
         //newItem.setCategory(postCertificateReq.getCategory());
         newItem.setCategory("자격증");
@@ -93,6 +95,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postClubReq.getTitle());
+        newItem.setSubtitle(postClubReq.getSubtitle());
         newItem.setSequence(postClubReq.getSequence());
         //newItem.setCategory(postClubReq.getCategory());
         newItem.setCategory("동아리");
@@ -113,6 +116,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postContestReq.getTitle());
+        newItem.setSubtitle(postContestReq.getSubtitle());
         newItem.setSequence(postContestReq.getSequence());
         //newItem.setCategory(postContestReq.getCategory());
         newItem.setCategory("공모전");
@@ -136,6 +140,7 @@ public class ItemService {
         newItem.setMapIdx(mapIdx);
         newItem.setSequence(postEtcReq.getSequence());
         newItem.setTitle(postEtcReq.getTitle());
+        newItem.setSubtitle(postEtcReq.getSubtitle());
         //newItem.setCategory(postEtcReq.getCategory());
         newItem.setCategory("기타");
         newItem.setPeriod(postEtcReq.getPeriod());
@@ -155,6 +160,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postExternalActivityReq.getTitle());
+        newItem.setSubtitle(postExternalActivityReq.getSubtitle());
         newItem.setSequence(postExternalActivityReq.getSequence());
         //newItem.setCategory(postExternalActivityReq.getCategory());
         newItem.setCategory("대외활동");
@@ -176,6 +182,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postStudyReq.getTitle());
+        newItem.setSubtitle(postStudyReq.getSubtitle());
         newItem.setSequence(postStudyReq.getSequence());
         //newItem.setCategory(postStudyReq.getCategory());
         newItem.setField(postStudyReq.getField());
@@ -199,6 +206,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getInstitution() != null)
             item.setInstitution(postItemReq.getInstitution());
         if(postItemReq.getPeriod() != null)
@@ -219,6 +228,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getPeriod() != null)
             item.setPeriod(postItemReq.getPeriod());
         if(postItemReq.getRole() != null)
@@ -237,6 +248,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getInstitution() != null)
             item.setInstitution(postItemReq.getInstitution());
         if(postItemReq.getPeriod() != null)
@@ -257,6 +270,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getPeriod() != null)
             item.setPeriod(postItemReq.getPeriod());
         if(postItemReq.getRole() != null)
@@ -275,6 +290,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getInstitution() != null)
             item.setInstitution(postItemReq.getInstitution());
         if(postItemReq.getPeriod() != null)
@@ -295,6 +312,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getPeriod() != null)
             item.setPeriod(postItemReq.getPeriod());
         if(postItemReq.getField() != null)
@@ -361,11 +380,19 @@ public class ItemService {
 
     //자세하게 아이템 내용 보여주기
     public GetItemDetailRes showItemDetail(int itemIdx){
-        List<File> filesByItemIdx = fileService.findFilesByItemIdx(itemIdx);
+        List<GetFile> getFiles = new ArrayList<>();
+        List<File> files = fileService.findFilesByItemIdx(itemIdx);
         Item findItem = itemRepository.findByItemIdx(itemIdx);
 
+
+        for(File f : files){
+            GetFile getFile = new GetFile(f.getFileIdx(), f.getFileType(), f.getFileUrl());
+            getFiles.add(getFile);
+        }
+
+
         if(findItem != null){
-            return GetItemDetailRes.from(findItem, filesByItemIdx);
+            return GetItemDetailRes.from(findItem, getFiles);
         } else {
             return null;
         }

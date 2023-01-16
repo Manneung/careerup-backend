@@ -19,6 +19,8 @@ public class PostEtcReq {
 
     private String title;
 
+    private String subtitle; //활동 부제목
+
     private String period;
 
     private String role; //맡은 역할

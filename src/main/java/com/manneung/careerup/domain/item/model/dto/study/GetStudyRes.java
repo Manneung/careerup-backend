@@ -18,6 +18,8 @@ public class GetStudyRes {
 
     private String title;
 
+    private String subtitle; //활동 부제목
+
     private String period;
 
     private String field; //분야, 주제
@@ -31,6 +33,7 @@ public class GetStudyRes {
                 .itemIdx(item.getItemIdx())
                 .category(item.getCategory())
                 .title(item.getTitle())
+                .subtitle(item.getSubtitle())
                 .period(item.getPeriod())
                 .field(item.getField())
                 .content(item.getContent())

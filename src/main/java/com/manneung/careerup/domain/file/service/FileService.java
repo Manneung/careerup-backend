@@ -41,18 +41,19 @@ public class FileService {
     //fileType: "활동사진", "활동파일"
     //활동 사진 업로드
     public String itemPictureUpload(int itemIdx, MultipartFile multipartFile, String bucket, String dirName ) throws IOException {
-        String fileName = s3UploaderService.upload(multipartFile, "careerup-bucket", dirName);
+        String fileUrl = s3UploaderService.upload(multipartFile, "careerup-bucket", dirName);
 
         File newFile = new File();
         newFile.setItemIdx(itemIdx);
         if (dirName == "files") newFile.setFileType("활동파일");
         else newFile.setFileType("활동사진");
-        newFile.setFileName(fileName);
+        newFile.setFileUrl(fileUrl);
 
         fileRepository.save(newFile);
 
-        return fileName;
+        return fileUrl;
     }
+
 
     public Boolean deleteFile(int fileIdx) {
         try {
@@ -73,7 +74,7 @@ public class FileService {
         File fileToUpdate = optionalFile.get();
         // Update the file according to your business logic
         fileToUpdate.setFileType(file.getFileType());
-        fileToUpdate.setFileName(file.getFileName());
+        fileToUpdate.setFileUrl(file.getFileUrl());
         // Save the updated file to the database
         return fileRepository.save(fileToUpdate);
     }
