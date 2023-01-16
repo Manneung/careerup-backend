@@ -206,6 +206,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getInstitution() != null)
             item.setInstitution(postItemReq.getInstitution());
         if(postItemReq.getPeriod() != null)
@@ -226,6 +228,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getPeriod() != null)
             item.setPeriod(postItemReq.getPeriod());
         if(postItemReq.getRole() != null)
@@ -244,6 +248,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getInstitution() != null)
             item.setInstitution(postItemReq.getInstitution());
         if(postItemReq.getPeriod() != null)
@@ -264,6 +270,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getPeriod() != null)
             item.setPeriod(postItemReq.getPeriod());
         if(postItemReq.getRole() != null)
@@ -282,6 +290,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getInstitution() != null)
             item.setInstitution(postItemReq.getInstitution());
         if(postItemReq.getPeriod() != null)
@@ -302,6 +312,8 @@ public class ItemService {
 
         if(postItemReq.getTitle() != null)
             item.setTitle(postItemReq.getTitle());
+        if(postItemReq.getSubtitle() != null)
+            item.setSubtitle(postItemReq.getSubtitle());
         if(postItemReq.getPeriod() != null)
             item.setPeriod(postItemReq.getPeriod());
         if(postItemReq.getField() != null)
