@@ -19,6 +19,8 @@ public class PostStudyReq {
 
     private String title;
 
+    private String subtitle; //활동 부제목
+
     private String period;
 
     private String field; //분야, 주제
