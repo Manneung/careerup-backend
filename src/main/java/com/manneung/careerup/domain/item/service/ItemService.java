@@ -73,6 +73,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postCertificateReq.getTitle());
+        newItem.setSubtitle(postCertificateReq.getSubtitle());
         newItem.setSequence(postCertificateReq.getSequence());
         //newItem.setCategory(postCertificateReq.getCategory());
         newItem.setCategory("자격증");
@@ -94,6 +95,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postClubReq.getTitle());
+        newItem.setSubtitle(postClubReq.getSubtitle());
         newItem.setSequence(postClubReq.getSequence());
         //newItem.setCategory(postClubReq.getCategory());
         newItem.setCategory("동아리");
@@ -114,6 +116,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postContestReq.getTitle());
+        newItem.setSubtitle(postContestReq.getSubtitle());
         newItem.setSequence(postContestReq.getSequence());
         //newItem.setCategory(postContestReq.getCategory());
         newItem.setCategory("공모전");
@@ -137,6 +140,7 @@ public class ItemService {
         newItem.setMapIdx(mapIdx);
         newItem.setSequence(postEtcReq.getSequence());
         newItem.setTitle(postEtcReq.getTitle());
+        newItem.setSubtitle(postEtcReq.getSubtitle());
         //newItem.setCategory(postEtcReq.getCategory());
         newItem.setCategory("기타");
         newItem.setPeriod(postEtcReq.getPeriod());
@@ -156,6 +160,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postExternalActivityReq.getTitle());
+        newItem.setSubtitle(postExternalActivityReq.getSubtitle());
         newItem.setSequence(postExternalActivityReq.getSequence());
         //newItem.setCategory(postExternalActivityReq.getCategory());
         newItem.setCategory("대외활동");
@@ -177,6 +182,7 @@ public class ItemService {
         //아이템 내용
         newItem.setMapIdx(mapIdx);
         newItem.setTitle(postStudyReq.getTitle());
+        newItem.setSubtitle(postStudyReq.getSubtitle());
         newItem.setSequence(postStudyReq.getSequence());
         //newItem.setCategory(postStudyReq.getCategory());
         newItem.setField(postStudyReq.getField());
