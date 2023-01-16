@@ -61,6 +61,14 @@ public class ItemService {
 //        return GetItemDetailRes.from(newItem);
 //    }
 
+
+    public boolean existsByItemIdx(int itemIdx){
+        return itemRepository.existsByItemIdx(itemIdx);
+    }
+
+
+
+
     /**
      * CREATE
      * */

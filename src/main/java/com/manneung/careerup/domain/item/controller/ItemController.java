@@ -78,12 +78,12 @@ public class ItemController {
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostClubReq postClubReq) {
 
 
-        GetClubRes getItemDetailRes = itemService.createClub(mapIdx, postClubReq);
+        GetClubRes getClubRes = itemService.createClub(mapIdx, postClubReq);
 
-        if(getItemDetailRes == null)
+        if(getClubRes == null)
             return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
 
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getClubRes));
     }
 
     @ApiOperation(value = "맵idx로 공모전 추가하기", notes = "공모전 추가하기")
@@ -175,6 +175,10 @@ public class ItemController {
     @PatchMapping("/{mapIdx}")
     public ResponseEntity<BaseResponse<List<GetItemRes>>> showItemDetail(
             @PathVariable(name = "mapIdx") int mapIdx, @RequestBody List<PatchSequenceReq> sequenceReqList) {
+
+        if(!mapService.existsMapByMapIdx(mapIdx))
+            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+
         List<GetItemRes> getItemResList = itemService.changeItemSequence(mapIdx, sequenceReqList);
 
         return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemResList));
@@ -236,25 +240,34 @@ public class ItemController {
 
     @ApiOperation(value = "아이템에 활동 사진 추가", notes = "아이템에 활동 사진 추가")
     @PostMapping("/upload/{itemIdx}/picture")
-    public List<String> itemPictureUpload(
+    public ResponseEntity<BaseResponse<List<String>>> itemPictureUpload(
             @RequestPart("images") List<MultipartFile> multipartFiles, @PathVariable int itemIdx) throws IOException {
-            List<String> list = new ArrayList<>();
-            for (MultipartFile file : multipartFiles) {
-                String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "images");
-                list.add(fileUrl);
-            }
-            return list;
+
+        if(!itemService.existsByItemIdx(itemIdx))
+            return ResponseEntity.ok(BaseResponse.create(ITEM_NOT_FOUND_IDX_ERROR));
+
+        List<String> list = new ArrayList<>();
+        for (MultipartFile file : multipartFiles) {
+            String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "images");
+            list.add(fileUrl);
+        }
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, list));
     }
 
     @ApiOperation(value = "아이템에 파일 추가", notes = "아이템에 파일 추가")
     @PostMapping("upload/{itemIdx}/files")
-    public List<String> itemFileUpload(
+    public ResponseEntity<BaseResponse<List<String>>> itemFileUpload(
             @RequestPart("files") List<MultipartFile> multipartFiles, @PathVariable int itemIdx) throws IOException {
+
+        if(!itemService.existsByItemIdx(itemIdx))
+            return ResponseEntity.ok(BaseResponse.create(ITEM_NOT_FOUND_IDX_ERROR));
+
+
         List<String> list = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
             String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "files");
             list.add(fileUrl);
         }
-        return list;
+        return ResponseEntity.ok(BaseResponse.create(SUCCESS, list));
     }
 }
