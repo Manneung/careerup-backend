@@ -20,6 +20,8 @@ public class GetItemDetailRes {
 
     private String title;
 
+    private String subtitle; //활동 부제목
+
     private String institution; //기관
 
     private String period;
@@ -40,6 +42,7 @@ public class GetItemDetailRes {
         return GetItemDetailRes.builder()
                 .category(item.getCategory())
                 .title(item.getTitle())
+                .subtitle(item.getSubtitle())
                 .institution(item.getInstitution())
                 .period(item.getPeriod())
                 .acquisition(item.getAcquisition())

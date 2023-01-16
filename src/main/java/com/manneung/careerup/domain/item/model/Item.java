@@ -37,6 +37,8 @@ public class Item extends BaseEntity {
 
     private String title; //활동 제목
 
+    private String subtitle; //활동 부제목
+
     private String institution; //기관
 
     private String period;

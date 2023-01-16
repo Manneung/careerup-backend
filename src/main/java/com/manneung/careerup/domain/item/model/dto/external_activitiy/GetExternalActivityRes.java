@@ -19,6 +19,8 @@ public class GetExternalActivityRes {
 
     private String title;
 
+    private String subtitle; //활동 부제목
+
     private String institution; //기관
 
     private String period;
@@ -34,6 +36,7 @@ public class GetExternalActivityRes {
                 .itemIdx(item.getItemIdx())
                 .category(item.getCategory())
                 .title(item.getTitle())
+                .subtitle(item.getSubtitle())
                 .institution(item.getInstitution())
                 .period(item.getPeriod())
                 .field(item.getField())
