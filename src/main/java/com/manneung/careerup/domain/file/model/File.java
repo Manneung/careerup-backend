@@ -26,8 +26,11 @@ public class File {
     @Column(name = "file_type")
     private String fileType;
 
-    @Column(name = "file_name")
-    private String fileName;
+//    @Column(name = "file_name")
+//    private String fileName;
+
+    @Column(name = "file_url")
+    private String fileUrl;
 }
 
 

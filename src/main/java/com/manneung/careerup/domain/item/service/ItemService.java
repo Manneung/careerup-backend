@@ -2,6 +2,7 @@ package com.manneung.careerup.domain.item.service;
 
 
 import com.manneung.careerup.domain.file.model.File;
+import com.manneung.careerup.domain.file.model.GetFile;
 import com.manneung.careerup.domain.file.service.FileService;
 import com.manneung.careerup.domain.item.model.Item;
 import com.manneung.careerup.domain.item.model.dto.certifcate.GetCertificateRes;
@@ -361,11 +362,19 @@ public class ItemService {
 
     //자세하게 아이템 내용 보여주기
     public GetItemDetailRes showItemDetail(int itemIdx){
-        List<File> filesByItemIdx = fileService.findFilesByItemIdx(itemIdx);
+        List<GetFile> getFiles = new ArrayList<>();
+        List<File> files = fileService.findFilesByItemIdx(itemIdx);
         Item findItem = itemRepository.findByItemIdx(itemIdx);
 
+
+        for(File f : files){
+            GetFile getFile = new GetFile(f.getFileIdx(), f.getFileType(), f.getFileUrl());
+            getFiles.add(getFile);
+        }
+
+
         if(findItem != null){
-            return GetItemDetailRes.from(findItem, filesByItemIdx);
+            return GetItemDetailRes.from(findItem, getFiles);
         } else {
             return null;
         }
