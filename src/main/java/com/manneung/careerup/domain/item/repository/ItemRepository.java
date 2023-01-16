@@ -20,4 +20,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     Item findByItemIdx(int itemIdx);
 
+    boolean existsByItemIdx(int itemIdx);
+
 }

@@ -30,6 +30,11 @@ public class MapService { //map, item
     }
 
 
+    public boolean existsMapByMapIdx(int mapIdx){
+        return mapRepository.existsMapByMapIdx(mapIdx);
+    }
+
+
     //CRUD
     public PostMapRes createMap(PostMapReq postMapReq) { //맵 자체만 생성
 
