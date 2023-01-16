@@ -20,10 +20,10 @@ public class BaseResponse<T> {
     private T result;
 
 
-    public static <T> BaseResponse<T> create(BaseResponseStatus baseResponseStatus) {
+    public static <T> BaseResponse<T> ok(BaseResponseStatus baseResponseStatus) {
         return new BaseResponse<>(baseResponseStatus.getCode(), baseResponseStatus.getMessage(), null);
     }
-    public static <T> BaseResponse<T> create(BaseResponseStatus baseResponseStatus, T result) {
+    public static <T> BaseResponse<T> ok(BaseResponseStatus baseResponseStatus, T result) {
         return new BaseResponse<>(baseResponseStatus.getCode(), baseResponseStatus.getMessage(), result);
     }
 

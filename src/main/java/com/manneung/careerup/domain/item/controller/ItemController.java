@@ -50,9 +50,9 @@ public class ItemController {
         GetItemDetailRes getItemDetailRes = itemService.showItemDetail(itemIdx);
 
         if (getItemDetailRes == null) {
-            return ResponseEntity.ok(BaseResponse.create(ITEM_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(ITEM_NOT_FOUND_IDX_ERROR));
         } else {
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getItemDetailRes));
         }
     }
 
@@ -67,9 +67,9 @@ public class ItemController {
         GetCertificateRes getCertificateRes = itemService.createCertificate(mapIdx, postCertificateReq);
 
         if(getCertificateRes == null)
-            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getCertificateRes));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getCertificateRes));
     }
 
     @ApiOperation(value = "맵idx로 동아리 추가하기", notes = "동아리 추가하기")
@@ -81,9 +81,9 @@ public class ItemController {
         GetClubRes getClubRes = itemService.createClub(mapIdx, postClubReq);
 
         if(getClubRes == null)
-            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getClubRes));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getClubRes));
     }
 
     @ApiOperation(value = "맵idx로 공모전 추가하기", notes = "공모전 추가하기")
@@ -94,9 +94,9 @@ public class ItemController {
         GetContestRes getContestRes = itemService.createContest(mapIdx, postContestReq);
 
         if(getContestRes == null)
-            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getContestRes));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getContestRes));
     }
 
     @ApiOperation(value = "맵idx로 기타 활동 추가하기", notes = "기타 활동 추가하기")
@@ -107,9 +107,9 @@ public class ItemController {
         GetEtcRes getEtcRes = itemService.createEtc(mapIdx, postEtcReq);
 
         if(getEtcRes == null)
-            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getEtcRes));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getEtcRes));
     }
 
     @ApiOperation(value = "맵idx로 대외활동 추가하기", notes = "대외활동 추가하기")
@@ -122,9 +122,9 @@ public class ItemController {
         GetExternalActivityRes getExternalActivityRes = itemService.createExternalActivity(mapIdx, postExternalActivityReq);
 
         if(getExternalActivityRes == null)
-            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getExternalActivityRes));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getExternalActivityRes));
     }
 
     @ApiOperation(value = "맵idx로 스터디 추가하기", notes = "스터디 추가하기")
@@ -136,9 +136,9 @@ public class ItemController {
         GetStudyRes getStudyRes = itemService.createStudy(mapIdx, postStudyReq);
 
         if(getStudyRes == null)
-            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getStudyRes));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getStudyRes));
     }
 
 
@@ -150,25 +150,25 @@ public class ItemController {
 
         if (postItemReq.getCategory().equals("자격증")) {
             GetCertificateRes getCertificateRes = itemService.modifyCertificate(itemIdx, postItemReq);
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getCertificateRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getCertificateRes));
         } else if (postItemReq.getCategory().equals("동아리")) {
             GetClubRes getItemDetailRes = itemService.modifyClub(itemIdx, postItemReq);
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getItemDetailRes));
         } else if (postItemReq.getCategory().equals("공모전")) {
             GetContestRes getContestRes = itemService.modifyContest(itemIdx, postItemReq);
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getContestRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getContestRes));
         } else if (postItemReq.getCategory().equals("기타")) {
             GetEtcRes getEtcRes = itemService.modifyEtc(itemIdx, postItemReq);
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getEtcRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getEtcRes));
         } else if (postItemReq.getCategory().equals("대외활동")) {
             GetExternalActivityRes getExternalActivityRes = itemService.modifyExternalActivity(itemIdx, postItemReq);
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getExternalActivityRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getExternalActivityRes));
         } else if (postItemReq.getCategory().equals("스터디")) {
             GetStudyRes getStudyRes = itemService.modifyStudy(itemIdx, postItemReq);
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getStudyRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getStudyRes));
         }
 
-        return ResponseEntity.ok(BaseResponse.create(ITEM_NOT_FOUND_IDX_ERROR));
+        return ResponseEntity.ok(BaseResponse.ok(ITEM_NOT_FOUND_IDX_ERROR));
     }
 
     @ApiOperation(value = "맵idx로 아이템 순서 변경 ", notes = "맵idx로 아이템 순서 변경")
@@ -177,11 +177,11 @@ public class ItemController {
             @PathVariable(name = "mapIdx") int mapIdx, @RequestBody List<PatchSequenceReq> sequenceReqList) {
 
         if(!mapService.existsMapByMapIdx(mapIdx))
-            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
         List<GetItemRes> getItemResList = itemService.changeItemSequence(mapIdx, sequenceReqList);
 
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemResList));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getItemResList));
     }
 
 
@@ -189,7 +189,7 @@ public class ItemController {
     @DeleteMapping("/{itemIdx}")
     public ResponseEntity<BaseResponse<String>> deleteItem(@PathVariable(name = "itemIdx") int itemIdx) {
         String result = itemService.deleteItem(itemIdx);
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, result));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, result));
     }
 
 //    @ApiOperation(value="맵idx로 자격증 수정하기", notes = "자격증 수정하기")
@@ -244,14 +244,14 @@ public class ItemController {
             @RequestPart("images") List<MultipartFile> multipartFiles, @PathVariable int itemIdx) throws IOException {
 
         if(!itemService.existsByItemIdx(itemIdx))
-            return ResponseEntity.ok(BaseResponse.create(ITEM_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(ITEM_NOT_FOUND_IDX_ERROR));
 
         List<String> list = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
             String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "images");
             list.add(fileUrl);
         }
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, list));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, list));
     }
 
     @ApiOperation(value = "아이템에 파일 추가", notes = "아이템에 파일 추가")
@@ -260,7 +260,7 @@ public class ItemController {
             @RequestPart("files") List<MultipartFile> multipartFiles, @PathVariable int itemIdx) throws IOException {
 
         if(!itemService.existsByItemIdx(itemIdx))
-            return ResponseEntity.ok(BaseResponse.create(ITEM_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(ITEM_NOT_FOUND_IDX_ERROR));
 
 
         List<String> list = new ArrayList<>();
@@ -268,6 +268,6 @@ public class ItemController {
             String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "files");
             list.add(fileUrl);
         }
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, list));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, list));
     }
 }

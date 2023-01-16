@@ -27,9 +27,9 @@ public class MapController {
         PostMapRes postMapRes = mapService.createMap(postMapReq);
 
         if(postMapRes == null){
-            return ResponseEntity.ok(BaseResponse.create(MAP_FAILED_TO_CREATE_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_FAILED_TO_CREATE_ERROR));
         } else{
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, postMapRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, postMapRes));
         }
     }
 
@@ -40,9 +40,9 @@ public class MapController {
         PatchMapRes patchMapRes = mapService.modifyMap(mapIdx, patchMapReq);
 
         if(patchMapRes == null){
-            return ResponseEntity.ok(BaseResponse.create(MAP_FAILED_TO_CREATE_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_FAILED_TO_CREATE_ERROR));
         } else{
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, patchMapRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, patchMapRes));
         }
     }
 
@@ -54,9 +54,9 @@ public class MapController {
         DeleteMapRes deleteMapRes = mapService.deleteMap(mapIdx);
 
         if(deleteMapRes == null){
-            return ResponseEntity.ok(BaseResponse.create(MAP_FAILED_TO_DELETE_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_FAILED_TO_DELETE_ERROR));
         } else{
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, deleteMapRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, deleteMapRes));
         }
     }
 
@@ -65,7 +65,7 @@ public class MapController {
     @GetMapping("/my-map")
     public ResponseEntity<BaseResponse<List<GetMapSimpleRes>>> searchMyMap(){
         List<GetMapSimpleRes> getMapSimpleResList = mapService.searchMyMaps();
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapSimpleResList));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getMapSimpleResList));
     }
 
 
@@ -76,10 +76,10 @@ public class MapController {
         GetMapDetailRes getMapDetailRes = mapService.searchMapDetail(mapIdx);
 
         if(getMapDetailRes == null){
-            return ResponseEntity.ok(BaseResponse.create(MAP_NOT_FOUND_IDX_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
         } else {
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapDetailRes));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getMapDetailRes));
         }
     }
 

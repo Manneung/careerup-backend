@@ -1,7 +1,6 @@
 package com.manneung.careerup.domain.user.controller;
 
 
-import com.manneung.careerup.domain.base.BaseEntity;
 import com.manneung.careerup.domain.base.BaseResponse;
 import com.manneung.careerup.domain.base.BaseResponseStatus;
 import com.manneung.careerup.domain.user.model.dto.*;
@@ -10,21 +9,13 @@ import com.manneung.careerup.domain.user.service.UserService;
 import com.manneung.careerup.global.email.EmailAuthRequestDto;
 import com.manneung.careerup.global.email.EmailAuthResponseDto;
 import com.manneung.careerup.global.email.EmailService;
-import com.manneung.careerup.global.jwt.JwtFilter;
 import com.manneung.careerup.global.jwt.TokenProvider;
 import com.manneung.careerup.global.jwt.TokenRes;
 import com.manneung.careerup.global.s3.S3UploaderService;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,7 +47,7 @@ public class UserController {
     public ResponseEntity<BaseResponse<EmailAuthResponseDto>> mailConfirm(@RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
 
         EmailAuthResponseDto emailAuthResponseDto = emailService.sendEmail(emailDto.getEmail());
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, emailAuthResponseDto));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, emailAuthResponseDto));
     }
 
     @ApiOperation(value = "회원 가입(authorities는 적지 않아도 됨)", notes = "authorities는 적지 않아도 됨, " +
@@ -67,10 +58,10 @@ public class UserController {
 
         //같은 이메일로 회원가입
         if(userService.existsUserByUsername(signupUserReq.getUsername())){
-            return ResponseEntity.ok(BaseResponse.create(USER_ALREADY_EXIST_USERNAME));
+            return ResponseEntity.ok(BaseResponse.ok(USER_ALREADY_EXIST_USERNAME));
         }
 
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, userService.signup(signupUserReq)));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, userService.signup(signupUserReq)));
     }
 
 
@@ -88,17 +79,17 @@ public class UserController {
 
         //없는 계정으로 로그인
         if(!userService.existsUserByUsername(loginUserReq.getUsername())){
-            return ResponseEntity.ok(BaseResponse.create(USER_NOT_EXIST_EMAIL_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(USER_NOT_EXIST_EMAIL_ERROR));
         }
 
         //비밀번호 다르게 입력
         if(!userService.loginPasswordCheck(loginUserReq.getUsername(), loginUserReq.getPassword())){
-            return ResponseEntity.ok(BaseResponse.create(USER_NOT_CORRECT_PASSWORD));
+            return ResponseEntity.ok(BaseResponse.ok(USER_NOT_CORRECT_PASSWORD));
         }
 
 
         TokenRes tokenRes = userService.login(loginUserReq);
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS,tokenRes));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS,tokenRes));
     }
 
 
@@ -106,7 +97,7 @@ public class UserController {
     @GetMapping("")
     public ResponseEntity<BaseResponse<GetUserDetailRes>> getUserInfo() {
         GetUserDetailRes getUserDetailRes = userService.getUserInfo();
-        return ResponseEntity.ok(BaseResponse.create(BaseResponseStatus.SUCCESS, getUserDetailRes));
+        return ResponseEntity.ok(BaseResponse.ok(BaseResponseStatus.SUCCESS, getUserDetailRes));
     }
 
 
@@ -115,7 +106,7 @@ public class UserController {
     @PatchMapping("/modify")
     public ResponseEntity<BaseResponse<GetUserDetailRes>> modifyUserInfo(@RequestBody PatchUserReq patchUserReq) {
         GetUserDetailRes getUserDetailRes = userService.modifyUserInfo(patchUserReq);
-        return ResponseEntity.ok(BaseResponse.create(BaseResponseStatus.SUCCESS, getUserDetailRes));
+        return ResponseEntity.ok(BaseResponse.ok(BaseResponseStatus.SUCCESS, getUserDetailRes));
     }
 
 
@@ -125,9 +116,9 @@ public class UserController {
 
         if(multipartFile != null){
             String imageUrl = userService.setUserPicture(multipartFile);
-            return ResponseEntity.ok(BaseResponse.create(SUCCESS, imageUrl));
+            return ResponseEntity.ok(BaseResponse.ok(SUCCESS, imageUrl));
         } else {
-            return ResponseEntity.ok(BaseResponse.create(USER_FAILED_TO_SET_PICTURE));
+            return ResponseEntity.ok(BaseResponse.ok(USER_FAILED_TO_SET_PICTURE));
         }
     }
 
@@ -139,9 +130,9 @@ public class UserController {
         PasswordRes passwordRes = emailService.sendPassword(email);
 
         if(passwordRes == null){
-            return ResponseEntity.ok(BaseResponse.create(USER_NOT_EXIST_EMAIL_ERROR));
+            return ResponseEntity.ok(BaseResponse.ok(USER_NOT_EXIST_EMAIL_ERROR));
         } else {
-            return ResponseEntity.ok(BaseResponse.create(BaseResponseStatus.SUCCESS, passwordRes));
+            return ResponseEntity.ok(BaseResponse.ok(BaseResponseStatus.SUCCESS, passwordRes));
         }
     }
 
@@ -152,9 +143,9 @@ public class UserController {
         PasswordRes passwordRes = userService.setPassword(newPassword);
 
         if(passwordRes == null){
-            return ResponseEntity.ok(BaseResponse.create(USER_FAILED_TO_SET_PASSWORD));
+            return ResponseEntity.ok(BaseResponse.ok(USER_FAILED_TO_SET_PASSWORD));
         } else {
-            return ResponseEntity.ok(BaseResponse.create(BaseResponseStatus.SUCCESS, passwordRes));
+            return ResponseEntity.ok(BaseResponse.ok(BaseResponseStatus.SUCCESS, passwordRes));
         }
     }
 

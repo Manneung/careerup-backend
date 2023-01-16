@@ -2,29 +2,20 @@ package com.manneung.careerup.test;
 
 
 import com.manneung.careerup.domain.base.BaseResponse;
-import com.manneung.careerup.domain.user.model.dto.GetUserRes;
 import com.manneung.careerup.global.email.EmailAuthRequestDto;
 import com.manneung.careerup.global.email.EmailAuthResponseDto;
 import com.manneung.careerup.global.email.EmailService;
-import com.manneung.careerup.global.jwt.JwtFilter;
 
 import com.manneung.careerup.global.jwt.TokenProvider;
 import com.manneung.careerup.global.s3.S3UploaderService;
 import io.swagger.annotations.ApiOperation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
-import javax.validation.Valid;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -48,14 +39,14 @@ public class TestController {
     public ResponseEntity<BaseResponse<EmailAuthResponseDto>> mailConfirm(@RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
 
         EmailAuthResponseDto emailAuthResponseDto = emailService.sendEmail(emailDto.getEmail());
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, emailAuthResponseDto));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, emailAuthResponseDto));
     }
 
     @ApiOperation(value = "테스트 컨트롤러 성공 api", notes = "테스트 컨트롤러 성공 api")
     @GetMapping("/success")
     public ResponseEntity<BaseResponse<TestRes>> testSuccess(){
         TestRes testRes = new TestRes("test success api");
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, testRes));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, testRes));
     }
 
 
@@ -72,14 +63,14 @@ public class TestController {
     @GetMapping("/error")
     public ResponseEntity<BaseResponse<TestRes>> testFail(){
         TestRes testRes = new TestRes("test error api");
-        return ResponseEntity.ok(BaseResponse.create(FAIL, testRes));
+        return ResponseEntity.ok(BaseResponse.ok(FAIL, testRes));
     }
 
     @ApiOperation(value = "테스트 컨트롤러 post 테스트 api", notes = "테스트 컨트롤러 post 테스트 api")
     @PostMapping("/test-post")
     public ResponseEntity<BaseResponse<TestRes>> testPost(@RequestBody TestReq testReq){
         TestRes testRes = new TestRes(testReq.getMessage());
-        return ResponseEntity.ok(BaseResponse.create(SUCCESS, testRes));
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, testRes));
     }
 
 //    @ApiOperation(value = "테스트 컨트롤러 로그인테스트", notes = "로그인 테스트(이메일, 비밀번호)")
