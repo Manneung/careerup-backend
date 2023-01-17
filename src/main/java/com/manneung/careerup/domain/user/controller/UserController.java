@@ -150,6 +150,15 @@ public class UserController {
     }
 
 
+    @ApiOperation(value = "회원 탈퇴", notes = "회원 탈퇴")
+    @PatchMapping("/withdrawal")
+    public ResponseEntity<BaseResponse<String>> modifyUserInfo() {
+        //@RequestBody WithdrawalUserReq withdrawalUserReq
+        String result = userService.withdrawalUser();
+        return ResponseEntity.ok(BaseResponse.ok(BaseResponseStatus.SUCCESS, result));
+    }
+
+
 
 //
 //
