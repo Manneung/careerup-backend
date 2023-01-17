@@ -286,4 +286,17 @@ public class UserService {
 
         return new PasswordRes(newPassword);
     }
+
+    public String withdrawalUser() {
+        //WithdrawalUserReq withdrawalUserReq
+        User user = findNowLoginUser();
+
+        user.setStatus("D");
+        userRepository.save(user);
+
+        if(user.getStatus().equals("D"))
+            return "성공적으로 탈퇴되었습니다.";
+        else
+            return "탈퇴에 실패하였습니다.";
+    }
 }
