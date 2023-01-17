@@ -241,14 +241,14 @@ public class ItemController {
     @ApiOperation(value = "아이템에 활동 사진 추가", notes = "아이템에 활동 사진 추가")
     @PostMapping("/upload/{itemIdx}/picture")
     public ResponseEntity<BaseResponse<List<String>>> itemPictureUpload(
-            @RequestPart("images") List<MultipartFile> multipartFiles, @PathVariable int itemIdx) throws IOException {
+            @RequestPart("images") List<MultipartFile> multipartFiles, @PathVariable int itemIdx, @RequestBody String title) throws IOException {
 
         if(!itemService.existsByItemIdx(itemIdx))
             return ResponseEntity.ok(BaseResponse.ok(ITEM_NOT_FOUND_IDX_ERROR));
 
         List<String> list = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
-            String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "images");
+            String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "images", title);
             list.add(fileUrl);
         }
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, list));
@@ -257,7 +257,7 @@ public class ItemController {
     @ApiOperation(value = "아이템에 파일 추가", notes = "아이템에 파일 추가")
     @PostMapping("upload/{itemIdx}/files")
     public ResponseEntity<BaseResponse<List<String>>> itemFileUpload(
-            @RequestPart("files") List<MultipartFile> multipartFiles, @PathVariable int itemIdx) throws IOException {
+            @RequestPart("files") List<MultipartFile> multipartFiles, @PathVariable int itemIdx, String title) throws IOException {
 
         if(!itemService.existsByItemIdx(itemIdx))
             return ResponseEntity.ok(BaseResponse.ok(ITEM_NOT_FOUND_IDX_ERROR));
@@ -265,7 +265,7 @@ public class ItemController {
 
         List<String> list = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
-            String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "files");
+            String fileUrl = fileService.itemPictureUpload(itemIdx, file, "careerup-bucket", "files", title);
             list.add(fileUrl);
         }
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, list));

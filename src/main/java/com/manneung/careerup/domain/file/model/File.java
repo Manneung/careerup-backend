@@ -22,6 +22,8 @@ public class File {
     @Column(name = "item_idx")
     private int itemIdx;
 
+    @Column(name = "file_title")
+    private String fileTitle;
 
     @Column(name = "file_type")
     private String fileType;

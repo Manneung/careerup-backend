@@ -394,7 +394,7 @@ public class ItemService {
 
 
         for(File f : files){
-            GetFile getFile = new GetFile(f.getFileIdx(), f.getFileType(), f.getFileUrl());
+            GetFile getFile = new GetFile(f.getFileIdx(),f.getFileTitle(), f.getFileType(), f.getFileUrl());
             getFiles.add(getFile);
         }
 

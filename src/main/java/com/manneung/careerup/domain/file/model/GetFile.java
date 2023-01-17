@@ -11,6 +11,7 @@ import lombok.*;
 public class GetFile {
 
     private int fileIdx;
+    private String title;
     private String fileType;
     private String fileUrl;
 

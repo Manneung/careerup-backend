@@ -40,13 +40,14 @@ public class FileService {
 
     //fileType: "활동사진", "활동파일"
     //활동 사진 업로드
-    public String itemPictureUpload(int itemIdx, MultipartFile multipartFile, String bucket, String dirName ) throws IOException {
+    public String itemPictureUpload(int itemIdx, MultipartFile multipartFile, String bucket, String dirName, String title) throws IOException {
         String fileUrl = s3UploaderService.upload(multipartFile, "careerup-bucket", dirName);
 
         File newFile = new File();
         newFile.setItemIdx(itemIdx);
         if (dirName == "files") newFile.setFileType("활동파일");
         else newFile.setFileType("활동사진");
+        newFile.setFileTitle(title);
         newFile.setFileUrl(fileUrl);
 
         fileRepository.save(newFile);
