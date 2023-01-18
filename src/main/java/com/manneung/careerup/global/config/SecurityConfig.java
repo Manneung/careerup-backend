@@ -16,9 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -27,7 +24,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity  //SpringSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //private final CorsFilter corsFilter;
+    private final CorsFilter corsFilter;
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -48,10 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
 
-                //.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-                .cors().configurationSource(corsConfigurationSource())
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
-                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -77,13 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/test/**").permitAll()
 
 
-                //cors때문에 오류 발생해서 권한 풀어둠 -> 이거 소용없음...
-                .antMatchers("/map/**").permitAll()
-                .antMatchers("/item/**").permitAll()
-                .antMatchers("/file/**").permitAll()
-                .antMatchers("/user/**").permitAll()
-
-                //실제
+//                .antMatchers("/map/**").permitAll()
+//                .antMatchers("/item/**").permitAll()
                 .antMatchers("/user/signup").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/signup-admin").permitAll()
@@ -96,19 +86,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(new JwtSecurityConfig(tokenProvider))
 
         ;
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
     }
 }
