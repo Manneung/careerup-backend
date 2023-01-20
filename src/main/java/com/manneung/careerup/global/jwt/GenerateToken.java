@@ -1,16 +1,16 @@
 package com.manneung.careerup.global.jwt;
 
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenRes {
-
-    private int userIdx;
-    private String username;
+public class GenerateToken {
     private String accessToken;
     private String refreshToken;
 }

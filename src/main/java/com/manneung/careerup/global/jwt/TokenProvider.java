@@ -1,5 +1,8 @@
 package com.manneung.careerup.global.jwt;
 
+import com.manneung.careerup.domain.user.repository.UserRepository;
+import com.manneung.careerup.domain.user.service.CustomUserDetailsService;
+import com.manneung.careerup.global.redis.RedisService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -11,9 +14,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletRequest;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,8 +32,15 @@ public class TokenProvider implements InitializingBean {
 
     private static final String AUTHORITIES_KEY = "auth";
 
+
     private final String secret;
-    private final long tokenValidityInMilliseconds;
+    private final UserRepository userRepository;
+    private final String refreshSecret;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final RedisService redisService;
+    private final long refreshTime;
+    private final long accessTime;
+    //private final long tokenValidityInMilliseconds;
 
 
     private Key key;
@@ -36,11 +48,20 @@ public class TokenProvider implements InitializingBean {
 
     public TokenProvider(
             @Value("${jwt.secret}") String secret,
-            @Value("${jwt.access-token-validity-in-seconds}") long tokenValidityInSeconds
-            ) {
-        this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+            @Value("${jwt.refresh}") String refreshSecret,
+            UserRepository userRepository,
+            CustomUserDetailsService customUserDetailsService,
+            RedisService redisService,
+            @Value("${jwt.access-token-seconds}") long accessTime,
+            @Value("${jwt.refresh-token-seconds}")long refreshTime) {
 
+        this.secret = secret;
+        this.userRepository = userRepository;
+        this.refreshSecret=refreshSecret;
+        this.customUserDetailsService=customUserDetailsService;
+        this.redisService = redisService;
+        this.accessTime = accessTime*1000;
+        this.refreshTime = refreshTime*1000;
     }
 
     @Override
@@ -55,7 +76,7 @@ public class TokenProvider implements InitializingBean {
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        Date validity = new Date(now + this.accessTime);
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
@@ -65,21 +86,42 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
-//    public String createRefreshToken(Authentication authentication) {
-//        String authorities = authentication.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.joining(","));
-//
-//        long now = (new Date()).getTime();
-//        Date validity = new Date(now + this.refreshtokenValidityInSeconds);
-//
-//        return Jwts.builder()
-//                .setSubject(authentication.getName())
-//                .claim(AUTHORITIES_KEY, authorities)
-//                .signWith(key, SignatureAlgorithm.HS512)
-//                .setExpiration(validity)
-//                .compact();
-//    }
+
+    public String createRefreshToken(Authentication authentication) {
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        long now = (new Date()).getTime();
+        Date validity = new Date(now + this.refreshTime);
+
+
+        return Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setExpiration(validity)
+                .compact();
+    }
+
+
+    public GenerateToken createAllToken(Authentication authentication){
+
+        org.springframework.security.core.userdetails.User userDetail = (User) authentication.getPrincipal();
+        com.manneung.careerup.domain.user.model.User findUser = userRepository.findUserByUsername(userDetail.getUsername());
+
+
+        String accessToken=createToken(authentication);
+        String refreshToken=createRefreshToken(authentication);
+
+        //redis에 리프레시토큰 저장
+        redisService.saveToken(String.valueOf(findUser.getUserIdx()),refreshToken, (System.currentTimeMillis()+ refreshTime*1000));
+
+        return new GenerateToken(accessToken,refreshToken);
+    }
+
+
+
 
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts
@@ -99,9 +141,25 @@ public class TokenProvider implements InitializingBean {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(ServletRequest servletRequest, String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            //Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+
+            Jws<Claims> claims;
+            claims = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token);
+            Long userIdx = claims.getBody().get("userIdx",Long.class);
+            String expiredAt= redisService.getValues(token);
+
+            if(expiredAt==null){
+                return true;
+            }
+            if(expiredAt.equals(String.valueOf(userIdx))){
+                servletRequest.setAttribute("exception","HijackException");
+                return false;
+            }
+
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             logger.info("잘못된 JWT 서명입니다.");
