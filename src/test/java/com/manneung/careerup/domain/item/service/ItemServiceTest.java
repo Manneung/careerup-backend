@@ -14,15 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ItemServiceTest {
-
-    private FileService fileService;
-
-    private ItemRepository itemRepository;
-
-    private ItemService itemService;
-
-
+//class ItemServiceTest {
+//
+//    private FileService fileService;
+//
+//    private ItemRepository itemRepository;
+//
+//    private ItemService itemService;
+//
+//
 
 //    @Test
 //    public void testShowItemDetail() {
@@ -60,5 +60,5 @@ class ItemServiceTest {
 //        assertEquals(item.getContent(), res.getContent());
 //        assertEquals(files, res.getFiles());
 //    }
-
-}
+//
+//}
