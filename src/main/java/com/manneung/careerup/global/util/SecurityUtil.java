@@ -1,4 +1,4 @@
-package com.manneung.careerup.global.jwt;
+package com.manneung.careerup.global.util;
 
 
 import org.slf4j.Logger;

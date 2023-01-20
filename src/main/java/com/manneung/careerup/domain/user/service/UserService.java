@@ -1,23 +1,19 @@
 package com.manneung.careerup.domain.user.service;
 
 
-import com.manneung.careerup.domain.base.BaseResponse;
 import com.manneung.careerup.domain.user.model.Authority;
 import com.manneung.careerup.domain.user.model.User;
 import com.manneung.careerup.domain.user.model.dto.*;
 import com.manneung.careerup.domain.user.repository.UserRepository;
-import com.manneung.careerup.global.email.EmailAuthRequestDto;
-import com.manneung.careerup.global.email.EmailAuthResponseDto;
+import com.manneung.careerup.global.jwt.GenerateToken;
 import com.manneung.careerup.global.jwt.JwtFilter;
-import com.manneung.careerup.global.jwt.SecurityUtil;
+import com.manneung.careerup.global.util.SecurityUtil;
 import com.manneung.careerup.global.jwt.TokenProvider;
 import com.manneung.careerup.global.jwt.TokenRes;
 import com.manneung.careerup.global.s3.S3UploaderService;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -25,17 +21,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Random;
-
-import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
 
 
 @Slf4j
@@ -108,12 +98,17 @@ public class UserService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.createToken(authentication);
+        org.springframework.security.core.userdetails.User userDetail = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        com.manneung.careerup.domain.user.model.User findUser = userRepository.findUserByUsername(userDetail.getUsername());
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        //String jwt = tokenProvider.createToken(authentication);
 
-        return new TokenRes(jwt);
+        GenerateToken generateToken = tokenProvider.createAllToken(authentication);
+
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+
+        return new TokenRes(findUser.getUserIdx(), findUser.getUsername(), generateToken.getAccessToken(), generateToken.getRefreshToken());
     }
 
 
