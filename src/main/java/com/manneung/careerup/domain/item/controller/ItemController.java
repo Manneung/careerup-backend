@@ -66,7 +66,7 @@ public class ItemController {
 
         GetCertificateRes getCertificateRes = itemService.createCertificate(mapIdx, postCertificateReq);
 
-        if(getCertificateRes == null)
+        if (getCertificateRes == null)
             return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getCertificateRes));
@@ -80,7 +80,7 @@ public class ItemController {
 
         GetClubRes getClubRes = itemService.createClub(mapIdx, postClubReq);
 
-        if(getClubRes == null)
+        if (getClubRes == null)
             return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getClubRes));
@@ -93,7 +93,7 @@ public class ItemController {
 
         GetContestRes getContestRes = itemService.createContest(mapIdx, postContestReq);
 
-        if(getContestRes == null)
+        if (getContestRes == null)
             return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getContestRes));
@@ -106,7 +106,7 @@ public class ItemController {
 
         GetEtcRes getEtcRes = itemService.createEtc(mapIdx, postEtcReq);
 
-        if(getEtcRes == null)
+        if (getEtcRes == null)
             return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getEtcRes));
@@ -118,10 +118,9 @@ public class ItemController {
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostExternalActivityReq postExternalActivityReq) {
 
 
-
         GetExternalActivityRes getExternalActivityRes = itemService.createExternalActivity(mapIdx, postExternalActivityReq);
 
-        if(getExternalActivityRes == null)
+        if (getExternalActivityRes == null)
             return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getExternalActivityRes));
@@ -135,7 +134,7 @@ public class ItemController {
 
         GetStudyRes getStudyRes = itemService.createStudy(mapIdx, postStudyReq);
 
-        if(getStudyRes == null)
+        if (getStudyRes == null)
             return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getStudyRes));
@@ -176,7 +175,7 @@ public class ItemController {
     public ResponseEntity<BaseResponse<List<GetItemRes>>> showItemDetail(
             @PathVariable(name = "mapIdx") int mapIdx, @RequestBody List<PatchSequenceReq> sequenceReqList) {
 
-        if(!mapService.existsMapByMapIdx(mapIdx))
+        if (!mapService.existsMapByMapIdx(mapIdx))
             return ResponseEntity.ok(BaseResponse.ok(MAP_NOT_FOUND_IDX_ERROR));
 
         List<GetItemRes> getItemResList = itemService.changeItemSequence(mapIdx, sequenceReqList);
@@ -243,7 +242,7 @@ public class ItemController {
     public ResponseEntity<BaseResponse<List<String>>> itemPictureUpload(
             @RequestPart("images") List<MultipartFile> multipartFiles, @PathVariable int itemIdx) throws IOException {
 
-        if(!itemService.existsByItemIdx(itemIdx))
+        if (!itemService.existsByItemIdx(itemIdx))
             return ResponseEntity.ok(BaseResponse.ok(ITEM_NOT_FOUND_IDX_ERROR));
 
         List<String> list = new ArrayList<>();
@@ -259,7 +258,7 @@ public class ItemController {
     public ResponseEntity<BaseResponse<List<String>>> itemFileUpload(
             @RequestPart("files") List<MultipartFile> multipartFiles, @PathVariable int itemIdx, @RequestPart String title) throws IOException {
 
-        if(!itemService.existsByItemIdx(itemIdx))
+        if (!itemService.existsByItemIdx(itemIdx))
             return ResponseEntity.ok(BaseResponse.ok(ITEM_NOT_FOUND_IDX_ERROR));
 
 
@@ -269,5 +268,11 @@ public class ItemController {
             list.add(fileUrl);
         }
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, list));
+    }
+
+    @ApiOperation(value = "아이템에 있는 파일 또는 사진 삭제", notes = "아이템에 있는 파일을 삭제합니다.")
+    @DeleteMapping("delete/{fileIdx}")
+    public ResponseEntity<BaseResponse<Boolean>> deleteFile(@PathVariable int fileIdx) {
+        return ResponseEntity.ok(BaseResponse.ok(SUCCESS, fileService.deleteFile(fileIdx)));
     }
 }
