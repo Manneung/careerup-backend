@@ -7,21 +7,13 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
 
 
 //@EnableJpaAuditing -> JpaAuditingConfig
-@SpringBootApplication(
-		exclude = {
-				org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration.class,
-				org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration.class,
-				org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration.class
-		}
-)
+@SpringBootApplication
 public class CareerupApplication {
 
 //	@Value("${spring.environment}")
@@ -37,18 +29,6 @@ public class CareerupApplication {
 		long heapSize = Runtime.getRuntime().totalMemory();
 		System.out.println("HEAP Size(M) : "+ heapSize / (1024*1024) + " MB");
 	}
-
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://3.36.230.165/");
-			}
-		};
-	}
-
-
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
 		return new HiddenHttpMethodFilter();

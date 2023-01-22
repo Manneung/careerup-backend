@@ -9,7 +9,7 @@ import com.manneung.careerup.domain.map.model.dto.*;
 import com.manneung.careerup.domain.map.repository.MapRepository;
 import com.manneung.careerup.domain.user.model.User;
 import com.manneung.careerup.domain.user.repository.UserRepository;
-import com.manneung.careerup.global.jwt.SecurityUtil;
+import com.manneung.careerup.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
