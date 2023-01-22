@@ -101,14 +101,13 @@ public class UserService {
         org.springframework.security.core.userdetails.User userDetail = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         com.manneung.careerup.domain.user.model.User findUser = userRepository.findUserByUsername(userDetail.getUsername());
 
-        //String jwt = tokenProvider.createToken(authentication);
-
-        GenerateToken generateToken = tokenProvider.createAllToken(authentication);
+        String jwt = tokenProvider.createToken(authentication);
+        //GenerateToken generateToken = tokenProvider.createAllToken(authentication);
 
 //        HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        return new TokenRes(findUser.getUserIdx(), findUser.getUsername(), generateToken.getAccessToken(), generateToken.getRefreshToken());
+        return new TokenRes(findUser.getUserIdx(), findUser.getUsername(), jwt, "레디스 설정중");
     }
 
 
