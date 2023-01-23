@@ -2,7 +2,7 @@ package com.manneung.careerup.global.jwt;
 
 import com.manneung.careerup.domain.user.repository.UserRepository;
 import com.manneung.careerup.domain.user.service.CustomUserDetailsService;
-import com.manneung.careerup.global.redis.RedisService;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -37,7 +37,7 @@ public class TokenProvider implements InitializingBean {
     private final UserRepository userRepository;
     private final String refreshSecret;
     private final CustomUserDetailsService customUserDetailsService;
-    private final RedisService redisService;
+    //private final RedisService redisService;
     private final long refreshTime;
     private final long accessTime;
     //private final long tokenValidityInMilliseconds;
@@ -51,7 +51,7 @@ public class TokenProvider implements InitializingBean {
             @Value("${jwt.refresh}") String refreshSecret,
             UserRepository userRepository,
             CustomUserDetailsService customUserDetailsService,
-            RedisService redisService,
+            //RedisService redisService,
             @Value("${jwt.access-token-seconds}") long accessTime,
             @Value("${jwt.refresh-token-seconds}")long refreshTime) {
 
@@ -59,7 +59,7 @@ public class TokenProvider implements InitializingBean {
         this.userRepository = userRepository;
         this.refreshSecret=refreshSecret;
         this.customUserDetailsService=customUserDetailsService;
-        this.redisService = redisService;
+        //this.redisService = redisService;
         this.accessTime = accessTime*1000;
         this.refreshTime = refreshTime*1000;
     }
@@ -115,7 +115,7 @@ public class TokenProvider implements InitializingBean {
         String refreshToken=createRefreshToken(authentication);
 
         //redis에 리프레시토큰 저장
-        redisService.saveToken(String.valueOf(findUser.getUserIdx()),refreshToken, (System.currentTimeMillis()+ refreshTime*1000));
+        //redisService.saveToken(String.valueOf(findUser.getUserIdx()),refreshToken, (System.currentTimeMillis()+ refreshTime*1000));
 
         return new GenerateToken(accessToken,refreshToken);
     }
@@ -150,15 +150,15 @@ public class TokenProvider implements InitializingBean {
                     .setSigningKey(secret)
                     .parseClaimsJws(token);
             Long userIdx = claims.getBody().get("userIdx",Long.class);
-            String expiredAt= redisService.getValues(token);
+            //String expiredAt= redisService.getValues(token);
 
-            if(expiredAt==null){
-                return true;
-            }
-            if(expiredAt.equals(String.valueOf(userIdx))){
-                servletRequest.setAttribute("exception","HijackException");
-                return false;
-            }
+//            if(expiredAt==null){
+//                return true;
+//            }
+//            if(expiredAt.equals(String.valueOf(userIdx))){
+//                servletRequest.setAttribute("exception","HijackException");
+//                return false;
+//            }
 
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
