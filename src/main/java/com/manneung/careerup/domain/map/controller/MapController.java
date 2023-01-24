@@ -13,6 +13,7 @@ import java.util.List;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 
+//@CrossOrigin("https://careerup.netlify.app")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/map")
