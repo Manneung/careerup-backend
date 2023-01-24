@@ -27,7 +27,7 @@ import java.io.UnsupportedEncodingException;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 
-
+//@CrossOrigin("https://careerup.netlify.app")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")

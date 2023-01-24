@@ -16,6 +16,7 @@ import java.util.List;
 import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
 
 
+//@CrossOrigin("https://careerup.netlify.app")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/file")
