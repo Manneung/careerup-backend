@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://3.36.230.165/")
+                .allowedOrigins("http://3.36.230.165/", "https://careerup.netlify.app/","http://localhost/")
                 .allowedMethods("*")
                 .allowCredentials(false)
                 .maxAge(3000);
