@@ -19,7 +19,7 @@ import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
 //@CrossOrigin("https://careerup.netlify.app")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/api/file")
 public class FileController {
 
     private final FileService fileService;

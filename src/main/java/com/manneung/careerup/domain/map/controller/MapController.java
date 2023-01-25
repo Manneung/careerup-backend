@@ -16,7 +16,7 @@ import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 //@CrossOrigin("https://careerup.netlify.app")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/map")
+@RequestMapping("/api/map")
 public class MapController {
     private final MapService mapService;
 
