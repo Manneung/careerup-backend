@@ -90,11 +90,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
                 //실제
-                .antMatchers("/user/signup").permitAll()
-                .antMatchers("/user/login").permitAll()
-                .antMatchers("/user/signup-admin").permitAll()
-                .antMatchers("/user/password").permitAll()
-                .antMatchers("/user/signup/mailconfirm").permitAll()
+                .antMatchers("/api/user/signup").permitAll()
+                .antMatchers("/api/user/login").permitAll()
+                .antMatchers("/api/user/signup-admin").permitAll()
+                .antMatchers("/api/user/password").permitAll()
+                .antMatchers("/api/user/signup/mailconfirm").permitAll()
                 .anyRequest().authenticated() //위의 api가 아닌 경로는 모두 jwt 토큰 인증을 해야 함
 
                 .and()
