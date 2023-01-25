@@ -30,7 +30,7 @@ import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 //@CrossOrigin("https://careerup.netlify.app")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
