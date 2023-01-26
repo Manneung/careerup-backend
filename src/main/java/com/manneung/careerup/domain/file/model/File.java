@@ -18,7 +18,6 @@ public class File {
     @Column(name = "file_idx")
     private int fileIdx;
 
-
     @Column(name = "item_idx")
     private int itemIdx;
 
@@ -27,9 +26,6 @@ public class File {
 
     @Column(name = "file_type")
     private String fileType;
-
-//    @Column(name = "file_name")
-//    private String fileName;
 
     @Column(name = "file_url")
     private String fileUrl;

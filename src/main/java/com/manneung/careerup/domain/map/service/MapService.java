@@ -35,7 +35,6 @@ public class MapService { //map, item
     }
 
 
-    //CRUD
     public PostMapRes createMap(PostMapReq postMapReq) { //맵 자체만 생성
 
         Map newMap = new Map(); //DB에 저장할 객체
@@ -94,10 +93,6 @@ public class MapService { //map, item
 
 
 
-
-
-    //조회 메소드
-
     public List<GetMapSimpleRes> searchMyMaps() {
         List<GetMapSimpleRes> findMaps = new ArrayList<>();
         User user = findNowLoginUser();
@@ -117,10 +112,6 @@ public class MapService { //map, item
     }
 
 
-
-    ////////////////////////////////////////세부정보 조회////////////////////////////////////////////////
-    //맵 인덱스으로 맵 디테일 정보 찾기
-
     public GetMapDetailRes searchMapDetail(int mapIdx){
         GetMapDetailRes getMapDetailRes = new GetMapDetailRes(); //mapidx, 닉네임, 아이템리스트
 
@@ -139,54 +130,5 @@ public class MapService { //map, item
             return null;
         }
     }
-
-
-
-//    public List<GetMapSimpleRes> searchMapsByNickname(String nickname){
-//        List<GetMapSimpleRes> findMaps = new ArrayList<>();
-//        Integer userIdx;
-//
-//        //유저 찾기
-//        if(userRepository.findUserByNickname(nickname) == null){
-//            return null;
-//        } else {
-//            userIdx = userRepository.findUserByNickname(nickname).getUserIdx();
-//        }
-//
-//        List<Map> findMapList = mapRepository.findAllByUserIdx(userIdx);
-//        for(Map m: findMapList){
-//            if(m.getStatus().equals("A")){
-//                GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
-//                findMaps.add(getMapSimpleRes);
-//            }
-//        }
-//
-//        //커리어맵 리스트가 존재하는지에 따라 분리
-//        if(!findMaps.isEmpty()){
-//            return findMaps;
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//    public List<GetMapSimpleRes> searchMapsByTitle(String title) {
-//        List<GetMapSimpleRes> findMaps = new ArrayList<>();
-//        List<Map> findMapList = mapRepository.findAllByTitleContaining(title);
-//
-//        if(findMapList != null){
-//            for(Map m : findMapList) {
-//                if(m.getStatus().equals("A")){
-//                    GetMapSimpleRes getMapSimpleRes = new GetMapSimpleRes(m.getMapIdx(), m.getTitle());
-//                    findMaps.add(getMapSimpleRes);
-//                }
-//            }
-//            return findMaps;
-//        }
-//        return null;
-//    }
-
-
-
-
 
 }

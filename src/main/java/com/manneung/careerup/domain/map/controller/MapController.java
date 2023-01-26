@@ -13,7 +13,7 @@ import java.util.List;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 
-//@CrossOrigin("https://careerup.netlify.app")
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/map")
@@ -83,45 +83,5 @@ public class MapController {
             return ResponseEntity.ok(BaseResponse.ok(SUCCESS, getMapDetailRes));
         }
     }
-
-
-//
-//    //닉네임 일치, 커리어맵 제목에 키워드 포함,
-//    @ApiOperation(value = "닉네임으로 커리어맵 전부 찾기", notes = "닉네임으로 커리어맵을 전부 찾습니다.")
-//    @GetMapping("/list/{nickname}")
-//    public ResponseEntity<BaseResponse<List<GetMapSimpleRes>>> searchMapsByNickname(@PathVariable String nickname){
-//        List<GetMapSimpleRes> getMapSimpleRes = null;
-//
-//        if(nickname != null){
-//            getMapSimpleRes = mapService.searchMapsByNickname(nickname);
-//        }
-//
-//        if(getMapSimpleRes == null){
-//            return ResponseEntity.ok(BaseResponse.create(MAP_EMPTY_LIST_ERROR));
-//        } else{
-//            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapSimpleRes));
-//        }
-//    }
-//
-//
-//    @ApiOperation(value = "제목으로 커리어맵 전부 찾기", notes = "제목으로 커리어맵 전부 찾기")
-//    @GetMapping("/list")
-//    public ResponseEntity<BaseResponse<List<GetMapSimpleRes>>> searchMaps(
-//            @RequestParam(value = "title",required = false) String title
-//    ){
-//        List<GetMapSimpleRes> getMapSimpleRes = null;
-//
-//        if(title != null){
-//            getMapSimpleRes = mapService.searchMapsByTitle(title);
-//        }
-//
-//
-//        if(getMapSimpleRes == null){
-//            return ResponseEntity.ok(BaseResponse.create(MAP_EMPTY_LIST_ERROR));
-//        } else{
-//            return ResponseEntity.ok(BaseResponse.create(SUCCESS, getMapSimpleRes));
-//        }
-//    }
-
 
 }

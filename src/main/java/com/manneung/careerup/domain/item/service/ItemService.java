@@ -37,35 +37,14 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final MapRepository mapRepository;
-
     private final FileService fileService;
 
 
-//    public GetItemDetailRes createItem(int mapIdx, PostItemReq postItemReq){
-//        Item newItem = new Item();
-//
-//        //아이템 내용
-//        newItem.setMapIdx(mapIdx);
-//        newItem.setSequence(postItemReq.getSequence());
-//        newItem.setCategory(postItemReq.getCategory());
-//        newItem.setInstitution(postItemReq.getInstitution());
-//        newItem.setPeriod(postItemReq.getPeriod());
-//        newItem.setAcquisition(postItemReq.getAcquisition());
-//        newItem.setField(postItemReq.getField());
-//        newItem.setRole(postItemReq.getRole());
-//        newItem.setContent(postItemReq.getContent());
-//        newItem.setRealization(postItemReq.getRealization());
-//
-//        itemRepository.save(newItem);
-//
-//        return GetItemDetailRes.from(newItem);
-//    }
 
 
     public boolean existsByItemIdx(int itemIdx){
         return itemRepository.existsByItemIdx(itemIdx);
     }
-
 
 
 
@@ -83,7 +62,6 @@ public class ItemService {
         newItem.setTitle(postCertificateReq.getTitle());
         newItem.setSubtitle(postCertificateReq.getSubtitle());
         newItem.setSequence(postCertificateReq.getSequence());
-        //newItem.setCategory(postCertificateReq.getCategory());
         newItem.setCategory("자격증");
         newItem.setInstitution(postCertificateReq.getInstitution());
         newItem.setPeriod(postCertificateReq.getPeriod());
@@ -105,7 +83,6 @@ public class ItemService {
         newItem.setTitle(postClubReq.getTitle());
         newItem.setSubtitle(postClubReq.getSubtitle());
         newItem.setSequence(postClubReq.getSequence());
-        //newItem.setCategory(postClubReq.getCategory());
         newItem.setCategory("동아리");
         newItem.setPeriod(postClubReq.getPeriod());
         newItem.setRole(postClubReq.getRole());
@@ -126,7 +103,6 @@ public class ItemService {
         newItem.setTitle(postContestReq.getTitle());
         newItem.setSubtitle(postContestReq.getSubtitle());
         newItem.setSequence(postContestReq.getSequence());
-        //newItem.setCategory(postContestReq.getCategory());
         newItem.setCategory("공모전");
         newItem.setInstitution(postContestReq.getInstitution());
         newItem.setField(postContestReq.getField());
@@ -149,7 +125,6 @@ public class ItemService {
         newItem.setSequence(postEtcReq.getSequence());
         newItem.setTitle(postEtcReq.getTitle());
         newItem.setSubtitle(postEtcReq.getSubtitle());
-        //newItem.setCategory(postEtcReq.getCategory());
         newItem.setCategory("기타");
         newItem.setPeriod(postEtcReq.getPeriod());
         newItem.setRole(postEtcReq.getRole());
@@ -170,7 +145,6 @@ public class ItemService {
         newItem.setTitle(postExternalActivityReq.getTitle());
         newItem.setSubtitle(postExternalActivityReq.getSubtitle());
         newItem.setSequence(postExternalActivityReq.getSequence());
-        //newItem.setCategory(postExternalActivityReq.getCategory());
         newItem.setCategory("대외활동");
         newItem.setField(postExternalActivityReq.getField());
         newItem.setInstitution(postExternalActivityReq.getInstitution());
@@ -192,7 +166,6 @@ public class ItemService {
         newItem.setTitle(postStudyReq.getTitle());
         newItem.setSubtitle(postStudyReq.getSubtitle());
         newItem.setSequence(postStudyReq.getSequence());
-        //newItem.setCategory(postStudyReq.getCategory());
         newItem.setField(postStudyReq.getField());
         newItem.setCategory("스터디");
         newItem.setPeriod(postStudyReq.getPeriod());
@@ -398,7 +371,6 @@ public class ItemService {
             getFiles.add(getFile);
         }
 
-
         if(findItem != null){
             return GetItemDetailRes.from(findItem, getFiles);
         } else {
@@ -426,71 +398,5 @@ public class ItemService {
 
         return getItemResList;
     }
-
-
-
-
-
-//    //자격증 내용 보여주기
-//    public GetCertificateRes showCertificate(int itemIdx) {
-//        Item findItem = itemRepository.findByItemIdx(itemIdx);
-//
-//        if (findItem != null) {
-//            return GetCertificateRes.from(findItem);
-//        } else {
-//            return null;
-//        }
-//    }
-//    //공모전 내용 보여주기
-//    public GetContestRes showContest(int itemIdx) {
-//        Item findItem = itemRepository.findByItemIdx(itemIdx);
-//
-//        if (findItem != null) {
-//            return GetContestRes.from(findItem);
-//        } else {
-//            return null;
-//        }
-//    }
-//    //기타 내용 보여주기
-//    public GetEtcRes showEtc(int itemIdx) {
-//        Item findItem = itemRepository.findByItemIdx(itemIdx);
-//
-//        if (findItem != null) {
-//            return GetEtcRes.from(findItem);
-//        } else {
-//            return null;
-//        }
-//    }
-//    //대외활동 내용 보여주기
-//    public GetExternalActivityRes showExternalActivity(int itemIdx) {
-//        Item findItem = itemRepository.findByItemIdx(itemIdx);
-//
-//        if (findItem != null) {
-//            return GetExternalActivityRes.from(findItem);
-//        } else {
-//            return null;
-//        }
-//    }
-//    //동아리 내용 보여주기
-//    public GetClubRes showClub(int itemIdx) {
-//        Item findItem = itemRepository.findByItemIdx(itemIdx);
-//
-//        if (findItem != null) {
-//            return GetClubRes.from(findItem);
-//        } else {
-//            return null;
-//        }
-//    }
-//    //스터디 내용 보여주기
-//    public GetStudyRes showStudy(int itemIdx) {
-//        Item findItem = itemRepository.findByItemIdx(itemIdx);
-//
-//        if (findItem != null) {
-//            return GetStudyRes.from(findItem);
-//        } else {
-//            return null;
-//        }
-//    }
-
 
 }

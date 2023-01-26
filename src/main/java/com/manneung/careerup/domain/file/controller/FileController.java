@@ -16,7 +16,7 @@ import java.util.List;
 import static com.manneung.careerup.domain.base.BaseResponseStatus.SUCCESS;
 
 
-//@CrossOrigin("https://careerup.netlify.app")
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/file")
@@ -24,11 +24,6 @@ public class FileController {
 
     private final FileService fileService;
 
-    @ApiOperation(value = "파일 한 개 업로드 테스트(사용x)", notes = "파일 한 개 업로드 테스트")
-    @PostMapping("/upload")
-    public String imageUpload(@RequestPart("data") MultipartFile multipartFile) throws IOException {
-        return fileService.upload(multipartFile, "careerup-bucket", "image");
-    }
 
     @ApiOperation(value = "itemIdx로 파일 불러오기", notes = "itemIdx로 파일 불러오기")
     @GetMapping("/{itemIdx}")

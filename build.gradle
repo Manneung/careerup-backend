@@ -19,21 +19,8 @@ repositories {
 }
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-//	implementation 'org.springframework.boot:spring-boot-starter-web'
-//	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-//	compileOnly 'org.projectlombok:lombok'
-//	runtimeOnly 'com.h2database:h2'
-//	runtimeOnly 'com.mysql:mysql-connector-j'
-//	annotationProcessor 'org.projectlombok:lombok'
-//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	testImplementation 'org.springframework.security:spring-security-test'
-
-
-
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -81,7 +68,6 @@ dependencies {
 
 	implementation 'org.mockito:mockito-inline:4.6.1'
 
-
 	//oauth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
@@ -91,8 +77,6 @@ dependencies {
 	implementation "io.springfox:springfox-swagger-ui:3.0.0"
 	implementation "io.springfox:springfox-spring-web:3.0.0"
 	implementation "io.springfox:springfox-oas:3.0.0"
-//	implementation "io.swagger:swagger-annotations:1.5.21"
-//	implementation "io.swagger:swagger-models:1.5.21"
 
 	implementation "com.google.guava:guava:24.0-jre"
 

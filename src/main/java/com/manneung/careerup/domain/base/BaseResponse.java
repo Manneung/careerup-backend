@@ -10,15 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-//@JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 @JsonPropertyOrder({"code", "message", "result"})
 public class BaseResponse<T> {
-    //API base응답
 
     private String code;
     private  String message;
     private T result;
-
 
     public static <T> BaseResponse<T> ok(BaseResponseStatus baseResponseStatus) {
         return new BaseResponse<>(baseResponseStatus.getCode(), baseResponseStatus.getMessage(), null);
@@ -26,7 +23,6 @@ public class BaseResponse<T> {
     public static <T> BaseResponse<T> ok(BaseResponseStatus baseResponseStatus, T result) {
         return new BaseResponse<>(baseResponseStatus.getCode(), baseResponseStatus.getMessage(), result);
     }
-
 
 }
 

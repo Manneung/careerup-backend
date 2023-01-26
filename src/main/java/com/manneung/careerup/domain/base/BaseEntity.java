@@ -29,10 +29,7 @@ public class BaseEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-
-    //@Column(nullable = false)
     @Column()
-    private String status; //protected, setter 필요
-
+    private String status;
 
 }

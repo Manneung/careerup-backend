@@ -32,6 +32,4 @@ public class Map extends BaseEntity {
     @Column(nullable = false)
     private String career; //희망 직무
 
-
-
 }

@@ -9,8 +9,6 @@ import java.util.List;
 
 @Repository
 public interface FileRepository extends JpaRepository<File, Integer> {
-
     List<File> findFilesByItemIdx(int itemIdx);
-
 
 }

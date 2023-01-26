@@ -33,7 +33,6 @@ import java.util.List;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 
-//@CrossOrigin("https://careerup.netlify.app")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/item")
@@ -63,7 +62,6 @@ public class ItemController {
     public ResponseEntity<BaseResponse<GetCertificateRes>> createCertificate(
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostCertificateReq postCertificateReq) {
 
-
         GetCertificateRes getCertificateRes = itemService.createCertificate(mapIdx, postCertificateReq);
 
         if (getCertificateRes == null)
@@ -76,7 +74,6 @@ public class ItemController {
     @PostMapping("/club")
     public ResponseEntity<BaseResponse<GetClubRes>> createClub(
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostClubReq postClubReq) {
-
 
         GetClubRes getClubRes = itemService.createClub(mapIdx, postClubReq);
 
@@ -116,7 +113,6 @@ public class ItemController {
     @PostMapping("/external-activity")
     public ResponseEntity<BaseResponse<GetExternalActivityRes>> createExternalActivity(
             @RequestParam(name = "mapIdx") int mapIdx, @RequestBody PostExternalActivityReq postExternalActivityReq) {
-
 
         GetExternalActivityRes getExternalActivityRes = itemService.createExternalActivity(mapIdx, postExternalActivityReq);
 
@@ -190,52 +186,6 @@ public class ItemController {
         String result = itemService.deleteItem(itemIdx);
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS, result));
     }
-
-//    @ApiOperation(value="맵idx로 자격증 수정하기", notes = "자격증 수정하기")
-//    @PatchMapping("/{itemIdx}/certificate")
-//    public ResponseEntity<BaseResponse<GetCertificateRes>> modifyCertificate(@PathVariable(name = "itemIdx") int itemIdx, PatchCertificateReq patchCertificateReq) {
-//        GetCertificateRes getCertificateRes = itemService.modifyCertificate(itemIdx, patchCertificateReq);
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getCertificateRes));
-//    }
-//    @ApiOperation(value = "맵idx로 동아리 수정하기", notes = "동아리 수정하기")
-//    @PatchMapping("/{itemIdx}/club")
-//    public ResponseEntity<BaseResponse<GetClubRes>> modifyClub(@PathVariable(name = "itemIdx") int itemIdx, PatchClubReq patchClubReq){
-//        GetClubRes getItemDetailRes = itemService.modifyClub(itemIdx,patchClubReq);
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
-//    }
-//    @ApiOperation(value = "맵idx로 공모전 수정하기", notes = "공모전 수정하기")
-//    @PatchMapping("/{itemIdx}/contest")
-//    public ResponseEntity<BaseResponse<GetContestRes>> modifyContest(@PathVariable(name = "itemIdx") int itemIdx, PatchContestReq patchContestReq){
-//        GetContestRes getContestRes = itemService.modifyContest(itemIdx, patchContestReq);
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getContestRes));
-//    }
-//    @ApiOperation(value = "맵idx로 기타 활동 수정하기", notes = "기타 활동 수정하기")
-//    @PatchMapping("/{itemIdx}/etc")
-//    public ResponseEntity<BaseResponse<GetEtcRes>> modifyEtc(@PathVariable(name = "itemIdx") int itemIdx, PatchEtcReq patchEtcReq){
-//        GetEtcRes getEtcRes = itemService.modifyEtc(itemIdx, patchEtcReq);
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getEtcRes));
-//    }
-//    @ApiOperation(value = "맵idx로 대외활동 수정하기", notes = "대외활동 수정하기")
-//    @PatchMapping("/{itemIdx}/external-activity")
-//    public ResponseEntity<BaseResponse<GetExternalActivityRes>> modifyExternalActivity(@PathVariable(name = "itemIdx") int itemIdx, PatchExternalActivityReq patchExternalActivityReq){
-//        GetExternalActivityRes getExternalActivityRes = itemService.modifyExternalActivity(itemIdx, patchExternalActivityReq);
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getExternalActivityRes));
-//    }
-//    @ApiOperation(value = "맵idx로 스터디 수정하기", notes = "스터디 수정하기")
-//    @PatchMapping("/{itemIdx}/study")
-//    public ResponseEntity<BaseResponse<GetStudyRes>> modifyStudy(@PathVariable(name = "itemIdx") int itemIdx, PatchStudyReq patchStudyReq){
-//        GetStudyRes getStudyRes = itemService.modifyStudy(itemIdx, patchStudyReq);
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getStudyRes));
-//    }
-
-
-//    @ApiOperation(value = "맵idx로 활동 추가하기(기본형태)", notes = "활동 추가하기(+버튼 눌렀을 때 생성")
-//    @PostMapping("")
-//    public ResponseEntity<BaseResponse<GetItemDetailRes>> createItem(@RequestParam int mapIdx, PostItemReq postItemReq){
-//        GetItemDetailRes getItemDetailRes = itemService.createItem(mapIdx, postItemReq);
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, getItemDetailRes));
-//    }
-
 
     @ApiOperation(value = "아이템에 활동 사진 추가", notes = "아이템에 활동 사진 추가")
     @PostMapping("/upload/{itemIdx}/picture")

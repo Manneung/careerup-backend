@@ -36,8 +36,6 @@ public class FileService {
     }
 
 
-
-
     //fileType: "활동사진", "활동파일"
     //활동 사진 업로드
     public String itemPictureUpload(int itemIdx, MultipartFile multipartFile, String bucket, String dirName, String title) throws IOException {

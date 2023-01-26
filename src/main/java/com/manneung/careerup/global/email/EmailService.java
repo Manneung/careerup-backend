@@ -18,10 +18,10 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class EmailService {
 
-    //의존성 주입을 통해서 필요한 객체를 가져온다.
     private final JavaMailSender emailSender;
     private final UserService userService;
-    //메일 양식 작성
+
+
     public EmailAuthResponseDto sendEmail(String email) throws MessagingException, UnsupportedEncodingException {
         EmailAuthResponseDto emailAuthResponseDto = new EmailAuthResponseDto();
 

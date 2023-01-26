@@ -58,5 +58,4 @@ public class Item extends BaseEntity {
     //추가 첨부 파일(증명서, 합격증, 피피티 등)도 file 엔티티로
 
 
-
 }

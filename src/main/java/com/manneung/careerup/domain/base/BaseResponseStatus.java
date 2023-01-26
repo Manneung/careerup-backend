@@ -56,7 +56,6 @@ public enum BaseResponseStatus {
     MAP_FAILED_TO_UPDATE_ERROR("3003", "커리어맵 업데이트에 실패했습니다."),
 
     MAP_EMPTY_LIST_ERROR( "3004", "커리어맵 리스트를 찾을 수 없습니다."),
-
     MAP_FAILED_TO_CREATE_ERROR( "3005", "커리어맵 작성에 실패했습니다."),
 
     MAP_FAILED_TO_DELETE_ERROR( "3006", "커리어맵 삭제에 실패했습니다."),

@@ -27,19 +27,13 @@ import java.io.UnsupportedEncodingException;
 
 import static com.manneung.careerup.domain.base.BaseResponseStatus.*;
 
-//@CrossOrigin("https://careerup.netlify.app")
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
-
-    private final TokenProvider tokenProvider;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-    private final S3UploaderService s3UploaderService;
     private final EmailService emailService;
 
     @ApiOperation(value = "이메일로 인증코드 발신", notes = "이메일로 인증코드 발신 -> 인증 코드 json 형태로 반환")
@@ -65,28 +59,18 @@ public class UserController {
     }
 
 
-//    @ApiOperation(value = "회원 가입(ADMIN)", notes = "관리자 권한 계정 생성")
-//    @PostMapping("/signup-admin")
-//    public ResponseEntity<BaseResponse<SignUpUserReq>> signupAdmin(@Valid @RequestBody SignUpUserReq signupUserReq){
-//        return ResponseEntity.ok(BaseResponse.create(SUCCESS, userService.signupAdmin(signupUserReq)));
-//    }
-
-
     @ApiOperation(value = "회원 로그인", notes = "회원 로그인")
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<TokenRes>> login(@Valid @RequestBody LoginUserReq loginUserReq){
-
 
         //없는 계정으로 로그인
         if(!userService.existsUserByUsername(loginUserReq.getUsername())){
             return ResponseEntity.ok(BaseResponse.ok(USER_NOT_EXIST_EMAIL_ERROR));
         }
-
         //비밀번호 다르게 입력
         if(!userService.loginPasswordCheck(loginUserReq.getUsername(), loginUserReq.getPassword())){
             return ResponseEntity.ok(BaseResponse.ok(USER_NOT_CORRECT_PASSWORD));
         }
-
 
         TokenRes tokenRes = userService.login(loginUserReq);
         return ResponseEntity.ok(BaseResponse.ok(SUCCESS,tokenRes));
@@ -101,7 +85,6 @@ public class UserController {
     }
 
 
-    //유저 정보 수정, 비밀번호, 프로필 사진 등등 수정 api
     @ApiOperation(value = "유저 정보 수정", notes = "유저 정보 수정")
     @PatchMapping("/modify")
     public ResponseEntity<BaseResponse<GetUserDetailRes>> modifyUserInfo(@RequestBody PatchUserReq patchUserReq) {
@@ -153,29 +136,8 @@ public class UserController {
     @ApiOperation(value = "회원 탈퇴", notes = "회원 탈퇴")
     @PatchMapping("/withdrawal")
     public ResponseEntity<BaseResponse<String>> modifyUserInfo() {
-        //@RequestBody WithdrawalUserReq withdrawalUserReq
         String result = userService.withdrawalUser();
         return ResponseEntity.ok(BaseResponse.ok(BaseResponseStatus.SUCCESS, result));
     }
-
-
-
-//
-//
-//    //권한별 접근 가능 체크 api
-//    @ApiOperation(value = "(잘 사용하지 않을 것 같은 느낌?)USER, ADMIN 권한 접근 가능 api", notes = "USER, ADMIN 권한 접근 가능 api")
-//    @GetMapping("/user")
-//    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-//    public ResponseEntity<SignUpUserReq> getMyUserWithAuthorities() {
-//        return ResponseEntity.ok(userService.getMyUserWithAuthorities());
-//    }
-//
-//    @ApiOperation(value = "(잘 사용하지 않을 것 같은 느낌?)ADMIN 권한 접근 가능 api", notes = "ADMIN 권한 접근 가능 api")
-//    @GetMapping("/user/{username}")
-//    @PreAuthorize("hasAnyRole('ADMIN')")
-//    @ApiImplicitParam(name = "username", value = "이메일 입력하기")
-//    public ResponseEntity<SignUpUserReq> getUserWithAuthorities(@PathVariable String username) {
-//        return ResponseEntity.ok(userService.getUserWithAuthorities(username));
-//    }
 
 }

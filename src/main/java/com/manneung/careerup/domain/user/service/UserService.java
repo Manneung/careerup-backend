@@ -62,7 +62,6 @@ public class UserService {
 
 
     @Transactional
-    //지금 요청형식으로 반환중...!
     public SignUpUserReq signup(SignUpUserReq signupUserReq) {
         if (userRepository.findOneWithAuthoritiesByUsername(signupUserReq.getUsername()).orElse(null) != null) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다.");
@@ -78,10 +77,7 @@ public class UserService {
         User user = User.builder()
                 .username(signupUserReq.getUsername())
                 .password(passwordEncoder.encode(signupUserReq.getPassword()))
-                //.nickname(signupUserReq.getNickname())
                 .name(signupUserReq.getName())
-                //.birth(signupUserReq.getBirth())
-                //.phone(signupUserReq.getPhone())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
@@ -102,55 +98,9 @@ public class UserService {
         com.manneung.careerup.domain.user.model.User findUser = userRepository.findUserByUsername(userDetail.getUsername());
 
         String jwt = tokenProvider.createToken(authentication);
-        //GenerateToken generateToken = tokenProvider.createAllToken(authentication);
 
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-
-        return new TokenRes(findUser.getUserIdx(), findUser.getUsername(), jwt, "레디스 설정중");
+        return new TokenRes(findUser.getUserIdx(), findUser.getUsername(), jwt, "");
     }
-
-
-
-
-//    @Transactional
-//    public SignUpUserReq signupAdmin(SignUpUserReq signupUserReq) {
-//        if (userRepository.findOneWithAuthoritiesByUsername(signupUserReq.getUsername()).orElse(null) != null) {
-//            throw new RuntimeException("이미 가입되어 있는 유저입니다.");
-//        }
-//
-//        Authority authority = Authority.builder()
-//                //.authorityName("ROLE_USER")
-//                .authorityName("ROLE_ADMIN")
-//                .build();
-//
-//        User user = User.builder()
-//                .username(signupUserReq.getUsername())
-//                .password(passwordEncoder.encode(signupUserReq.getPassword()))
-//                //.nickname(signupUserReq.getNickname())
-//                .name(signupUserReq.getName())
-//                //.birth(signupUserReq.getBirth())
-//                //.phone(signupUserReq.getPhone())
-//                .authorities(Collections.singleton(authority))
-//                .activated(true)
-//                .build();
-//
-//        return SignUpUserReq.from(userRepository.save(user));
-//    }
-//
-
-
-
-//
-//    @Transactional(readOnly = true)
-//    public SignUpUserReq getUserWithAuthorities(String username) {
-//        return SignUpUserReq.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public SignUpUserReq getMyUserWithAuthorities() {
-//        return SignUpUserReq.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername).orElse(null));
-//    }
 
     @Transactional
     public GetUserDetailRes modifyUserInfo(PatchUserReq patchUserReq) {
@@ -190,7 +140,6 @@ public class UserService {
         if(patchUserReq.getInterestField3() != null)
             user.setInterestField3(patchUserReq.getInterestField3());
 
-        //DB에 바뀐 정보 저장
         userRepository.save(user);
 
         return GetUserDetailRes.from(user);
@@ -223,20 +172,6 @@ public class UserService {
     }
 
 
-    //스프링시큐리티에선 비밀번호 암호화만 존재
-    //복호화가 있을 경우 보안상의 문제를 발생하기 때문
-    //그래서 임시 비밀번호를 발급 후
-    //로그인 해서 비밀번호 수정을 하는 방향을 개발..?
-    /**
-     * 비밀번호 찾기 -> 비밀번호 재설정
-     * 1. 이메일로 임시 비밀번호 발급
-     * 2. 이메일과 임시 비밀번호로 로그인
-     * 3. 토큰 인가 버튼에 등록
-     * 4. 새로운 비밀번호 등록
-     * 5. (선택) 다시 로그인되는지 확인까지 가능
-     * */
-
-
     //문자열 난수 발생(알파벳 + 숫자)
     public static String randomString() {
         int leftLimit = 48; // numeral '0'
@@ -251,7 +186,6 @@ public class UserService {
 
         return generatedString;
     }
-
 
 
     public PasswordRes getTemporaryPassword(String email) {
@@ -282,7 +216,6 @@ public class UserService {
     }
 
     public String withdrawalUser() {
-        //WithdrawalUserReq withdrawalUserReq
         User user = findNowLoginUser();
 
         user.setStatus("D");
